@@ -1,0 +1,14 @@
+name: POSMall API Token
+modelClass: KodZero\POSMall\Models\ApiToken
+form: $/kodzero/posmall/models/apitoken/fields.yaml
+defaultRedirect: kodzero/posmall/apitokens
+create:
+    title: Create POSMall API Token
+    redirect: 'kodzero/posmall/apitokens/update/:id'
+    redirectClose: kodzero/posmall/apitokens
+update:
+    title: Update POSMall API Token
+    redirect: kodzero/posmall/apitokens
+    redirectClose: kodzero/posmall/apitokens
+preview:
+    title: Preview POSMall API Token

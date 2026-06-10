@@ -1,0 +1,28 @@
+columns:
+    name:
+        label: Name
+        searchable: true
+    scopes:
+        label: Scopes
+        type: text
+        valueFrom: scopes_list
+    rate_limit_per_minute:
+        label: Rate/min
+        type: number
+    expires_at:
+        label: Expires
+        type: datetime
+    last_used_at:
+        label: Last used
+        type: datetime
+    revoked_at:
+        label: Revoked
+        type: datetime
+    created_at:
+        label: Created
+        type: datetime
+    revoke:
+        label: Revoke
+        type: partial
+        path: $/kodzero/posmall/models/apitoken/_revoke.htm
+        sortable: false

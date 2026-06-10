@@ -1,0 +1,66 @@
+<script>
+    window.dataLayer = window.dataLayer || [];
+</script>
+
+<script async defer>
+document.addEventListener('DOMContentLoaded', function () {
+    /**
+     * Subscribe to Mall frontend events using the project event bus.
+     *
+     * This keeps the original analytics behavior:
+     * - product add event pushes addToCart data;
+     * - product remove event pushes removeFromCart data.
+     */
+    function subscribe(eventName, callback) {
+        if (window.POSMallBus && typeof window.POSMallBus.subscribe === 'function') {
+            window.POSMallBus.subscribe(eventName, callback);
+            return;
+        }
+
+        document.addEventListener(eventName, function (event) {
+            callback(event.detail || {});
+        });
+    }
+
+    /**
+     * Build the shared product payload expected by Enhanced Ecommerce.
+     */
+    function buildProductPayload(data) {
+        data = data || {};
+        data.item = data.item || {};
+
+        return {
+            name: data.item.name,
+            id: data.item.id,
+            price: data.item.price,
+            brand: data.item.brand,
+            category: data.item.category,
+            variant: data.item.variant,
+            quantity: data.quantity
+        };
+    }
+
+    subscribe('posmall.cart.productAdded', function (data) {
+        window.dataLayer.push({
+            event: 'addToCart',
+            ecommerce: {
+                currencyCode: data && data.currency ? data.currency.code : undefined,
+                add: {
+                    products: [buildProductPayload(data)]
+                }
+            }
+        });
+    });
+
+    subscribe('posmall.cart.productRemoved', function (data) {
+        window.dataLayer.push({
+            event: 'removeFromCart',
+            ecommerce: {
+                remove: {
+                    products: [buildProductPayload(data)]
+                }
+            }
+        });
+    });
+});
+</script>

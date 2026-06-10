@@ -1,0 +1,12 @@
+name: kodzero.posmall::lang.common.payment_methods
+modelClass: KodZero\POSMall\Models\PaymentMethod
+form: $/kodzero/posmall/models/paymentmethod/fields.yaml
+defaultRedirect: kodzero/posmall/paymentmethods
+create:
+    title: 'kodzero.posmall::lang.titles.payment_methods.create'
+    redirect: 'kodzero/posmall/paymentmethods/update/:id'
+    redirectClose: kodzero/posmall/paymentmethods
+update:
+    title: 'kodzero.posmall::lang.titles.payment_methods.edit'
+    redirect: kodzero/posmall/paymentmethods
+    redirectClose: kodzero/posmall/paymentmethods

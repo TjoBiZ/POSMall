@@ -1,0 +1,13 @@
+title: kodzero.posmall::lang.common.taxes
+modelClass: KodZero\POSMall\Models\Tax
+list: $/kodzero/posmall/models/tax/columns.yaml
+filter: config_filter.yaml
+recordUrl: 'kodzero/posmall/taxes/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: 20
+showSetup: true
+showCheckboxes: true
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'

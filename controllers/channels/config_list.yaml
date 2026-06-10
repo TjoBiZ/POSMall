@@ -1,0 +1,11 @@
+title: POSMall Channels
+modelClass: KodZero\POSMall\Models\Channel
+list: $/kodzero/posmall/models/channel/columns.yaml
+recordUrl: 'kodzero/posmall/channels/update/:id'
+noRecordsMessage: backend::lang.list.no_records
+recordsPerPage: 20
+showSetup: true
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: backend::lang.list.search_prompt

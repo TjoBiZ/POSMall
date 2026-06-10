@@ -1,0 +1,22 @@
+fields:
+    is_enabled:
+        type: switch
+        label: kodzero.posmall::lang.price_category_settings.is_enabled
+        span: left
+        default: true
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        span: left
+        type: text
+    title:
+        label: 'kodzero.posmall::lang.price_category_settings.title_label'
+        span: left
+        type: text
+        description: 'kodzero.posmall::lang.price_category_settings.title_description'
+    code:
+        label: 'kodzero.posmall::lang.common.code'
+        span: right
+        preset:
+            field: name
+            type: slug
+        type: text

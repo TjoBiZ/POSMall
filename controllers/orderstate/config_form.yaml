@@ -1,0 +1,12 @@
+name: 'kodzero.posmall::lang.common.order_states'
+modelClass: KodZero\POSMall\Models\OrderState
+form: $/kodzero/posmall/models/orderstate/fields.yaml
+defaultRedirect: kodzero/posmall/orderstate
+create:
+    title: 'kodzero.posmall::lang.titles.order_states.create'
+    redirect: 'kodzero/posmall/orderstate/update/:id'
+    redirectClose: kodzero/posmall/orderstate
+update:
+    title: 'kodzero.posmall::lang.titles.order_states.edit'
+    redirect: kodzero/posmall/orderstate
+    redirectClose: kodzero/posmall/orderstate

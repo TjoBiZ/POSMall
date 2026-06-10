@@ -1,0 +1,52 @@
+# ===================================
+#  Relation Behavior Config
+# ===================================
+
+property_groups:
+    label: 'kodzero.posmall::lang.common.property_group'
+    deferredBinding: false
+    view:
+        list: $/kodzero/posmall/models/propertygroup/columns_pivot_legacy.yaml
+        toolbarButtons: add|remove
+        recordUrl: '/kodzero/posmall/propertygroups/update/:id'
+    manage:
+        form: $/kodzero/posmall/models/propertygroup/fields_no_relation.yaml
+        list: $/kodzero/posmall/models/propertygroup/columns.yaml
+    structure:
+        showTree: false
+        showReorder: true
+        showSorting: true
+        dragRow: true
+
+products:
+    label: 'kodzero.posmall::lang.common.product'
+    view:
+        list: $/kodzero/posmall/models/product/columns.yaml
+        recordsPerPage: 10
+        recordUrl: kodzero/posmall/products/update/:id
+    readOnly: true
+    structure:
+        showTree: false
+        showReorder: true
+        maxDepth: 1
+
+review_categories:
+    label: 'kodzero.posmall::lang.common.review_category'
+    view:
+        list: $/kodzero/posmall/models/reviewcategory/columns.yaml
+        recordsPerPage: 10
+        toolbarButtons: add|create|remove|delete
+    manage:
+        form: $/kodzero/posmall/models/reviewcategory/fields.yaml
+        list: $/kodzero/posmall/models/reviewcategory/columns.yaml
+
+taxes:
+    label: 'kodzero.posmall::lang.common.taxes'
+    view:
+        list: $/kodzero/posmall/models/tax/columns.yaml
+        toolbarButtons: add|create|remove
+    manage:
+        form: $/kodzero/posmall/models/tax/fields.yaml
+        recordsPerPage: 10
+        showSearch: true
+    deferredBinding: true

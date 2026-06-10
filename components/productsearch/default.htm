@@ -1,0 +1,25 @@
+<div class="posmall-search {{ __SELF__.isResultsMode ? 'posmall-search--results' }} mb-4" data-posmall-search data-component-alias="{{ __SELF__ }}">
+    <form action="{{ 'posmall-search'|page }}" method="get" data-posmall-search-form>
+        <label class="visually-hidden" for="posmall-product-search">
+            {{ 'kodzero.posmall::frontend.search.label'|trans }}
+        </label>
+        <div class="input-group">
+            <input id="posmall-product-search"
+                   class="form-control"
+                   type="search"
+                   name="q"
+                   value="{{ __SELF__.query }}"
+                   autocomplete="off"
+                   data-posmall-search-input
+                   placeholder="{{ 'kodzero.posmall::frontend.search.placeholder'|trans }}">
+            <button class="btn btn-primary" type="submit">
+                {{ 'kodzero.posmall::frontend.search.submit'|trans }}
+            </button>
+        </div>
+    </form>
+    <div class="posmall-search__suggestions" data-posmall-search-suggestions></div>
+</div>
+
+{% if __SELF__.isResultsMode %}
+    {% partial __SELF__ ~ '::results' %}
+{% endif %}

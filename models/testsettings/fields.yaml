@@ -1,0 +1,6 @@
+fields:
+    _hint:
+        type: hint
+        mode: info
+        label: POSMall tests
+        comment: Settings are managed from Catalogue > Tests.

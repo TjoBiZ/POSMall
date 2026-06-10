@@ -1,0 +1,55 @@
+fields:
+    customer_id:
+        label: 'kodzero.posmall::lang.order.customer'
+        type: recordfinder
+        list: ~/plugins/kodzero/posmall/models/customer/columns.yaml
+        useRelation: false
+        modelClass: KodZero\POSMall\Models\Customer
+        recordsPerPage: 10
+        title: Find Record
+        nameFrom: lastname
+        descriptionFrom: firstname
+        span: auto
+    company:
+        label: 'kodzero.posmall::frontend.form.company'
+        span: auto
+        type: text
+    lines:
+        label: 'kodzero.posmall::frontend.form.address_lines'
+        size: ''
+        span: auto
+        type: textarea
+    name:
+        label: 'kodzero.posmall::frontend.form.recipient'
+        span: auto
+        type: text
+    zip:
+        label: 'kodzero.posmall::frontend.form.zip'
+        span: left
+        type: text
+    city:
+        label: 'kodzero.posmall::frontend.form.city'
+        span: right
+        type: text
+    country:
+        label: 'kodzero.posmall::frontend.form.country'
+        type: dropdown
+        span: left
+        placeholder: rainlab.location::lang.country.select
+    state:
+        label: 'kodzero.posmall::frontend.form.state'
+        type: dropdown
+        span: right
+        dependsOn: country
+        placeholder: rainlab.location::lang.state.select
+    details:
+        label: 'kodzero.posmall::frontend.form.address_details'
+        size: ''
+        span: auto
+        type: textarea
+    delivery_notes:
+        label: 'kodzero.posmall::frontend.form.delivery_notes'
+        comment: 'kodzero.posmall::frontend.form.delivery_notes_hint'
+        size: small
+        span: auto
+        type: textarea

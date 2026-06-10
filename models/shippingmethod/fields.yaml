@@ -1,0 +1,91 @@
+fields:
+    is_enabled:
+        type: switch
+        label: kodzero.posmall::lang.shipping_method_settings.is_enabled
+        span: left
+        default: true
+    is_default:
+        type: switch
+        label: kodzero.posmall::lang.shipping_method_settings.set_as_default
+        span: right
+tabs:
+    fields:
+        name:
+            label: 'kodzero.posmall::lang.common.name'
+            oc.commentPosition: ''
+            span: auto
+            type: text
+            tab: 'kodzero.posmall::lang.common.general'
+        guaranteed_delivery_days:
+            label: 'kodzero.posmall::lang.discounts.shipping_guaranteed_days_to_delivery'
+            oc.commentPosition: ''
+            span: auto
+            type: number
+            tab: 'kodzero.posmall::lang.common.general'
+        description:
+            label: 'kodzero.posmall::lang.product.description'
+            size: huge
+            oc.commentPosition: ''
+            span: left
+            type: richeditor
+            tab: 'kodzero.posmall::lang.common.general'
+        price_includes_tax:
+            label: 'kodzero.posmall::lang.product.price_includes_tax'
+            span: auto
+            default: 1
+            type: switch
+            comment: 'kodzero.posmall::lang.product.price_includes_tax_comment'
+            tab: 'kodzero.posmall::lang.common.general'
+        _prices:
+            label: 'kodzero.posmall::lang.product.price'
+            oc.commentPosition: ''
+            span: right
+            type: posmall.price
+            tab: 'kodzero.posmall::lang.common.general'
+        taxes:
+            span: right
+            path: $/kodzero/posmall/controllers/shippingmethods/_taxes.htm
+            type: partial
+            tab: 'kodzero.posmall::lang.common.general'
+        logo:
+            label: 'kodzero.posmall::lang.common.logo'
+            oc.commentPosition: ''
+            mode: image
+            fileTypes: jpg,jpeg,bmp,png,webp,gif,svg
+            imageWidth: '150'
+            useCaption: 0
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: auto
+            type: fileupload
+            tab: 'kodzero.posmall::lang.common.general'
+        _available_below_totals:
+            label: 'kodzero.posmall::lang.shipping_method.available_below_total'
+            oc.commentPosition: ''
+            span: auto
+            type: posmall.price
+            tab: 'kodzero.posmall::lang.common.conditions'
+            context: update
+        _available_above_totals:
+            label: 'kodzero.posmall::lang.shipping_method.available_above_total'
+            oc.commentPosition: ''
+            span: auto
+            type: posmall.price
+            tab: 'kodzero.posmall::lang.common.conditions'
+            context: update
+        countries:
+            label: 'kodzero.posmall::lang.shipping_method.countries'
+            nameFrom: name
+            descriptionFrom: description
+            span: auto
+            type: relation
+            comment: 'kodzero.posmall::lang.shipping_method.countries_comment'
+            tab: 'kodzero.posmall::lang.common.conditions'
+            context: update
+        rates:
+            span: auto
+            path: $/kodzero/posmall/controllers/shippingmethods/_rates.htm
+            type: partial
+            tab: 'kodzero.posmall::lang.common.conditions'
+            context: update

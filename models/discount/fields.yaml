@@ -1,0 +1,140 @@
+fields:
+    name:
+        label: 'kodzero.posmall::lang.discounts.name'
+        oc.commentPosition: ''
+        span: auto
+        type: text
+    valid_from:
+        label: 'kodzero.posmall::lang.discounts.valid_from'
+        mode: date
+        span: auto
+        type: datepicker
+    expires:
+        label: 'kodzero.posmall::lang.discounts.expires'
+        oc.commentPosition: ''
+        mode: date
+        span: auto
+        type: datepicker
+    section_type:
+        label: 'kodzero.posmall::lang.discounts.section_type'
+        span: left
+        type: section
+    section_trigger:
+        label: 'kodzero.posmall::lang.discounts.section_trigger'
+        span: auto
+        type: section
+    type:
+        label: 'kodzero.posmall::lang.discounts.type'
+        oc.commentPosition: ''
+        span: left
+        type: dropdown
+    trigger:
+        label: 'kodzero.posmall::lang.discounts.trigger'
+        oc.commentPosition: ''
+        span: auto
+        type: dropdown
+    _amounts:
+        label: 'kodzero.posmall::lang.discounts.amount'
+        oc.commentPosition: ''
+        span: left
+        trigger:
+            action: show
+            field: type
+            condition: value[fixed_amount]
+        type: posmall.price
+    _totals_to_reach:
+        label: 'kodzero.posmall::lang.discounts.total_to_reach'
+        oc.commentPosition: ''
+        span: auto
+        trigger:
+            action: show
+            field: trigger
+            condition: value[total]
+        type: posmall.price
+    shipping_methods:
+        span: right
+        type: relation
+        trigger:
+            action: show
+            field: trigger
+            condition: value[shipping_method]
+
+    rate:
+        label: 'kodzero.posmall::lang.discounts.rate'
+        oc.commentPosition: ''
+        span: left
+        trigger:
+            action: show
+            field: type
+            condition: value[rate]
+        type: number
+    max_number_of_usages:
+        label: 'kodzero.posmall::lang.discounts.max_number_of_usages'
+        oc.commentPosition: ''
+        span: left
+        type: text
+    code:
+        label: 'kodzero.posmall::lang.discounts.code'
+        comment: 'kodzero.posmall::lang.discounts.code_comment'
+        oc.commentPosition: ''
+        span: auto
+        type: text
+    shipping_description:
+        label: 'kodzero.posmall::lang.discounts.shipping_description'
+        oc.commentPosition: ''
+        span: left
+        trigger:
+            action: show
+            field: type
+            condition: value[shipping]
+        type: text
+    product:
+        label: 'kodzero.posmall::lang.common.product'
+        oc.commentPosition: ''
+        descriptionFrom: user_defined_id
+        span: auto
+        type: recordfinder
+        list: ~/plugins/kodzero/posmall/models/product/columns.yaml
+        nameFrom: name
+        trigger:
+            action: show
+            field: trigger
+            condition: value[product]
+    customer_group:
+        label: 'kodzero.posmall::lang.common.customer_group'
+        span: right
+        type: recordfinder
+        list: ~/plugins/kodzero/posmall/models/customergroup/columns.yaml
+        nameFrom: name
+        trigger:
+            action: show
+            field: trigger
+            condition: value[customer_group]
+    payment_method:
+        label: 'kodzero.posmall::lang.discounts.payment_method_description'
+        span: right
+        type: recordfinder
+        list: ~/plugins/kodzero/posmall/models/discount/columns.yaml
+        nameFrom: name
+        trigger:
+            action: show
+            field: trigger
+            condition: value[payment_method]
+    shipping_guaranteed_days_to_delivery:
+        label: 'kodzero.posmall::lang.discounts.shipping_guaranteed_days_to_delivery'
+        oc.commentPosition: ''
+        span: left
+        trigger:
+            action: show
+            field: type
+            condition: value[shipping]
+        type: number
+    _shipping_prices:
+        label: 'kodzero.posmall::lang.discounts.shipping_price'
+        oc.commentPosition: ''
+        span: left
+        trigger:
+            action: show
+            field: type
+            condition: value[shipping]
+        type: posmall.price

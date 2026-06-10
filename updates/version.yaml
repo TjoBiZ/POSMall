@@ -1,0 +1,171 @@
+v1.0.0:
+    - 'POSMall 1.0.0 PostgreSQL-first public release for OctoberCMS / Laravel.'
+    - 001_01-create_kodzero_posmall_products.php
+    - 001_02-create_kodzero_posmall_product_variants.php
+    - 001_03-create_kodzero_posmall_product_accessory.php
+    - 001_04-create_kodzero_posmall_custom_fields.php
+    - 001_05-create_kodzero_posmall_custom_field_options.php
+    - 001_06-create_kodzero_posmall_categories.php
+    - 001_07-create_kodzero_posmall_taxes.php
+    - 001_08-create_kodzero_posmall_product_tax.php
+    - 001_09-create_kodzero_posmall_carts.php
+    - 001_10-create_kodzero_posmall_cart_products.php
+    - 001_11-create_kodzero_posmall_shipping_methods.php
+    - 001_12-create_kodzero_posmall_shipping_method_tax.php
+    - 001_13-create_kodzero_posmall_country_tax.php
+    - 001_14-create_kodzero_posmall_shipping_method_rates.php
+    - 001_15-create_kodzero_posmall_cart_custom_field_value.php
+    - 001_16-create_kodzero_posmall_discounts.php
+    - 001_17-create_kodzero_posmall_cart_discount.php
+    - 001_18-create_kodzero_posmall_orders.php
+    - 001_19-create_kodzero_posmall_order_products.php
+    - 001_20-create_kodzero_posmall_addresses.php
+    - 001_21-create_kodzero_posmall_customers.php
+    - 001_22-create_kodzero_posmall_shipping_countries.php
+    - 001_23-create_kodzero_posmall_payments_log.php
+    - 001_24-create_kodzero_posmall_payment_methods.php
+    - 001_25-create_kodzero_posmall_payment_method_tax.php
+    - 001_26-create_kodzero_posmall_product_custom_field.php
+    - 001_27-create_kodzero_posmall_properties.php
+    - 001_28-create_kodzero_posmall_property_values.php
+    - 001_29-create_kodzero_posmall_order_states.php
+    - 001_30-create_kodzero_posmall_brands.php
+    - 001_31-create_kodzero_posmall_image_sets.php
+    - 001_32-create_kodzero_posmall_property_property_group.php
+    - 001_33-create_kodzero_posmall_property_groups.php
+    - 001_34-create_kodzero_posmall_category_property_group.php
+    - 001_35-create_kodzero_posmall_customer_groups.php
+    - 001_36-create_kodzero_posmall_customer_group_prices.php
+    - 001_37-create_kodzero_posmall_price_categories.php
+    - 001_38-create_kodzero_posmall_prices.php
+    - 001_39-create_kodzero_posmall_product_prices.php
+    - 001_40-create_kodzero_posmall_category_product_sort_order.php
+    - 001_41-create_kodzero_posmall_currencies.php
+    - 001_42-allow_non_unique_emails_for_rainlab_user.php
+    - 001_43-add_customer_group_id_to_rainlab_users.php
+    - 001_44-create_kodzero_posmall_notifications.php
+    - 001_45-database_seeder.php
+    - 002_01-add_description_field_to_category.php
+    - 003_01-migrate_categories_to_belongs_to_many_relation.php
+    - 004_01-handle_index_table.php
+    - 005_01-use_text_columns_for_variant_names.php
+    - 006_01-use_text_columns_for_payment_log.php
+    - 007_01-update_jsonable_columns_to_text.php
+    - 008_01-create_kodzero_posmall_customer_payment_methods.php
+    - 009_01-remove_description_column_from_order_products.php
+    - 009_02-remove_payment_data_column_from_orders_table.php
+    - 010_01-add_identifier_columns_for_products_and_variants.php
+    - 010_02-add_description_columns_to_variants.php
+    - 010_03-add_brand_column_to_order_products_table.php
+    - 010_04-add_name_column_to_index_table.php
+    - 011_01-set_use_state_default_setting.php
+    - 012_01-add_embeds_column_to_products_table.php
+    - 013_01-create_kodzero_posmall_wishlists.php
+    - 013_02-create_kodzero_posmall_wishlist_items.php
+    - 014_01-create_kodzero_posmall_services.php
+    - 015_01-create_kodzero_posmall_reviews.php
+    - 016_01-add_virtual_products_support.php
+    - 017_01-add_valid_from_column_to_discounts_table.php
+    - 018_01-add_pdf_partial_to_payment_method.php
+    - 019_01-add_is_default_column_to_taxes_table.php
+    - 020_01-add_shipping_method_id_to_wishlists_table.php
+    - 020_02-set_default_tax.php
+    - 021_01-update_description_short_column_of_products_table.php
+    - 021_02-update_description_short_column_of_product_variants_table.php
+    - 022_01-add_rounding_column_to_currencies_table.php
+    - 023_01-add_short_description_field_to_category.php
+    - 024_01-add_user_belongs_to_group_discount.php
+    - 025_01-add_width_and_length_to_product_model.php
+    - 026_01-add_google_category_id_to_categories_table.php
+    - 027_01-create_kodzero_posmall_shipping_method_discount.php
+    - 028_01-add_payment_method_id_to_discounts_table.php
+    - 029_01-add_deleted_at_column_to_payments_log_table.php
+    - 030_01-update_system_plugin_history.php
+    - 030_02-alter_kodzero_posmall_currencies.php
+    - 030_03-alter_kodzero_posmall_price_categories.php
+    - 030_04-alter_kodzero_posmall_taxes.php
+    - 030_05-alter_kodzero_posmall_payment_methods.php
+    - 030_06-alter_kodzero_posmall_shipping_methods.php
+    - 030_07-alter_kodzero_posmall_order_states.php
+    - 030_08-create_kodzero_posmall_product_file_variant_table.php
+    - 031_01-create_unique_property_values_table.php
+    - 038_34-add_succeeded_at_to_kodzero_posmall_orders.php
+    - 038_38-convert_kodzero_posmall_index_json_columns_to_jsonb.php
+    - 038_39-create_kodzero_posmall_test_runs.php
+    - 038_40-add_seo_fields_to_kodzero_posmall_services.php
+    - 038_41-add_ip_address_to_kodzero_posmall_reviews.php
+    - 038_42-add_seo_fields_to_kodzero_posmall_brands.php
+    - 038_43-add_service_options_per_quantity_to_cart_products.php
+    - 038_44-add_gallery_autoplay_seconds_to_kodzero_posmall_services.php
+    - 038_45-create_kodzero_posmall_state_tax.php
+    - 038_46-add_usa_tax_fields_to_kodzero_posmall_taxes.php
+    - 038_47-create_kodzero_posmall_usa_tax_tables.php
+    - 038_48-add_state_codes_to_kodzero_posmall_taxes.php
+    - 038_49-add_usa_tax_jurisdiction_fields.php
+    - 038_50-add_usa_tax_zip_hint_fields.php
+    - 038_51-add_usa_tax_zip_range_fields.php
+    - 038_52-create_usa_tax_rate_group_tables.php
+    - 038_53-add_tax_group_codes_to_kodzero_posmall_taxes.php
+    - 038_54-normalize_usa_tax_group_codes.php
+    - 038_55-add_live_tax_lookup_to_usa_tax_region_rows.php
+v1.0.1:
+    - 'Track RainLab users explicitly created by POSMall before optional POSMall user purge.'
+    - 038_56-add_posmall_user_ownership_flag.php
+v1.0.2:
+    - 'Add PostgreSQL trigram indexes for scalable product search.'
+    - 038_57-add_postgresql_trigram_search_indexes.php
+v1.0.3:
+    - 'Add PostgreSQL indexes for checkout, account, payment recovery, and USA tax lookup hot paths.'
+    - 038_58-add_postgresql_hot_path_indexes.php
+v1.0.4:
+    - 'Add local PostgreSQL load benchmark run storage.'
+    - 038_59-create_kodzero_posmall_load_benchmark_runs.php
+v1.0.5:
+    - 'Add PostgreSQL index for catalog category render hot paths.'
+    - 038_60-add_postgresql_catalog_render_indexes.php
+v1.0.6:
+    - 'Add PostgreSQL category index projection for large catalog listing and filter metadata.'
+    - 038_61-create_postgresql_category_index_projection.php
+v1.0.7:
+    - 'Add PostgreSQL category index summary projections for large catalog counts and brand filters.'
+    - 038_62-create_postgresql_category_index_summaries.php
+v1.0.8:
+    - 'Add PostgreSQL partial index for service-carrier product exclusion.'
+    - 038_63-add_postgresql_service_carrier_lookup_index.php
+v1.0.9:
+    - 'Add optional delivery notes to POSMall addresses.'
+    - 038_64-add_delivery_notes_to_kodzero_posmall_addresses.php
+v1.0.10:
+    - 'Add PostgreSQL covering index for general catalog bestseller listing.'
+    - 038_65-add_postgresql_general_catalog_listing_index.php
+v1.0.11:
+    - 'Add POSMall API token, commerce context and order payment-link foundation.'
+    - 038_66-create_api_tokens_and_commerce_context.php
+    - 038_67-add_api_context_to_orders.php
+v1.0.12:
+    - 'Seed default POSMall API commerce context rows.'
+    - 038_68-seed_default_api_commerce_context.php
+v1.0.13:
+    - 'Scope POSMall API checkout idempotency to API token and commerce context.'
+    - 038_69-add_api_token_id_to_orders.php
+v1.0.14:
+    - 'Add optional POSMall product vendor, channel and warehouse inventory pivots.'
+    - 038_70-add_product_commerce_context_pivots.php
+v1.0.15:
+    - 'Rename POSMall runtime morph keys from mall.* to posmall.*.'
+    - 038_71-rename_runtime_morph_keys_to_posmall.php
+v1.0.16:
+    - 'Add optional POSMall API token customer and commerce context allow-lists.'
+    - 038_72-add_context_allow_lists_to_api_tokens.php
+v1.0.17:
+    - 'Add optional vendor and channel context scope to standalone POSMall services.'
+    - 038_73-add_context_scope_to_services.php
+v1.0.18:
+    - 'Add safe per-tax opt-in for scheduled USA tax source updates.'
+    - 038_74-add_usa_tax_auto_update_flag.php
+v1.0.19:
+    - 'Seed default POSMall commerce settings required after a clean install.'
+    - 038_75-seed_default_commerce_settings.php
+v1.0.20:
+    - 'Set USD as the default POSMall currency for clean installs and deployments.'
+    - 038_76-set_usd_default_currency.php

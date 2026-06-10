@@ -1,0 +1,12 @@
+{% if __SELF__.showShipping %}
+    {# if the showShipping property is set to false, the grandtotal row will equal this row #}
+    {# this is why we only need to display this row if the showShipping property is set to true #}
+    <tr class="mall-cart__total">
+        <td colspan="4" class="text-end">
+            {{ 'kodzero.posmall::frontend.total'|trans }}
+        </td>
+        <td class="text-end posmall-money-nowrap">
+            {{ totals.productPostTaxes|money }}
+        </td>
+    </tr>
+{% endif %}

@@ -1,0 +1,22 @@
+{% set fieldId = 'field-' ~ field.hashId %}
+<div class="mall-form-control mb-3">
+    <label for="{{ fieldId }}" class="mall-label form-label">{{ field.name }}</label>
+    <div class="mall-field-color-selector d-flex flex-wrap gap-2">
+        {% if field.custom_field_options.count|default(0) > 0 %}
+            <input type="hidden" id="{{ fieldId }}" name="fields[{{ field.hashId }}]"
+                   data-id="{{ field.hashId }}"
+                   data-mall-custom-field />
+            
+            {% for option in field.custom_field_options|default([]) %}
+                <a class="mall-option-selector border rounded p-1" data-target="#{{ fieldId }}" data-value="{{ option.hashId }}">
+                    <span class="rounded d-inline-block" style="background: {{ option.safe_color_value }}; width: 24px; height: 24px;"></span>
+                </a>
+            {% endfor %}
+        {% else %}
+            <input type="color" class="form-control form-control-color" id="{{ fieldId }}" name="fields[{{ field.hashId }}]"
+                   data-id="{{ field.hashId }}"
+                   data-mall-custom-field />
+        {% endif %}
+    </div>
+    <div data-validate-for="{{ field.hashId }}" class="invalid-feedback d-block"></div>
+</div>

@@ -1,0 +1,199 @@
+<div class="table-responsive posmall-order-lines">
+<table class="mall-table table table-sm align-middle mb-0">
+    <thead>
+    <tr>
+        <th>{{ 'kodzero.posmall::frontend.product'|trans }}</th>
+        <th class="text-end">{{ 'kodzero.posmall::frontend.quantity'|trans }}</th>
+        <th class="text-end">{{ 'kodzero.posmall::frontend.price'|trans }}</th>
+        <th class="text-end">{{ 'kodzero.posmall::frontend.total'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for product in products|default([]) %}
+        {% set parentName = product.product.name|default(product.name) %}
+        {% set variantName = product.variant ? product.variant.name : null %}
+        {% set isServiceCarrier = product.product.user_defined_id|default('') starts with 'POSMALL-SERVICE-CARRIER-' %}
+        {% set firstServiceOption = product.service_options|default([])|first %}
+        {% set serviceName = firstServiceOption.service.name|default(null) %}
+        {% set previewImage = null %}
+        {% if product.variant|default(null) and product.variant.image %}
+            {% set previewImage = product.variant.image %}
+        {% elseif product.product|default(null) and product.product.image %}
+            {% set previewImage = product.product.image %}
+        {% endif %}
+        <tr>
+            <td data-label="{{ 'kodzero.posmall::frontend.product'|trans }}">
+                <div class="d-flex align-items-start gap-2">
+                    <div class="flex-shrink-0 rounded border bg-body-tertiary overflow-hidden d-flex align-items-center justify-content-center"
+                         style="width: 30px; height: 30px;"
+                         data-mall-order-product-preview
+                        aria-hidden="true">
+                        {% if previewImage %}
+                            {% set optimizedImage = posmall_image_sources(previewImage, parentName, 'catalog') %}
+                            {% set previewSrc = optimizedImage ? optimizedImage.jpeg : (previewImage.extension|default('') == 'svg' ? previewImage.path : previewImage.thumb(60, 60, null)) %}
+                            {% if optimizedImage and optimizedImage.webp %}
+                                <picture>
+                                    <source srcset="{{ optimizedImage.webp }}" type="image/webp">
+                                    <img src="{{ previewSrc }}"
+                                         class="w-100 h-100 object-fit-contain"
+                                         alt="">
+                                </picture>
+                            {% else %}
+                                <img src="{{ previewSrc }}"
+                                     class="w-100 h-100 object-fit-contain"
+                                     alt="">
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="min-w-0">
+                        {% if product.product|default(null) and not isServiceCarrier %}
+                            <a href="{{ 'posmall-product'|page({slug: product.product.slug, variant: product.variant.hashId|default(null)}) }}" class="fw-semibold text-decoration-none">
+                                {{ parentName }}
+                            </a>
+                            <div class="d-flex flex-wrap gap-2 mt-2 small">
+                                <a href="{{ 'posmall-product'|page({slug: product.product.slug, variant: product.variant.hashId|default(null)}) }}">
+                                    {{ 'kodzero.posmall::frontend.order_product.view_product'|trans }}
+                                </a>
+                                <a href="{{ 'posmall-product'|page({slug: product.product.slug, variant: product.variant.hashId|default(null)}) }}#write-review">
+                                    {{ 'kodzero.posmall::frontend.order_product.leave_review'|trans }}
+                                </a>
+                            </div>
+                        {% elseif isServiceCarrier and firstServiceOption %}
+                            <a href="{{ 'posmall-service'|page({slug: firstServiceOption.service.code}) }}" class="fw-semibold text-decoration-none">
+                                {{ serviceName|default(parentName) }}
+                            </a>
+                            <br/>
+                            <span class="text-muted">{{ 'kodzero.posmall::lang.common.service'|trans }}</span>
+                        {% else %}
+                            <span class="fw-semibold">{{ parentName }}</span>
+                        {% endif %}
+                        {% if variantName %}
+                            <br/>
+                            <span class="text-muted">
+                                {{ 'kodzero.posmall::lang.common.variant'|trans }}: {{ variantName }}
+                            </span>
+                        {% endif %}
+                        {% if product.service_options|default(null) %}
+                            {% for option in product.service_options %}
+                                <br/>
+                                <span class="text-muted">
+                                <strong>{{ 'kodzero.posmall::lang.common.service'|trans }}</strong>:
+                                {{ option.service.name|default(serviceName)|default('') }} - {{ option.name }}
+                            </span>
+                            {% endfor %}
+                        {% endif %}
+                        {% if product.variant|default(null) and product.variant.properties_description %}
+                            <br/>
+                            <span class="text-muted">
+                                {{ product.variant.properties_description|raw }}
+                            </span>
+                        {% endif %}
+                        {% if product.custom_field_values|default(null) %}
+                            <br/>
+                            <span class="text-muted">
+                                {{ product.custom_field_value_description|raw }}
+                            </span>
+                        {% endif %}
+                        {% if product.product_file_grants.count|default(0) > 0 %}
+                            <br/>
+                            {% for grant in product.product_file_grants %}
+                                {% if product.product.inventory_management_method == 'single' %}
+                                    <br/>
+                                    <a href="{{ grant.download_link }}">
+                                        {{ 'kodzero.posmall::frontend.download_file'|trans({ file: grant.display_name }) }}
+                                        {{ loop.length > 1 ? ('#' ~ loop.index) }}
+                                    </a>
+                                    {% if grant.expires_at %}
+                                        <br />{{ 'kodzero.posmall::frontend.download_valid_until'|trans({ date: grant.expires_at.toDateString() }) }}
+                                    {% endif %}
+                                    {% if grant.max_download_count %}
+                                        <br />{{ 'kodzero.posmall::frontend.download_count'|trans({ count: grant.max_download_count }) }}
+                                    {% endif %}
+                                {% else %}
+                                    {% for file in grant.files %}
+                                        <br/>
+                                        <a href="{{ grant.download_link }}/{{ file.id }}">
+                                            {{ 'kodzero.posmall::frontend.download_file'|trans({ file: file.display_name|default('Document ' . file.id) }) }}
+                                            {{ loop.length > 1 ? ('#' ~ loop.index) }}
+                                        </a>
+                                        {% if grant.expires_at %}
+                                            <br />{{ 'kodzero.posmall::frontend.download_valid_until'|trans({ date: grant.expires_at.toDateString() }) }}
+                                        {% endif %}
+                                        {% if grant.max_download_count %}
+                                            <br />{{ 'kodzero.posmall::frontend.download_count'|trans({ count: grant.max_download_count }) }}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </td>
+            <td class="text-end text-nowrap" data-label="{{ 'kodzero.posmall::frontend.quantity'|trans }}">{{ product.quantity }}</td>
+            <td class="text-end posmall-money-nowrap" data-label="{{ 'kodzero.posmall::frontend.price'|trans }}">
+                {{ product.pricePostTaxes()|raw }}
+                {% if product.service_options|default(null) %}
+                    {% for option in product.service_options %}
+                        <div class="text-muted" title="{{ option.name|e('html_attr') }}">
+                            {{ option.price_formatted }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </td>
+            <td class="text-end fw-semibold posmall-money-nowrap" data-label="{{ 'kodzero.posmall::frontend.total'|trans }}">
+                {{ product.totalPostTaxes()|raw }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr class="mall-cart__total">
+        <td colspan="3" class="text-end">
+            {{ 'kodzero.posmall::frontend.total'|trans }}
+        </td>
+        <td class="text-end posmall-money-nowrap">
+            {{ order.totalProductPostTaxes()|raw }}
+        </td>
+    </tr>
+    <tr class="mall-cart__shipping">
+        <td colspan="3" class="text-end">
+            {{ order.shipping.method.name }}
+        </td>
+        <td class="text-end posmall-money-nowrap">
+            {{ order.totalShippingPostTaxes()|raw }}
+        </td>
+    </tr>
+    {% for entry in order.discounts|default([]) %}
+        <tr class="mall-cart__discount">
+            <td colspan="3" class="text-end">
+                {{ entry.discount.name }}
+                {% if entry.discount.code %}
+                    ({{ entry.discount.code }})
+                {% endif %}
+            </td>
+            <td class="text-end text-success posmall-money-nowrap">
+                {{ entry.savings_formatted }}
+            </td>
+        </tr>
+    {% endfor %}
+    {% if order.payment and order.payment.total|default(0) > 0 %}
+        <tr class="mall-cart__payment">
+            <td colspan="3" class="text-end">
+                {{ order.payment_method.fee_label|default(order.payment_method.name) }}
+            </td>
+            <td class="text-end posmall-money-nowrap">
+                {{ order.payment.total|money }}
+            </td>
+        </tr>
+    {% endif %}
+    <tr class="mall-cart__grand-total">
+        <td colspan="3" class="text-end">
+            {{ 'kodzero.posmall::frontend.grand_total'|trans }}
+        </td>
+        <td class="text-end fw-bold posmall-money-nowrap">
+            {{ order.totalPostTaxes()|raw }}
+        </td>
+    </tr>
+    </tfoot>
+</table>
+</div>

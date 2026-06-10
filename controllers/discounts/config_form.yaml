@@ -1,0 +1,14 @@
+name: 'kodzero.posmall::lang.common.discount'
+modelClass: KodZero\POSMall\Models\Discount
+form: $/kodzero/posmall/models/discount/fields.yaml
+defaultRedirect: kodzero/posmall/discounts
+create:
+    title: 'kodzero.posmall::lang.titles.discounts.create'
+    redirect: 'kodzero/posmall/discounts/update/:id'
+    redirectClose: kodzero/posmall/discounts
+update:
+    title: 'kodzero.posmall::lang.titles.discounts.update'
+    redirect: kodzero/posmall/discounts
+    redirectClose: kodzero/posmall/discounts
+preview:
+    title: 'kodzero.posmall::lang.titles.discounts.preview'

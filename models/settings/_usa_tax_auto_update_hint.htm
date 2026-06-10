@@ -1,0 +1,21 @@
+<?php
+$cronStatus = app(\KodZero\POSMall\Classes\System\SchedulerCronStatus::class)->check();
+$calloutClass = $cronStatus['state'] === 'detected' ? 'callout-success' : ($cronStatus['state'] === 'missing' ? 'callout-warning' : 'callout-info');
+?>
+
+<div class="callout fade in <?= e($calloutClass) ?>">
+    <div class="header">
+        <i class="icon-info"></i>
+        <h3>USA tax auto-update scheduler</h3>
+        <p>
+            <?= e($cronStatus['label']) ?>. <?= e($cronStatus['message']) ?>
+        </p>
+        <p>
+            Add this daily low-traffic-hour server cron entry if it is not already configured:
+        </p>
+        <p>
+            <?= e(app(\KodZero\POSMall\Classes\System\SchedulerCronStatus::class)->expectedScheduleDescription()) ?>
+        </p>
+        <pre style="white-space: pre-wrap; margin-bottom: 0;"><?= e($cronStatus['expected_command']) ?></pre>
+    </div>
+</div>

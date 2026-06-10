@@ -1,0 +1,220 @@
+{% put scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    /**
+     * Find the reviews container.
+     */
+    function getReviewsContainer() {
+        return document.querySelector('.mall-reviews');
+    }
+
+    /**
+     * Set temporary loading UI state for reviews.
+     */
+    function setReviewsLoading(isLoading) {
+        const reviews = getReviewsContainer();
+
+        if (!reviews) {
+            return;
+        }
+
+        reviews.style.opacity = isLoading ? '0.4' : '1';
+        reviews.style.cursor = isLoading ? 'wait' : 'initial';
+    }
+
+    /**
+     * Scroll to the reviews container after AJAX pagination finishes.
+     */
+    function scrollToReviews() {
+        const reviews = getReviewsContainer();
+
+        if (!reviews) {
+            return;
+        }
+
+        window.scrollTo({
+            top: reviews.getBoundingClientRect().top + window.scrollY,
+            behavior: 'smooth'
+        });
+    }
+
+    /**
+     * Reveal the review form.
+     *
+     * Preserves the original behavior:
+     * - show hidden form details;
+     * - remove the existing user review block.
+     */
+    function revealForm() {
+        document.querySelectorAll('.mall-product-reviews__form-details').forEach(function (element) {
+            element.classList.add('mall-product-reviews__form-details--visible');
+        });
+
+        document.querySelectorAll('.mall-product-reviews__user-review').forEach(function (element) {
+            element.remove();
+        });
+    }
+
+    /**
+     * Highlight stars from the selected star backwards.
+     */
+    function highlightStars(star, className) {
+        let current = star;
+
+        while (current) {
+            current.classList.add(className);
+            current = current.previousElementSibling;
+        }
+    }
+
+    /**
+     * Remove a class from all stars inside one rating container.
+     */
+    function clearStars(container, className) {
+        if (!container) {
+            return;
+        }
+
+        container.querySelectorAll('.mall-star').forEach(function (star) {
+            star.classList.remove(className);
+        });
+    }
+
+    /**
+     * AJAX pagination for product reviews.
+     *
+     * Preserves:
+     * - selector: .mall-pagination--reviews a
+     * - handler: productreviews::onPageChange
+     * - data: page
+     * - loading visual state
+     * - scroll to .mall-reviews after completion
+     */
+    document.body.addEventListener('click', function (event) {
+        const link = event.target.closest('.mall-pagination--reviews a');
+
+        if (!link) {
+            return;
+        }
+
+        event.preventDefault();
+
+        const matches = link.href.match(/page=(\d+)/);
+
+        if (!matches || matches.length < 2) {
+            return;
+        }
+
+        if (!window.oc || typeof window.oc.request !== 'function') {
+            console.error('October AJAX function oc.request is not available.');
+            return;
+        }
+
+        const page = matches[1];
+
+        setReviewsLoading(true);
+
+        window.oc.request(link, '{{ __SELF__ }}::onPageChange', {
+            data: {
+                page: page
+            },
+            complete: function (data) {
+                if (typeof this.complete === 'function') {
+                    this.complete(data);
+                }
+
+                setReviewsLoading(false);
+                scrollToReviews();
+            }
+        });
+    });
+
+    /**
+     * Star rating hover behavior.
+     *
+     * Preserves:
+     * - hover class: mall-star--hover
+     * - backward highlighting through previous siblings
+     */
+    document.body.addEventListener('mouseover', function (event) {
+        const star = event.target.closest('.js-mall-rating .mall-category-review__rating--clickable .mall-star');
+
+        if (!star) {
+            return;
+        }
+
+        const rating = star.closest('.mall-category-review__rating');
+
+        clearStars(rating, 'mall-star--hover');
+        highlightStars(star, 'mall-star--hover');
+    });
+
+    /**
+     * Remove hover state when leaving clickable rating block.
+     */
+    document.body.addEventListener('mouseout', function (event) {
+        const rating = event.target.closest('.mall-category-review__rating--clickable');
+
+        if (!rating) {
+            return;
+        }
+
+        if (event.relatedTarget && rating.contains(event.relatedTarget)) {
+            return;
+        }
+
+        clearStars(rating, 'mall-star--hover');
+    });
+
+    /**
+     * Star rating click behavior.
+     *
+     * Preserves:
+     * - active class: mall-star--active
+     * - value source: star.dataset.value
+     * - value target: hidden/input before the rating wrapper
+     * - reveal review form
+     */
+    document.body.addEventListener('click', function (event) {
+        const star = event.target.closest('.js-mall-rating .mall-category-review__rating--clickable .mall-star');
+
+        if (!star) {
+            return;
+        }
+
+        const rating = star.closest('.mall-category-review__rating');
+
+        clearStars(rating, 'mall-star--active');
+
+        const review = star.closest('.mall-category-review');
+        const valueInput = review ? review.previousElementSibling : null;
+
+        if (valueInput && valueInput.matches('input[type="hidden"]')) {
+            valueInput.value = star.dataset.value || '';
+        }
+
+        revealForm();
+        highlightStars(star, 'mall-star--active');
+    });
+
+    /**
+     * Edit existing review.
+     *
+     * Preserves:
+     * - selector: .js-mall-edit-review
+     * - prevent default link behavior
+     * - reveal form
+     */
+    document.body.addEventListener('click', function (event) {
+        const editButton = event.target.closest('.js-mall-edit-review');
+
+        if (!editButton) {
+            return;
+        }
+
+        event.preventDefault();
+        revealForm();
+    });
+});
+</script>
+{% endput %}

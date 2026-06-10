@@ -1,0 +1,36 @@
+<div class="mall-my-account">
+    <nav class="mall-my-account__nav nav nav-pills flex-column flex-md-row gap-2 mb-4" aria-label="{{ 'kodzero.posmall::frontend.account'|trans }}">
+        <div class="mall-my-account__nav-item
+                {{ __SELF__.currentPage == 'dashboard' ? 'mall-my-account__nav-item--active' : '' }}">
+            <a class="nav-link {{ __SELF__.currentPage == 'dashboard' ? 'active' : '' }}" href="{{ __SELF__.pageUrl('dashboard') }}">
+                {{ 'kodzero.posmall::frontend.account.dashboard'|trans }}
+            </a>
+        </div>
+        <div class="mall-my-account__nav-item
+                {{ __SELF__.currentPage == 'orders' ? 'mall-my-account__nav-item--active' : '' }}">
+            <a class="nav-link {{ __SELF__.currentPage == 'orders' ? 'active' : '' }}" href="{{ __SELF__.pageUrl('orders') }}">{{ 'kodzero.posmall::frontend.orders'|trans }}</a>
+        </div>
+        <div class="mall-my-account__nav-item
+                {{ __SELF__.currentPage == 'favorites' ? 'mall-my-account__nav-item--active' : '' }}">
+            <a class="nav-link {{ __SELF__.currentPage == 'favorites' ? 'active' : '' }}" href="{{ __SELF__.pageUrl('favorites') }}">
+                {{ 'kodzero.posmall::frontend.wishlists'|trans }}
+            </a>
+        </div>
+        <div class="mall-my-account__nav-item
+                {{ __SELF__.currentPage == 'profile' ? 'mall-my-account__nav-item--active' : '' }}">
+            <a class="nav-link {{ __SELF__.currentPage == 'profile' ? 'active' : '' }}" href="{{ __SELF__.pageUrl('profile') }}">{{ 'kodzero.posmall::frontend.profile'|trans }}</a>
+        </div>
+        <div class="mall-my-account__nav-item
+                {{ __SELF__.currentPage == 'addresses' ? 'mall-my-account__nav-item--active' : '' }}">
+            <a class="nav-link {{ __SELF__.currentPage == 'addresses' ? 'active' : '' }}" href="{{ __SELF__.pageUrl('addresses') }}">{{ 'kodzero.posmall::frontend.addresses'|trans }}</a>
+        </div>
+        <div class="mall-my-account__nav-item">
+            <a class="nav-link" href="javascript:;" data-request="onLogout" data-request-data="redirect: '/'">
+                {{ 'kodzero.posmall::frontend.session.logout'|trans }}
+            </a>
+        </div>
+    </nav>
+    <div class="mall-my-account__content">
+        {% partial __SELF__ ~ ('::pages/' ~ __SELF__.currentPage) %}
+    </div>
+</div>

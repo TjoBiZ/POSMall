@@ -1,0 +1,12 @@
+title: 'kodzero.posmall::lang.common.variants'
+modelClass: KodZero\POSMall\Models\Variant
+list: $/kodzero/posmall/models/variant/columns.yaml
+recordUrl: 'kodzero/posmall/variants/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: 20
+showSetup: true
+showCheckboxes: true
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'

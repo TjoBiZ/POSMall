@@ -1,0 +1,14 @@
+{% set price = price|default(item.price()) %}
+
+{% if price.official or item.oldPrice() %}
+    <div class="mall-product__old-price text-muted text-decoration-line-through">
+        {% if price.official %}
+            {{ price.official.string|raw }}
+        {% elseif item.oldPrice() %}
+            {{ item.oldPrice().string|raw }}
+        {% endif %}
+    </div>
+{% endif %}
+<div class="mall-product__current-price h3 text-primary mb-0">
+    {% partial __SELF__ ~ '::currentprice' price=price.string %}
+</div>

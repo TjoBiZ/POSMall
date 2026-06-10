@@ -1,0 +1,21 @@
+columns:
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        type: text
+        searchable: true
+        sortable: true
+    slug:
+        label: 'kodzero.posmall::lang.common.slug'
+        type: text
+        searchable: true
+        sortable: true
+    created_at:
+        label: 'kodzero.posmall::lang.common.created_at'
+        type: datetime
+        invisible: true
+        sortable: true
+    updated_at:
+        label: 'kodzero.posmall::lang.common.updated_at'
+        type: datetime
+        invisible: true
+        sortable: true

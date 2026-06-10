@@ -1,0 +1,29 @@
+<div class="mall-table-overflow table-responsive">
+    <table class="mall-orders-list__table mall-table table table-hover align-middle">
+        <tr>
+            <th>#</th>
+            <th>{{ 'kodzero.posmall::frontend.created_at'|trans }}</th>
+            <th>{{ 'kodzero.posmall::frontend.order.order_state'|trans }}</th>
+            <th>{{ 'kodzero.posmall::frontend.order.payment_state'|trans }}</th>
+            <th class="text-end">{{ 'kodzero.posmall::frontend.total'|trans }}</th>
+        </tr>
+        {% for order in orders %}
+            <tr class="mall-orders-list__order {{ order.isPaid ? '' : 'mall-orders-list__order--unpaid' }} {{ (this.param.order|default('')) == order.hash_id ? 'is-open' : '' }}">
+                <td>{{ order.order_number }}</td>
+                <td>{% partial __SELF__ ~ '::created_at' order=order %}</td>
+                <td>{{ order.order_state_label }}</td>
+                <td>
+                    {% if __SELF__.isPayable(order) %}
+                        <a href="{{ __SELF__.paymentUrl(order) }}">
+                            {{ order.payment_state_label }}
+                        </a>
+                    {% else %}
+                        {{ order.payment_state_label }}
+                    {% endif %}
+                </td>
+                <td class="text-end fw-semibold posmall-money-nowrap">{{ order.totalPostTaxes()|raw }}</td>
+            </tr>
+            {% partial __SELF__ ~ '::details' order=order %}
+        {% endfor %}
+    </table>
+</div>

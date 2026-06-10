@@ -1,0 +1,11 @@
+name: 'kodzero.posmall::lang.common.custom_fields'
+modelClass: KodZero\POSMall\Models\CustomField
+form: $/kodzero/posmall/models/customfield/fields.yaml
+defaultRedirect: kodzero/posmall/customfields
+create:
+    redirect: 'kodzero/posmall/customfields/update/:id'
+    redirectClose: kodzero/posmall/customfields
+update:
+    redirect: kodzero/posmall/customfields
+    redirectClose: kodzero/posmall/customfields
+preview: {  }

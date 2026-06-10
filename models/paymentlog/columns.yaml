@@ -1,0 +1,87 @@
+columns:
+    id:
+        label: 'kodzero.posmall::lang.common.id'
+        type: number
+        sortable: true
+        invisible: true
+    order:
+        label: 'kodzero.posmall::lang.order.order_number'
+        relation: order
+        type: number
+        searchable: true
+        sortable: true
+        select: order_number
+    failed:
+        label: 'kodzero.posmall::lang.order.status'
+        type: partial
+        searchable: true
+        sortable: true
+        path: $/kodzero/posmall/controllers/paymentlogs/_failed.htm
+    total:
+        label: 'kodzero.posmall::lang.order.total'
+        type: partial
+        searchable: false
+        sortable: false
+        path: $/kodzero/posmall/controllers/paymentlogs/_total.htm
+    order_data:
+        label: 'kodzero.posmall::lang.order.data'
+        searchable: true
+        type: partial
+        path: $/kodzero/posmall/controllers/paymentlogs/_order_data.htm
+        invisible: true
+        sortable: true
+    reference:
+        label: 'kodzero.posmall::lang.common.reference'
+        type: text
+        searchable: true
+        sortable: true
+    payment_method:
+        label: 'kodzero.posmall::lang.common.payment_method'
+        type: partial
+        searchable: true
+        sortable: true
+        path: $/kodzero/posmall/controllers/paymentlogs/_payment_method.htm
+    payment_provider:
+        label: 'kodzero.posmall::lang.common.payment_provider'
+        type: text
+        searchable: true
+        sortable: true
+        invisible: true
+    ip:
+        label: 'kodzero.posmall::lang.common.ip_address'
+        type: text
+        searchable: true
+        sortable: true
+    session_id:
+        label: 'kodzero.posmall::lang.common.session_id'
+        type: text
+        searchable: true
+        sortable: true
+        invisible: true
+    data:
+        label: 'kodzero.posmall::lang.common.data'
+        type: text
+        searchable: true
+        invisible: true
+        sortable: true
+    message_raw:
+        label: 'kodzero.posmall::lang.common.message'
+        type: text
+        searchable: false
+        sortable: false
+    code:
+        label: 'kodzero.posmall::lang.common.code'
+        type: text
+        searchable: true
+        sortable: true
+    created_at:
+        label: 'kodzero.posmall::lang.common.created_at'
+        type: datetime
+        searchable: true
+        sortable: true
+    updated_at:
+        label: 'kodzero.posmall::lang.common.updated_at'
+        type: datetime
+        searchable: true
+        invisible: true
+        sortable: true

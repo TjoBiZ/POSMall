@@ -1,0 +1,77 @@
+<div class="mall-product__summary mb-4">
+    {% set productModel = __SELF__.product|default(item) %}
+    {% set selectedVariant = __SELF__.variant|default(null) %}
+    {% set brand = item.brand|default(productModel.brand|default(null)) %}
+    {% set categories = productModel.categories|default([]) %}
+
+    <h1 class="mall-product__name h2 mb-3">{{ productModel.name|default(item.name) }}</h1>
+
+    {% if selectedVariant %}
+        <div class="mall-product__selected-variant alert alert-primary bg-primary-subtle border-primary-subtle text-primary-emphasis py-2 mb-3">
+            <span class="text-uppercase small fw-semibold">{{ 'kodzero.posmall::lang.common.variant'|trans }}</span>
+            <span class="fw-semibold">{{ selectedVariant.name }}</span>
+        </div>
+    {% endif %}
+
+    {% if brand or categories|length > 0 %}
+        <div class="mall-product__meta d-flex flex-wrap gap-2 mb-3">
+            {% if brand %}
+                <span class="badge bg-light text-body border" title="{{ brand.description|default('')|striptags }}">{{ brand.name }}</span>
+            {% endif %}
+            {% for category in categories %}
+                <span class="badge bg-light text-body border">{{ category.name }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% set summaryText = productModel.description_short|default(item.description_short|default(null)) %}
+    {% if summaryText %}
+        <p class="mall-product__description-short lead text-muted mb-0">{{ summaryText|nl2br }}</p>
+    {% endif %}
+</div>
+
+{% set productVideos = productModel.youtube_embeds|default(item.youtube_embeds|default([])) %}
+{% partial __SELF__ ~ '::images' images=galleryImages|default(item.all_images) videos=productVideos %}
+
+{% partial __SELF__ ~ '::propertyvalues' images=item.all_images %}
+
+{% set detailsText = productModel.description|default(item.description|default(null)) %}
+{% if detailsText %}
+    <div class="mall-product__description card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="h4 mb-3">Details</h2>
+            {{ detailsText|raw }}
+        </div>
+    </div>
+{% endif %}
+
+{% set customFields = item.custom_fields|default(productModel.custom_fields|default([])) %}
+{% if customFields|length > 0 %}
+    <div class="mall-product__custom-field-summary card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="h4 mb-3">Options</h2>
+            <div class="row g-3">
+                {% for field in customFields %}
+                    <div class="col-12 col-md-6">
+                        <div class="border rounded p-3 h-100">
+                            <div class="fw-semibold">{{ field.name }}</div>
+                            {% if field.custom_field_options|default(null) and field.custom_field_options.count|default(0) > 0 %}
+                                <div class="text-muted small">
+                                    {% for option in field.custom_field_options %}
+                                        {{ option.name }}{{ not loop.last ? ', ' }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if __SELF__.showReviews|default(false) %}
+    <div class="mt-4">
+        {% component 'productReviews' %}
+    </div>
+{% endif %}

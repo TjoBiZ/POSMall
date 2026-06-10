@@ -1,0 +1,93 @@
+<div class="mall-checkout-result mall-checkout-result--failed alert alert-danger">
+    {% if __SELF__.order %}
+        <h3 class="mall-checkout-result__heading h4">{{ 'kodzero.posmall::frontend.checkout.payment.failed.heading'|trans }}</h3>
+        <p>{{ 'kodzero.posmall::frontend.checkout.payment.failed.line_1'|trans }}</p>
+        <p>{{ 'kodzero.posmall::frontend.checkout.payment.failed.line_2'|trans }}</p>
+        <p class="mb-3">{{ 'kodzero.posmall::frontend.checkout.payment.failed.line_4'|trans }}</p>
+        <div class="mall-checkout-result__summary card border-0 shadow-sm text-body mb-3">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <div class="small text-muted">{{ 'kodzero.posmall::frontend.order_number'|trans }}</div>
+                        <div class="fw-semibold">#{{ __SELF__.order.order_number }}</div>
+                    </div>
+                    {% if __SELF__.order.payment_state_label|default(null) %}
+                        <div class="col-12 col-md-6">
+                            <div class="small text-muted">{{ 'kodzero.posmall::frontend.order.payment_state'|trans }}</div>
+                            <div><span class="badge bg-danger">{{ __SELF__.order.payment_state_label }}</span></div>
+                        </div>
+                    {% endif %}
+                    {% if __SELF__.order.payment_method|default(null) %}
+                        <div class="col-12 col-md-6">
+                            <div class="small text-muted">{{ 'kodzero.posmall::frontend.payment_method'|trans }}</div>
+                            <div class="fw-semibold">{{ __SELF__.order.payment_method.name }}</div>
+                        </div>
+                    {% endif %}
+                    {% set providerLabel = __SELF__.getFailedPaymentProviderLabel() %}
+                    {% if providerLabel %}
+                        <div class="col-12 col-md-6">
+                            <div class="small text-muted">{{ 'kodzero.posmall::frontend.payment_provider'|trans }}</div>
+                            <div class="fw-semibold">{{ providerLabel }}</div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if __SELF__.paymentError %}
+            <div class="mall-checkout-result__message alert alert-light border mb-3">
+                <div class="small text-muted">{{ 'kodzero.posmall::frontend.checkout.payment.failed.line_3'|trans }}</div>
+                <strong>{{ __SELF__.paymentError }}</strong>
+            </div>
+        {% endif %}
+        <div class="mall-checkout-result__items card border-0 shadow-sm text-body">
+            <div class="card-body">
+                <h4 class="h6 mb-3">{{ 'kodzero.posmall::frontend.checkout.payment.failed.saved_items'|trans }}</h4>
+                <div class="table-responsive">
+                    <table class="mall-table table table-sm align-middle mb-0">
+                        <thead>
+                        <tr>
+                            <th>{{ 'kodzero.posmall::frontend.product'|trans }}</th>
+                            <th class="text-center">{{ 'kodzero.posmall::frontend.quantity'|trans }}</th>
+                            <th class="text-end">{{ 'kodzero.posmall::frontend.price'|trans }}</th>
+                            <th class="text-end">{{ 'kodzero.posmall::frontend.total'|trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for product in __SELF__.order.products %}
+                            {% set parentName = product.product.name|default(product.name) %}
+                            {% set variantName = product.variant ? product.variant.name : null %}
+                            <tr>
+                                <td>
+                                    <span class="fw-semibold">{{ parentName }}</span>
+                                    {% if variantName %}
+                                        <div class="small text-muted">{{ 'kodzero.posmall::lang.common.variant'|trans }}: {{ variantName }}</div>
+                                    {% endif %}
+                                    {% if product.variant|default(null) and product.variant.properties_description %}
+                                        <div class="small text-muted">{{ product.variant.properties_description|raw }}</div>
+                                    {% endif %}
+                                    {% if product.custom_field_values|default(null) %}
+                                        <div class="small text-muted">{{ product.custom_field_value_description|raw }}</div>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">{{ product.quantity }}</td>
+                                <td class="text-end posmall-money-nowrap">{{ product.pricePostTaxes()|raw }}</td>
+                                <td class="text-end fw-semibold posmall-money-nowrap">{{ product.totalPostTaxes()|raw }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th colspan="3" class="text-end">{{ 'kodzero.posmall::frontend.grand_total'|trans }}</th>
+                            <th class="text-end posmall-money-nowrap">{{ __SELF__.order.totalPostTaxes()|raw }}</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <h3 class="mall-checkout-result__heading h4">{{ 'kodzero.posmall::frontend.checkout.order.failed.heading'|trans }}</h3>
+        <p>{{ 'kodzero.posmall::frontend.checkout.order.failed.line_1'|trans }}</p>
+    {% endif %}
+    {% partial __SELF__ ~ '::resultactions' %}
+</div>

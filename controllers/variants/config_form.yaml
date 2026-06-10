@@ -1,0 +1,11 @@
+name: 'kodzero.posmall::lang.common.variants'
+modelClass: KodZero\POSMall\Models\Variant
+form: $/kodzero/posmall/models/variant/fields.yaml
+defaultRedirect: kodzero/posmall/variants
+create:
+    redirect: 'kodzero/posmall/variants/update/:id'
+    redirectClose: kodzero/posmall/variants
+update:
+    redirect: kodzero/posmall/variants
+    redirectClose: kodzero/posmall/variants
+preview: {  }

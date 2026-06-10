@@ -1,0 +1,63 @@
+fields:
+    customer:
+        label: 'kodzero.posmall::lang.order.customer'
+        nameFrom: name
+        descriptionFrom: description
+        span: auto
+        type: relation
+        emptyOption: 'kodzero.posmall::lang.reviews.anonymous'
+    rating:
+        label: 'kodzero.posmall::lang.reviews.rating'
+        span: auto
+        type: number
+        attributes:
+            min: 1
+            max: 5
+    ip_address:
+        label: 'kodzero.posmall::lang.common.ip_address'
+        span: auto
+        type: text
+        readOnly: true
+tabs:
+    fields:
+        title:
+            label: 'kodzero.posmall::lang.common.title'
+            span: left
+            type: text
+            tab: 'kodzero.posmall::lang.common.review'
+
+        pros:
+            label: 'kodzero.posmall::lang.reviews.pros'
+            prompt: 'Add new item'
+            span: right
+            type: repeater
+            tab: 'kodzero.posmall::lang.common.review'
+            form:
+                fields:
+                    value:
+                        label: 'kodzero.posmall::lang.common.value'
+                        span: full
+                        type: text
+        description:
+            label: 'kodzero.posmall::lang.product.description'
+            size: large
+            span: left
+            type: textarea
+            tab: 'kodzero.posmall::lang.common.review'
+        cons:
+            label: 'kodzero.posmall::lang.reviews.cons'
+            prompt: 'Add new item'
+            span: right
+            type: repeater
+            tab: 'kodzero.posmall::lang.common.review'
+            form:
+                fields:
+                    value:
+                        label: 'kodzero.posmall::lang.common.value'
+                        span: full
+                        type: text
+        approve_now:
+            type: partial
+            path: $/kodzero/posmall/controllers/reviews/_approve_now.htm
+            span: left
+            tab: 'kodzero.posmall::lang.common.review'

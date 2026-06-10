@@ -1,0 +1,14 @@
+# ===================================
+# Filter Scope Definitions
+# ===================================
+
+scopes:
+    enabled:
+        label: Enabled
+        type: checkbox
+        conditions: is_enabled = true
+
+    created_at:
+        label: Created
+        type: daterange
+        conditions: created_at >= ':after' AND created_at <= ':before'

@@ -1,0 +1,19 @@
+<p>
+    {% if address.company|default(null) %}
+        {{ address.company }}<br />
+    {% endif %}
+    {{ address.name }}<br />
+    {{ address.lines|e|nl2br }}<br />
+    {{ address.zip }} {{ address.city }}<br />
+    {% if address.state_id|default(null) %}
+        {{ address.state.name }}<br />
+    {% endif %}
+    {{ address.country.name }}
+    {% if address.delivery_notes|default(null) %}
+        <br/>
+        <span class="small text-muted">
+            <strong>{{ 'kodzero.posmall::frontend.form.delivery_notes'|trans }}:</strong>
+            {{ address.delivery_notes|e|nl2br }}
+        </span>
+    {% endif %}
+</p>

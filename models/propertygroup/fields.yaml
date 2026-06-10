@@ -1,0 +1,24 @@
+fields:
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        span: auto
+        type: text
+    display_name:
+        label: 'kodzero.posmall::lang.common.display_name'
+        span: auto
+        type: text
+    description:
+        label: 'kodzero.posmall::lang.product.description'
+        span: auto
+        type: text
+tabs:
+    fields:
+        properties:
+            span: full
+            cssClass: ''
+            path: properties
+            context:
+                - update
+                - preview
+            type: partial
+            tab: 'kodzero.posmall::lang.common.properties'

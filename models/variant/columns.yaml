@@ -1,0 +1,52 @@
+columns:
+    published:
+        label: 'kodzero.posmall::lang.product.published_short'
+        type: partial
+        path: $/kodzero/posmall/models/variant/_published.htm
+    user_defined_id:
+        label: 'kodzero.posmall::lang.product.user_defined_id'
+        type: text
+        searchable: true
+        sortable: true
+    name:
+        type: text
+        label: 'kodzero.posmall::lang.common.name'
+        searchable: true
+        sortable: true
+    properties_description:
+        type: partial
+        path: $/kodzero/posmall/models/variant/_description.htm
+        label: 'kodzero.posmall::lang.common.properties'
+        searchable: true
+        sortable: false
+    stock:
+        label: 'kodzero.posmall::lang.product.stock'
+        type: number
+    price:
+        label: 'kodzero.posmall::lang.product.price'
+        type: partial
+        invisible: true
+        path: $/kodzero/posmall/models/variant/_price.htm
+        sortable: false
+    old_price:
+        label: 'kodzero.posmall::lang.common.old_price'
+        type: text
+        invisible: true
+        sortable: false
+    allow_out_of_stock_purchases:
+        label: 'kodzero.posmall::lang.product.allow_out_of_stock_purchases'
+        type: partial
+        path: $/kodzero/posmall/models/variant/_allow_out_of_stock_purchases.htm
+        invisible: true
+    created_at:
+        label: 'kodzero.posmall::lang.common.created_at'
+        type: date
+        invisible: true
+        format: 'd.m.Y H:i'
+        sortable: true
+    updated_at:
+        label: 'kodzero.posmall::lang.common.updated_at'
+        type: date
+        invisible: true
+        format: 'd.m.Y H:i'
+        sortable: true

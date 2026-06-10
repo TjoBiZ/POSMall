@@ -1,0 +1,17 @@
+<div class="mall-signup row g-4">
+    <div class="mall-signup__signin col-12 col-lg-5">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+                {% partial __SELF__ ~ '::signin' %}
+            </div>
+        </div>
+    </div>
+    <div class="mall-signup__signup mall-signup-form col-12 col-lg-7">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                {% partial __SELF__ ~ '::signup' %}
+            </div>
+        </div>
+    </div>
+</div>
+{% partial __SELF__ ~ '::scripts' %}

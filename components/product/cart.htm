@@ -1,0 +1,70 @@
+<form data-request="onAddToCart"
+      data-request-success="window.POSMallProductAdded && window.POSMallProductAdded(data)"
+      data-request-validate
+      data-request-flash
+      data-component-alias="{{ __SELF__ }}"
+      id="mall-add-to-cart">
+    {{ form_token() }}
+    {% if variants.count|default(0) > 0 %}
+        <h2 class="mall-product__variants-heading h6 mb-2">{{ 'kodzero.posmall::frontend.variants'|trans }}</h2>
+        <div class="mall-product__variants d-flex flex-wrap gap-2 mb-3">
+            {% for value, variant in variants %}
+                {% set variant = variant.first() %}
+                {% set isActiveVariant = __SELF__.variant and variant.id == __SELF__.variant.id %}
+                <div class="mall-product__variant">
+                    <a href="{{ this.page.fileName|page({slug: this.param.slug, variant: variant.hashId|default(null) }) }}"
+                       class="mall-product__variant-link d-inline-flex align-items-center gap-2 text-decoration-none border rounded p-2 {{ isActiveVariant ? 'mall-product__variant-link--active border-primary bg-primary-subtle text-primary-emphasis' : 'bg-body text-body' }}"
+                       aria-current="{{ isActiveVariant ? 'true' : 'false' }}"
+                       title="{{ variant.name }}">
+                        {% if variant.main_image|default(null) %}
+                            {% set optimizedImage = posmall_image_sources(variant.main_image, variant.name, 'catalog') %}
+                            {% set imageSrc = optimizedImage ? optimizedImage.jpeg : variant.main_image.thumb(80, 80, null) %}
+                            {% if optimizedImage and optimizedImage.webp %}
+                                <picture>
+                                    <source srcset="{{ optimizedImage.webp }}" type="image/webp">
+                                    <img src="{{ imageSrc }}" class="rounded object-fit-contain bg-body-tertiary" width="48" height="48" alt="{{ variant.name }}"/>
+                                </picture>
+                            {% else %}
+                                <img src="{{ imageSrc }}" class="rounded object-fit-contain bg-body-tertiary" width="48" height="48" alt="{{ variant.name }}"/>
+                            {% endif %}
+                        {% endif %}
+                        <span>{{ variant.name }}</span>
+                        {% if isActiveVariant %}
+                            <span class="badge text-bg-primary">Selected</span>
+                        {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if props.count|default(0) > 0 and item.inventory_management_method == 'variant' %}
+        <div class="mall-product__variant-properties mb-3">
+            {% partial __SELF__ ~ '::properties' props=props %}
+        </div>
+    {% endif %}
+
+    <div class="mall-product__price mb-2">
+        {% partial __SELF__ ~ '::price' item=item %}
+    </div>
+
+    <div class="mall-product__favorites mb-3">
+        {% component 'wishlistButton' %}
+    </div>
+
+    {% set productServices = item.services|default([]) %}
+    {% set productCustomFields = item.custom_fields|default([]) %}
+    {% if productServices|length > 0 or productCustomFields|length > 0 %}
+        {% partial __SELF__ ~ '::servicesoptions' services=productServices customFields=productCustomFields currency=currency item=item %}
+    {% endif %}
+
+    <div class="mall-product__add-to-cart">
+        {% if item.allow_out_of_stock_purchases %}
+            {% partial __SELF__ ~ '::addtocart.htm' item=item %}
+        {% else %}
+            <div class="mall-product__property-stock mall-product__property-stock--checking alert alert-secondary mb-0">
+                {{ 'kodzero.posmall::frontend.stock.checking'|trans }}
+            </div>
+        {% endif %}
+    </div>
+</form>

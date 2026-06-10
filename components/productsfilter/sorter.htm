@@ -1,0 +1,16 @@
+<div class="mall-property-group mb-3">
+    <label class="mall-property-group__name form-label fw-semibold" for="mall-sorter">
+        {{ 'kodzero.posmall::frontend.sort_order'|trans }}
+    </label>
+    <div class="mall-filter">
+        <div class="mall-form-control">
+            <select name="sort" id="mall-sorter" class="js-mall-select-filter form-select">
+                {% for key, option in __SELF__.sortOptions %}
+                    <option value="{{ key }}" {{ key == __SELF__.sortOrder ? 'selected' }}>
+                        {{ option.label|default(option) }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</div>

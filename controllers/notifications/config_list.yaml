@@ -1,0 +1,14 @@
+title: 'kodzero.posmall::lang.common.notifications'
+modelClass: KodZero\POSMall\Models\Notification
+list: $/kodzero/posmall/models/notification/columns.yaml
+recordUrl: 'kodzero/posmall/notifications/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: 20
+showSetup: true
+showSorting: 0
+defaultSort:
+    column: sort_order
+    direction: asc
+toolbar:
+    search:
+        prompt: 'backend::lang.list.search_prompt'

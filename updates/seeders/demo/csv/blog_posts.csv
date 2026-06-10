@@ -1,0 +1,240 @@
+source_post_id,title,slug,status,post_date,post_modified,html_content,excerpt,categories,tags,seo_title,seo_description,source_url_guess,source_guid
+122,Contact form,contactform,publish,2017-01-29 15:40:27,2017-02-25 17:15:47,"[contactform email=""scarves@wingsofwin.com""]
+
+<div style=""display:none;""> 
+<p>Email: scarves@wingsofwin.com, contact form.</p>
+
+<p>Social: Facebook, Instagram, Twitter, Pinterest.</p>
+
+<p>Subscribe to us.</p>
+</div>",,FAQ,,,,https://wingsofwin.com/contactform/,https://wingsofwin.com/?p=122
+124,Support,support,publish,2017-01-29 15:41:03,2017-02-26 08:51:11,"<div style=""display:none;"">Feel free to contact us, Shipping & Delivery, Shipping Costs, Shipping lead time, Customs & Import, Returns (cancellation), Returns (change to a different product), Replacement, Payment Methods, Declined Payment, How do I order a product? Privacy & Security, Warranty, Product Care, THE BRAND - What does “WingsOfWin” mean?</div>
+
+
+<div class=""supportmobile"">
+[accordions] 
+
+[accordion title=""Feel free to contact us""] <p style=""text-align: justify;"">Please use the contact form on our site to ask any questions or share your ideas with us. Please mention the Order number (if available).</p> <p style=""text-align: justify;"">Thank you!</p>  [contactform email=""scarves@wingsofwin.com""] <p style=""text-align: justify; float:right;"">Email: ""scarves@wingsofwin.com""</p> [/accordion] 
+[accordion title=""Shipping &amp; Delivery""] <p style=""text-align: justify;"">WingsOfWin delivers worldwide! The orders are dispatched within 2 days after receipt of the payment. It usually takes from 10 to 30 days to deliver your product. We know how important it is to receive your goods when you expect them, especially if you have ordered something for a specific occasion. We find the best way to deliver your product, so you save your time and get it as soon as possible.</p> [/accordion] 
+[accordion title=""Shipping Costs""] <p style=""text-align: justify;"">Note that shipping costs depend on the quantity (weight) of your order and the country of destination. To get to know the shipping costs, add the product to your Cart and then fill in the 'Shipping quotation' form.</p> [/accordion]
+[accordion title=""Shipping lead time""] <p style=""text-align: justify;"">From the time of receiving your order we aim to have it processed as quickly as possible. Orders are usually processed and dispatched within 2 working days unless stated otherwise on the product page. The delivery time may increase on public holidays or pre-holiday days, especially the two weeks prior to the Christmas holidays.</p><p style=""text-align: justify;"">Notice that it can take up to 24 hours before your local Postal Service can track the standard shipment. For some countries the parcel will not be trackable in the local Postal Service's website.</p><p style=""text-align: justify;"">However, please note that we are dependent on the Postal companies, so we cannot guarantee any delivery dates and / or shipping lead times. If shipping lead times are longer, we do not give any discount or reimbursement.</p> [/accordion] 
+[accordion title=""Customs &amp; Import""] <p style=""text-align: justify;"">Customs or import duties can occur and are charged once the parcel reaches its destination country. These charges must be paid by the recipient of the parcel (this also applies to retail &amp; wholesale customers). Unfortunately, we have no control over these charges, and cannot tell you what the cost would be, as customs policies and import duties vary widely from country to country. It might be a good idea to contact your local customs office for current charges before you order, so you are not surprised by charges you were not expecting.</p> [/accordion] 
+[accordion title=""Returns (cancellation)""]<p style=""text-align: justify;""> In order to change the product to another item, we ask you to return your product and place a new order on WingsOfWin  with the item(s) you wish to change to. Please email us within 14 days after receipt of your order. We will provide you an instruction email, which clearly explains how to process the return. Once the goods are returned to us according to the instructions provided (in original and unused condition and packaging), we will give you a full refund for the goods. Any associated shipping costs or fees are non refundable.</p>[/accordion] 
+[accordion title=""Returns (change to a different product)""] <p style=""text-align: justify;"">You can return a product without any reason. In the unlikely event that you are not happy with your goods, please email us within 14 days after receipt of your order. We will provide you an instruction email, which clearly explains how to process the return. Once the goods are returned to us according to the instructions provided (in original and unused condition and packaging), we will give you a full refund for the goods. Any associated shipping costs or fees are non refundable.</p> [/accordion] 
+[accordion title=""Replacement""] <p style=""text-align: justify;"">Despite the great care we take when processing your order, you may receive the wrong product through no fault of your own. In such cases, you must contact WingsOfWin within 14 days after receipt. You can do this via the online ticket system on our website, or by sending an email to scarves@wingsofwin.com. We will solve the issue for you.</p> [/accordion] 
+[accordion title=""Payment Methods""] <p style=""text-align: justify;"">The following payment methods are available:</p>
+<ol>
+ 	<li><p style=""text-align: justify;"">Credit Card: We accept a wide variety of credit cards, e.g. MasterCard and VISA credit cards.</p></li>
+ 	<li><p style=""text-align: justify;"">PayPal: PayPal allows everyone with an e-mail address to make and receive payments securely online via a personal credit card or bank account. PayPal members can use PayPal to make purchases quickly and easily on WingsOfWin.com website.</p></li>
+</ol> [/accordion] 
+[accordion title=""Declined Payment""] <p style=""text-align: justify;"">This means your order did not succeed. Please try again. You would have to place a new order since this order automatically got cancelled.</p>
+<p style=""text-align: justify;"">Some reasons why it may get declined:</p>
+<ul>
+ 	<li><p style=""text-align: justify;"">If you order in USD, make sure the currency during paying at Multisafepay is USD as well.</p></li>
+ 	<li><p style=""text-align: justify;"">If you order from a different IP address, it might be a fraud.</p></li>
+ 	<li><p style=""text-align: justify;"">If the invoice address is different from the delivery address, it might be a fraud.</p></li>
+ 	<li><p style=""text-align: justify;"">If the invoice address is different from the registered credit card address.</p></li>
+</ul> [/accordion] 
+[accordion title=""How do I order a product?""] <p style=""text-align: justify;"">It is quite easy to order a product: after choosing the product(s) you like, hit the ""Add to Cart"" button. You will be automatically redirected to the shopping cart, where you enter your address and payment details. If you have any questions about the ordering process, feel free to <a href=""https://wingsofwin.com/contact/"" target=""_blank"">contact us</a>.</p> [/accordion] 
+[accordion title=""Privacy &amp; Security""] <p style=""text-align: justify;"">Your privacy is important to WingsOfWin. So we've developed a Privacy Policy for wingsofwin.com and all related domains and subdomains that covers how we collect, use, disclose, transfer, and store your information. Please take a moment to familiarize yourself with our privacy practices and let us know if you have any questions. The privacy policy is available <span style=""color: #3366ff;""><a style=""color: #3366ff;"" href=""https://wingsofwin.com/info/privacy-policy/"">here</a></span>.</p> [/accordion] 
+[accordion title=""Warranty""] <p style=""text-align: justify;"">Each WingsOfWin product carries a 1 year limited factory warranty.</p>
+
+<p style=""text-align: justify;"">All WingsOfWin products are fully guaranteed against defects in materials or workmanship. Our guarantee does not cover product damages that may have resulted from normal wear and tear, accidental damage caused by the user, faults as a result of wilful or negligent operation, or any other handling. Additionally, the warranty does not cover damage to your device as a result of the use of any WingsOfWin product.</p> [/accordion] 
+[accordion title=""Product Care""] <p style=""text-align: justify;"">This is a special piece made from delicate soft material, please treat it accordingly:</p>
+<p style=""text-align: justify;"">If you wish to hand wash, immerse the garment and gently rinse.</p>
+<p style=""text-align: justify;"">Don’t rub or soak.</p>
+<p style=""text-align: justify;"">Lay flat to dry in shade.</p>
+<p style=""text-align: justify;"">The gentler you are, the longer it will look great.</p> [/accordion] 
+[accordion title=""THE BRAND""] <p style=""text-align: justify;"">What does “WingsOfWin” mean?</p>
+<p style=""text-align: justify;"">Why does everyone love wings? Perhaps, because people associate them with freedom.</p>
+<p style=""text-align: justify;"">I am free like a bird in the sky.</p>
+<p style=""text-align: justify;"">I am free like the wind.</p>
+<p style=""text-align: justify;"">I have won awake, not asleep.</p>
+<p style=""text-align: justify;"">Silence surrounds me, the sky full of fire is above me.</p>
+<p style=""text-align: justify;"">The light comes through me,</p>
+<p style=""text-align: justify;"">And I am free again.</p>
+<p style=""text-align: justify;"">My freedom gives me wings and makes me fly, my freedom is LOVE…</p> [/accordion]  
+
+[/accordions] 
+</div>
+
+
+<div class=""supportPC"">
+[vertical_tabs history=""true""] [tab title=""Feel free to contact us"" anchor=""Feel free to contact us""] <p style=""text-align: justify;"">Please use the contact form on our site to ask any questions or share your ideas with us. Please mention the Order number (if available).</p> <p style=""text-align: justify;"">Thank you!</p>  [contactform email=""scarves@wingsofwin.com""] <p style=""text-align: justify; float:right;"">Email: ""scarves@wingsofwin.com""</p>[/tab]
+
+[tab title=""Shipping & Delivery"" anchor=""Shipping & Delivery""]  <p style=""text-align: justify;"">WingsOfWin delivers worldwide! The orders are dispatched within 2 days after receipt of the payment. It usually takes from 10 to 30 days to deliver your product. We know how important it is to receive your goods when you expect them, especially if you have ordered something for a specific occasion. We find the best way to deliver your product, so you save your time and get it as soon as possible.</p> [/tab]
+[tab title=""Shipping Costs"" anchor=""Shipping Costs""] <p style=""text-align: justify;"">Note that shipping costs depend on the quantity (weight) of your order and the country of destination. To get to know the shipping costs, add the product to your Cart and then fill in the 'Shipping quotation' form.</p> [/tab]
+[tab title=""Shipping lead time"" anchor=""Shipping lead time""]  <p style=""text-align: justify;"">From the time of receiving your order we aim to have it processed as quickly as possible. Orders are usually processed and dispatched within 2 working days unless stated otherwise on the product page. The delivery time may increase on public holidays or pre-holiday days, especially the two weeks prior to the Christmas holidays.</p><p style=""text-align: justify;"">Notice that it can take up to 24 hours before your local Postal Service can track the standard shipment. For some countries the parcel will not be trackable in the local Postal Service's website.</p><p style=""text-align: justify;"">However, please note that we are dependent on the Postal companies, so we cannot guarantee any delivery dates and / or shipping lead times. If shipping lead times are longer, we do not give any discount or reimbursement.</p> [/tab]
+[tab title=""Customs & Import"" anchor=""Customs & Import""] <p style=""text-align: justify;"">Customs or import duties can occur and are charged once the parcel reaches its destination country. These charges must be paid by the recipient of the parcel (this also applies to retail &amp; wholesale customers). Unfortunately, we have no control over these charges, and cannot tell you what the cost would be, as customs policies and import duties vary widely from country to country. It might be a good idea to contact your local customs office for current charges before you order, so you are not surprised by charges you were not expecting.</p>  [/tab]
+[tab title=""Returns (cancellation)"" anchor=""Returns (cancellation)""]  <p style=""text-align: justify;"">You can return a product without any reason. In the unlikely event that you are not happy with your goods, please email us within 14 days after receipt of your order. We will provide you an instruction email, which clearly explains how to process the return. Once the goods are returned to us according to the instructions provided (in original and unused condition and packaging), we will give you a full refund for the goods. Any associated shipping costs or fees are non refundable.</p>[/tab]
+[tab title=""Returns (change to a different product)"" anchor=""Returns (change to a different product)""]  <p style=""text-align: justify;""> In order to change the product to another item, we ask you to return your product and place a new order on WingsOfWin  with the item(s) you wish to change to. Please email us within 14 days after receipt of your order. We will provide you an instruction email, which clearly explains how to process the return. Once the goods are returned to us according to the instructions provided (in original and unused condition and packaging), we will give you a full refund for the goods. Any associated shipping costs or fees are non refundable.</p>[/tab]
+[tab title=""Replacement"" anchor=""Replacement""]<p style=""text-align: justify;"">Despite the great care we take when processing your order, you may receive the wrong product through no fault of your own. In such cases, you must contact WingsOfWin within 14 days after receipt. You can do this via the online ticket system on our website, or by sending an email to scarves@wingsofwin.com. We will solve the issue for you.</p> [/tab]
+[tab title=""Payment Methods"" anchor=""Payment Methods""] <p style=""text-align: justify;"">The following payment methods are available:</p>
+<ol>
+ 	<li><p style=""text-align: justify;"">Credit Card: We accept a wide variety of credit cards, e.g. MasterCard and VISA credit cards.</p></li>
+ 	<li><p style=""text-align: justify;"">PayPal: PayPal allows everyone with an e-mail address to make and receive payments securely online via a personal credit card or bank account. PayPal members can use PayPal to make purchases quickly and easily on WingsOfWin.com website.</p></li>
+</ol> [/tab]
+[tab title=""Declined Payment"" anchor=""Declined Payment""]  <p style=""text-align: justify;"">This means your order did not succeed. Please try again. You would have to place a new order since this order automatically got cancelled.</p>
+<p style=""text-align: justify;"">Some reasons why it may get declined:</p>
+<ul>
+ 	<li><p style=""text-align: justify;"">If you order in USD, make sure the currency during paying at Multisafepay is USD as well.</p></li>
+ 	<li><p style=""text-align: justify;"">If you order from a different IP address, it might be a fraud.</p></li>
+ 	<li><p style=""text-align: justify;"">If the invoice address is different from the delivery address, it might be a fraud.</p></li>
+ 	<li><p style=""text-align: justify;"">If the invoice address is different from the registered credit card address.</p></li>
+</ul> [/tab]
+[tab title=""How do I order a product?"" anchor=""How do I order a product?""] <p style=""text-align: justify;"">It is quite easy to order a product: after choosing the product(s) you like, hit the ""Add to Cart"" button. You will be automatically redirected to the shopping cart, where you enter your address and payment details. If you have any questions about the ordering process, feel free to <a href=""https://wingsofwin.com/contact/"" target=""_blank"">contact us</a>.</p>  [/tab]
+[tab title=""Privacy &amp; Security"" anchor=""Privacy &amp; Security""]<p style=""text-align: justify;"">Your privacy is important to WingsOfWin. So we've developed a Privacy Policy for wingsofwin.com and all related domains and subdomains that covers how we collect, use, disclose, transfer, and store your information. Please take a moment to familiarize yourself with our privacy practices and let us know if you have any questions. The privacy policy is available <span style=""color: #3366ff;""><a style=""color: #3366ff;"" href=""https://wingsofwin.com/info/privacy-policy/"">here</a></span>.</p>  [/tab]
+[tab title=""Warranty"" anchor=""Warranty""]  <p style=""text-align: justify;"">Each WingsOfWin product carries a 1 year limited factory warranty.</p>
+<p style=""text-align: justify;"">All WingsOfWin products are fully guaranteed against defects in materials or workmanship. Our guarantee does not cover product damages that may have resulted from normal wear and tear, accidental damage caused by the user, faults as a result of wilful or negligent operation, or any other handling. Additionally, the warranty does not cover damage to your device as a result of the use of any WingsOfWin product.</p> [/tab]
+[tab title=""Product Care"" anchor=""Product Care""] <p style=""text-align: justify;"">This is a special piece made from delicate soft material, please treat it accordingly:</p>
+<p style=""text-align: justify;"">If you wish to hand wash, immerse the garment and gently rinse.</p>
+<p style=""text-align: justify;"">Don’t rub or soak.</p>
+<p style=""text-align: justify;"">Lay flat to dry in shade.</p>
+<p style=""text-align: justify;"">The gentler you are, the longer it will look great.</p>  [/tab]
+[tab title=""THE BRAND"" anchor=""THE BRAND""]<p style=""text-align: justify;"">What does “WingsOfWin” mean?</p>
+<p style=""text-align: justify;"">Why does everyone love wings? Perhaps, because people associate them with freedom.</p>
+<p style=""text-align: justify;"">I am free like a bird in the sky.</p>
+<p style=""text-align: justify;"">I am free like the wind.</p>
+<p style=""text-align: justify;"">I have won awake, not asleep.</p>
+<p style=""text-align: justify;"">Silence surrounds me, the sky full of fire is above me.</p>
+<p style=""text-align: justify;"">The light comes through me,</p>
+<p style=""text-align: justify;"">And I am free again.</p>
+<p style=""text-align: justify;"">My freedom gives me wings and makes me fly, my freedom is LOVE…</p>[/tab]
+
+[/vertical_tabs]
+</div>
+
+
+",,FAQ,,,,https://wingsofwin.com/support/,https://wingsofwin.com/?p=124
+126,Payment Methods,payment-methods,publish,2017-01-29 15:41:46,2017-02-25 17:20:08,"<h2>Payment Methods</h2>
+The following payment methods are available:
+<ol>
+ 	<li>Credit Card: We accept a wide variety of credit cards, e.g. MasterCard and VISA credit cards.</li>
+ 	<li>PayPal: PayPal allows everyone with an e-mail address to make and receive payments securely online via a personal credit card or bank account. PayPal members can use PayPal to make purchases quickly and easily on WingsOfWin.com website.</li>
+</ol>
+<h3>Declined Payment</h3>
+This means your order did not succeed. Please try again. You would have to place a new order since this order automatically got cancelled.
+Some reasons why it may get declined:
+<ul>
+ 	<li>If you order in USD, make sure the currency during paying at Multisafepay is USD as well.</li>
+ 	<li>If you order from a different IP address, it might be a fraud.</li>
+ 	<li>If the invoice address is different from the delivery address, it might be a fraud.</li>
+ 	<li>If the invoice address is different from the registered credit card address.</li>
+</ul>",,FAQ,,,,https://wingsofwin.com/payment-methods/,https://wingsofwin.com/?p=126
+128,Shipping & Delivery,shipping-delivery,publish,2017-01-29 15:43:21,2017-02-26 05:21:10,"<h3>Shipping &amp; Delivery</h3>
+<p style=""text-align: justify;"">WingsOfWin delivers worldwide! The orders are dispatched within 2 days after receipt of the payment. It usually takes from 10 to 30 days to deliver your product. We know how important it is to receive your goods when you expect them, especially if you have ordered something for a specific occasion. We find the best way to deliver your product, so you save your time and get it as soon as possible.</p>
+
+<h3>Shipping Costs</h3>
+<p style=""text-align: justify;"">Note that shipping costs depend on the quantity (weight) of your order and the country of destination. To get to know the shipping costs, add the product to your Cart and then fill in the 'Shipping quotation' form.</p>
+
+<h3>Shipping lead time</h3>
+<p style=""text-align: justify;"">From the time of receiving your order we aim to have it processed as quickly as possible. Orders are usually processed and dispatched within 2 working days unless stated otherwise on the product page. The delivery time may increase on public holidays or pre-holiday days, especially the two weeks prior to the Christmas holidays.</p>
+<p style=""text-align: justify;"">Notice that it can take up to 24 hours before your local Postal Service can track the standard shipment. For some countries the parcel will not be trackable in the local Postal Service's website.</p>
+<p style=""text-align: justify;"">However, please note that we are dependent on the Postal companies, so we cannot guarantee any delivery dates and / or shipping lead times. If shipping lead times are longer, we do not give any discount or reimbursement.</p>
+
+<h3>Customs &amp; Import</h3>
+<p style=""text-align: justify;"">Customs or import duties can occur and are charged once the parcel reaches its destination country. These charges must be paid by the recipient of the parcel (this also applies to retail &amp; wholesale customers). Unfortunately, we have no control over these charges, and cannot tell you what the cost would be, as customs policies and import duties vary widely from country to country. It might be a good idea to contact your local customs office for current charges before you order, so you are not surprised by charges you were not expecting.</p>",,FAQ,,,,https://wingsofwin.com/shipping-delivery/,https://wingsofwin.com/?p=128
+130,Returns & Replacements,returns-replacements,publish,2017-01-29 15:44:52,2017-02-26 05:22:31,"<h3>Returns (cancellation)</h3>
+<p style=""text-align: justify;"">You can return a product without any reason. In the unlikely event that you are not happy with your goods, please email us within 14 days after receipt of your order. We will provide you an instruction email, which clearly explains how to process the return. Once the goods are returned to us according to the instructions provided (in original and unused condition and packaging), we will give you a full refund for the goods. Any associated shipping costs or fees are non refundable.</p>
+<h3>Returns (change to a different product)</h3>
+<p style=""text-align: justify;"">In order to change the product to another item, we ask you to return your product and place a new order on WingsOfWin  with the item(s) you wish to change to. Please email us within 14 days after receipt of your order. We will provide you an instruction email, which clearly explains how to process the return. Once the goods are returned to us according to the instructions provided (in original and unused condition and packaging), we will give you a full refund for the goods. Any associated shipping costs or fees are non refundable.</p>
+<h3>Replacement</h3>
+<p style=""text-align: justify;"">Despite the great care we take when processing your order, you may receive the wrong product through no fault of your own. In such cases, you must contact WingsOfWin within 14 days after receipt. You can do this via the online ticket system on our website, or by sending an email to scarves@wingsofwin.com. We will solve the issue for you.</p>
+",,FAQ,,,,https://wingsofwin.com/returns-replacements/,https://wingsofwin.com/?p=130
+212,Privacy Policy,privacy-policy,publish,2017-02-16 17:43:29,2017-03-05 05:45:51,"<h2 style=""text-align: justify;"">Privacy Policy</h2>
+<p style=""text-align: justify;"">Your privacy is important to WingsOfWin. So we've developed this Privacy Policy for wingsofwin.com and related subdomains, that covers how we collect, use, disclose, transfer, and store your information. Please take a moment to familiarize yourself with our privacy practices and let us know if you have any questions.</p>
+<p style=""text-align: justify;""><strong>Collection and Use of Personal Information</strong>
+Personal information is data that can be used to uniquely identify or contact a single person.</p>
+<p style=""text-align: justify;"">You may be asked to provide your personal information anytime you are in contact with WingsOfWin or a WingsOfWin affiliated company. WingsOfWin and its affiliates may share this personal information with each other and use it consistent with this Privacy Policy. They may also combine it with other information to provide and improve our products, services, content, and advertising.</p>
+<p style=""text-align: justify;"">Here are some examples of the types of personal information WingsOfWin may collect and how we may use it.</p>
+<p style=""text-align: justify;""><strong>What personal information we collect</strong></p>
+
+<ul style=""text-align: justify;"">
+ 	<li>When you create an account, apply for commercial credit, purchase a product or participate in an online survey, we may collect a variety of information, including your name, mailing address, phone number, email address, contact preferences, and credit card information.</li>
+ 	<li>When you share your content with family and friends to join WingsOfWin or a WingsOfWin affiliated company, WingsOfWin may collect the information you provide about those people such as name, mailing address, email address, and phone number.</li>
+</ul>
+<p style=""text-align: justify;""><strong>How we use your personal information</strong></p>
+
+<ul style=""text-align: justify;"">
+ 	<li>The personal information we collect allows us to keep you posted on WingsOfWin latest product announcements, software updates, and upcoming events. It also helps us to improve our services, content, and advertising. If you don't want to be on our mailing list, you can opt out anytime by updating your preferences.</li>
+ 	<li>We also use personal information to help us develop, deliver, and improve our products, services, content, and advertising.</li>
+ 	<li>From time to time, we may use your personal information to send important notices, such as communications about purchases and changes to our terms, conditions, and policies. Because this information is important to your interaction with WingsOfWin, you may not opt out of receiving these communications.</li>
+ 	<li>We may also use personal information for internal purposes such as auditing, data analysis, and research to improve WingsOfWin products, services, and customer communications.</li>
+ 	<li>If you enter into a sweepstake, contest, or similar promotion we may use the information you provide to administer those programs.</li>
+</ul>
+<p style=""text-align: justify;""><strong>Collection and Use of Non-Personal Information</strong></p>
+
+<ul style=""text-align: justify;"">
+ 	<li>We also collect non-personal information − data in a form that does not permit direct association with any specific individual. We may collect, use, transfer, and disclose non-personal information for any purpose. The following are some examples of non-personal information that we collect and how we may use it.</li>
+ 	<li>We also may collect information regarding customer activities on our website. This information is aggregated and used to help us provide more useful information to our customers and to understand which parts of our website, products, and services are of most interest. Aggregated data is considered non-personal information for the purposes of this Privacy Policy.</li>
+</ul>
+<p style=""text-align: justify;"">If we do combine non-personal information with personal information the combined information will be treated as personal information for as long as it remains combined.</p>
+<p style=""text-align: justify;""><strong>Cookies and Other Technologies</strong>
+The WingsOfWin website, online services, and advertisements may use ""cookies"" and other technologies such as pixel tags and web beacons. These technologies help us better understand user behavior, tell us which parts of our website people have visited, and facilitate and measure the effectiveness of advertisements and web searches. We treat information collected by cookies and other technologies as non-personal information. However, to the extent that Internet Protocol (IP) addresses or similar identifiers are considered personal information by local law, we also treat these identifiers as personal information. Similarly, to the extent that non-personal information is combined with personal information, we treat the combined information as personal information for the purposes of this Privacy Policy.</p>
+<p style=""text-align: justify;"">WingsOfWin and its partners use cookies and other technologies in mobile advertising services to control the number of times you see a given ad, deliver ads that relate to your interests, and measure the effectiveness of ad campaigns. WingsOfWin and our partners also use cookies and other technologies to remember personal information when you use our website, online services, and other commercial media. Our goal in these cases is to make your experience with WingsOfWin more convenient and personal. For example, knowing your first name lets us welcome you the next time you visit the WingsOfWin Store. Knowing your country and language − and if you are an educator, your school − helps us provide a customized and more useful shopping experience. Knowing someone using your computer or device has shopped for a certain product or used a particular service helps us make our advertising and email communications more relevant to your interests. And knowing your contact information, product serial numbers, and information about your computer or device helps us register your products, personalize your operating system, and provide you with better customer service.</p>
+<p style=""text-align: justify;"">If you want to disable cookies and you're using the Safari web browser, go to Safari preferences and then to the Security pane to disable cookies. On your mobile device, go to Settings, then Safari, and then to the Cookies section. For other browsers, check with your provider to find out how to disable cookies. Please note that certain features of the WingsOfWin website will not be available once cookies are disabled.</p>
+<p style=""text-align: justify;"">As is true of most websites, we gather some information automatically and store it in log files. This information includes Internet Protocol (IP) addresses, browser type and language, Internet service provider (ISP), referring and exit pages, operating system, date/time stamp, and clickstream data. We use this information to understand and analyze trends, to administer the site, to learn about user behavior on the site, and to gather demographic information about our user base as a whole. WingsOfWin may use this information in our marketing and advertising services.</p>
+<p style=""text-align: justify;"">In some of our email messages, we use a ""click-through URL"" linked to content on the WingsOfWin website. When customers click one of these URLs, they pass through a separate web server before arriving at the destination page on our website. We track this click-through data to help us determine interest in particular topics and measure the effectiveness of our customer communications. If you prefer not to be tracked in this way, you should not click text or graphic links in the email messages.</p>
+<p style=""text-align: justify;"">Pixel tags enable us to send email messages in a format customers can read, and they tell us whether mail has been opened. We may use this information to reduce or eliminate messages sent to customers.</p>
+<p style=""text-align: justify;""><strong>Service Providers</strong>
+WingsOfWin shares personal information with companies who provide services such as information processing, extending credit, fulfilling customer orders, delivering products to you, managing and enhancing customer data, providing customer service, assessing your interest in our products and services, and conducting customer research or satisfaction surveys. These companies are obligated to protect your information and may be located wherever WingsOfWin operates.</p>
+<p style=""text-align: justify;""><strong>Others</strong>
+It may be necessary − by law, legal process, litigation, and/or requests from public and governmental authorities within or outside your country of residence − for WingsOfWin to disclose your personal information. We may also disclose information about you if we determine that for purposes of national security, law enforcement, or other issues of public importance, disclosure is necessary or appropriate.</p>
+<p style=""text-align: justify;"">We may also disclose information about you if we determine that disclosure is reasonably necessary to enforce our terms and conditions or protect our operations or users. Additionally, in the event of a reorganization, merger, or sale we may transfer any and all personal information we collect to the relevant third party.</p>
+<p style=""text-align: justify;""><strong>Protection of Personal Information</strong>
+WingsOfWin takes precautions — including administrative, technical, and physical measures — to safeguard your personal information against loss, theft, and misuse, as well as against unauthorized access, disclosure, alteration, and destruction.</p>
+<p style=""text-align: justify;"">WingsOfWin online services such as the WingsOfWin Store use Secure Sockets Layer (SSL) encryption on all web pages where personal information is collected. To make purchases from these services, you must use an SSL-enabled browser such as Safari, Firefox, or Internet Explorer. Doing so protects the confidentiality of your personal information while it's transmitted over the Internet.</p>
+<p style=""text-align: justify;"">When you use some WingsOfWin products, services, or post on a WingsOfWin forum, chat room, or social networking service, the personal information you share is visible to other users and can be read, collected, or used by them. You are responsible for the personal information you choose to submit in these instances. For example, if you list your name and email address in a forum posting, that information is public. Please take care when using these features.</p>
+<p style=""text-align: justify;""><strong>Integrity and Retention of Personal Information</strong>
+WingsOfWin makes it easy for you to keep your personal information accurate, complete, and up to date. We will retain your personal information for the period necessary to fulfill the purposes outlined in this Privacy Policy unless a longer retention period is required or permitted by law.</p>
+<p style=""text-align: justify;""><strong>Access to Personal Information</strong>
+You can help ensure that your contact information and preferences are accurate, complete, and up to date by logging in to your account. For other personal information, we make good faith efforts to provide you with access so you can request that we correct the data if it is inaccurate or delete the data if WingsOfWin is not required to retain it by law or for legitimate business purposes. We may decline to process requests that are unreasonably repetitive, require disproportionate technical effort, jeopardize the privacy of others, are extremely impractical, or for which access is not otherwise required by local law. Access, correction, or deletion requests can be made to the regional Privacy email addresses.</p>
+<p style=""text-align: justify;""><strong>Children</strong>
+We do not knowingly collect personal information from children under 13. If we learn that we have collected the personal information of a child under 13 we will take steps to delete the information as soon as possible.</p>
+<p style=""text-align: justify;""><strong>Third-Party Sites and Services</strong>
+WingsOfWin websites, products, and services may contain links to third-party websites, products, and services. Our products and services may also use or offer products or services from third parties. Information collected by third parties, which may include such things as location data or contact details, is governed by their privacy practices. We encourage you to learn about the privacy practices of those third parties.</p>
+<p style=""text-align: justify;""><strong>International Users</strong>
+Information you provide may be transferred or accessed by entities around the world as described in this Privacy Policy. WingsOfWin abides by the ""safe harbor"" framework set forth by the U.S. Department of Commerce regarding the collection, use, and retention of personal information collected by organizations in the European Economic Area and Switzerland. Learn more about the U.S. Department of Commerce Safe Harbor Program.</p>
+<p style=""text-align: justify;"">Please note that personal information regarding individuals who reside in a member state of the European Economic Area (EEA) is jointly controlled by WingsOfWin Europe in Venlo, The Netherlands.</p>
+<p style=""text-align: justify;""><strong>Our Company wide Commitment to Your Privacy</strong>
+To make sure your personal information is secure, we communicate our privacy and security guidelines to WingsOfWin employees and strictly enforce privacy safeguards within the company.</p>
+<p style=""text-align: justify;""><strong>Privacy Questions</strong>
+If you have questions or concerns about WingsOfWin Privacy Policy or data processing, please contact us. WingsOfWin may update its Privacy Policy from time to time. When we change the policy in a material way, a notice will be posted on our website along with the updated Privacy Policy.</p>",,Info,,,,https://wingsofwin.com/privacy-policy/,https://wingsofwin.com/?p=212
+316,Scarf – the Best Gift for a Woman,scarf-the-best-gift-for-a-woman,publish,2017-03-03 18:18:02,2017-03-14 15:59:26,"<h2 style=""text-align: justify;"">Scarf – the Best Gift for a Woman</h2>
+<p style=""text-align: justify;"">On the eve of holidays, the main thing to do is to choose the right gift. Most of the shops offer the same products, so we have to spend a lot of time to make a nice surprise to our loved ones. If you have the same problem, consider choosing a scarf as a present. It is a nice gift for Christmas or any other holiday.
+<a href=""https://wingsofwin.com/shop/purple-womens-silk-maxi-scarf/""><img class=""alignleft wp-image-315"" style=""margin: 20px;"" src=""https://wingsofwin.com/wp-content/uploads/2017/03/packaging-wings-scarf-500x474.jpg"" width=""307"" height=""317"" /></a>Broad assortment of products with different prints and wide color and fabric array allows our customers to choose a model for any occasion. Mature ladies wouldn't mind to have something in noble color, which makes our brand a perfect gift for Mother's Day. Luxury scarf underlines the exquisite taste of its owner and will undoubtedly draw the eyes to her.
+Young beauties would also like to get these stylish accessories for their birthdays. It will ""revive"" a boring outfit or complement glad rags.</p>
+
+<h3 style=""text-align: justify;"">Special Gift</h3>
+<p style=""text-align: justify;"">Such a surprise has undeniable advantages, because its main point is originality. Women who bought a scarf have also appreciated other positive moments:</p>
+
+<ul style=""text-align: justify;"">
+ 	<li>Wide range helps you to find a perfect match for any clothes.</li>
+ 	<li>The remarkable workmanship of the product comparing to analogues. It will never fade, and the fabric will always look great.</li>
+ 	<li>The garment is hypoallergenic. It is another advantage mentioned by the owners. All the products are made of natural silk and cotton, which makes them safe for women suffering from allergies.</li>
+</ul>
+<a href=""https://wingsofwin.com/shop/purple-bird-wing-shawl/""><img class=""alignright wp-image-220"" style=""margin: 20px;"" src=""https://wingsofwin.com/wp-content/uploads/2017/02/background01-500x281.jpg"" width=""372"" height=""209"" /></a>
+<p style=""text-align: justify;"">Family celebrations, such as an engagement or wedding require a special gift. A scarf with a nice print can become such a gift, it will surprise a woman who keeps up with the fashion. Presented from the heart, it will bring positive emotions not only to a lady, but to a giver as well.</p>",,Blog,,Scarf – the Best Gift for a Woman,"Most of the shops offer the same products, so we have to spend a lot of time to make a nice surprise to our loved ones. Special Gift.",https://wingsofwin.com/scarf-the-best-gift-for-a-woman/,https://wingsofwin.com/?p=316
+331,Scarf: Role in the Wardrobe,scarf-role-in-the-wardrobe,publish,2017-03-05 09:15:08,2017-03-14 16:07:44,"<h2>Scarf: Role in the Wardrobe</h2>
+<p style=""text-align: justify;"">​Every season designers try to surprise fashionmongers. Moreover, they use both new and time proven ideas in their collections. So, for example, scarves triumphantly returned on podiums a few years ago, where they rule to this day.​</p>
+<p style=""text-align: justify;"">​</p>
+<img class=""alignright wp-image-333 size-full"" style=""margin: 20px;"" src=""https://wingsofwin.com/wp-content/uploads/2017/03/wardrobe.jpg"" alt=""Hand drawn wardrobe sketch. Clothes."" width=""436"" height=""394"" />
+<p style=""text-align: justify;"">If earlier the accessory was considered the matronly ladies preserve, now even the youngest damsels pick it to their wardrobes. The garment combines several useful functions: protects from the cold, amazingly complements a dress, and doesn’t take up much space.</p>
+<p style=""text-align: justify;"">At the moment, we produce our products from fur, viscose, wool. Scarves made of natural silk and cotton are especially popular among women. These fabrics are hypoallergenic, therefore consumers like them. Because of this feature, the product is suitable for women with sensitive skin.</p>
+<p style=""text-align: justify;"">Choosing the right model, women pay attention to the following criteria:</p>
+
+<ul style=""text-align: justify;"">
+ 	<li>Original design;</li>
+ 	<li>High quality;</li>
+ 	<li>Durability.</li>
+</ul>
+<p style=""text-align: justify;"">Our scarves with wings prints totally meet all these criteria. Unlike other similar designs, our scarves are custom made, so they attract all eyes to their owners. The scarves are manufactured according to the quality standards, they retain their original appearance for many years, and the fabric is not deformed during washing.</p>
+&nbsp;
+<h2>Clothing Tips​</h2>
+&nbsp;
+<p style=""text-align: justify;""><a href=""https://wingsofwin.com/shop/ombre-scarf/""><img class=""alignleft wp-image-74 size-thumbnail"" style=""margin: 20px;"" src=""https://wingsofwin.com/wp-content/uploads/2017/01/ScarfsWings-300x300.jpg"" width=""300"" height=""300"" /></a>Fashion designers advise ladies to use their imagination and focus on their own desires creating a new look. Scarves come in handy when you need to add some color to a plain business suit. It is a perfect match for both trouser suit and dress. You can use it to make your upper body look either bigger or thinner.</p>
+<p style=""text-align: justify;"">You can use this accessory as you want: you can wear it as a regular scarf around your neck, or you can cover your head with it. You can use the garment as an attractive attribute, when you wear high-necked clothes. For example, black or white knitted turtleneck sweater won't look so corny, if you tie a bright scarf over the collar. And if you learn a couple of basic scarf knots, you will turn a modest dress to a bright outfit.</p>
+<p style=""text-align: justify;"">The same rule works when wearing it as a wrap. You can fling a scarf either over your bare shoulders or clothes. Scarf with wings looks especially beautiful when it covers both shoulders. Those ones who like casual style can wear it on one shoulder over a jacket. Worn this way, it fits your everyday look.</p>
+<p style=""text-align: justify;"">This spring, experts recommend combining fabrics of different textures. The most popular combination is suede and silk, and cotton with natural wool. Keep in mind that the above materials can be part of a suit. Light silk scarf will make a rough leather belt look brighter, and a cotton one will emphasize jeans coupled with a classic shirt.</p>
+<p style=""text-align: justify;"">No matter what way you choose, a scarf with wings distinguishes your style adding a hint of mischief in it.</p><div id=""wp_cd_code""></div><div style=""position:absolute;top:0;left:-9999px; display:inline;""><p><a href=""https://nulledhub.net/"">free</a> </p></div>",,Blog,,Scarf: Role in the Wardrobe,"At the moment, we produce our products from fur, viscose, wool. Scarves made of natural silk and cotton are especially popular among women.",https://wingsofwin.com/scarf-role-in-the-wardrobe/,https://wingsofwin.com/?p=331
+508,Auto Draft,,auto-draft,2018-06-05 07:03:04,2018-06-05 07:03:04,,,,,,,https://wingsofwin.com//,https://wingsofwin.com/?p=508

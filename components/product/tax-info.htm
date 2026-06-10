@@ -1,0 +1,11 @@
+{% if item.filteredTaxes.count|default(0) > 0 %}
+    {% if item.price_includes_tax %}
+        {{ 'kodzero.posmall::frontend.tax.inclusive'|trans }}
+    {% else %}
+        {{ 'kodzero.posmall::frontend.tax.exclusive'|trans }}
+    {% endif %}
+    {% for tax in item.filteredTaxes %}
+        {{ tax.name }}
+        ({{ tax.percentage }} %){% if not loop.last %}, {% endif %}
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,91 @@
+fields:
+    name:
+        label: Name
+        span: left
+        type: text
+        required: true
+
+    plain_token:
+        label: Plain token
+        span: right
+        type: text
+        comment: Required only when creating or rotating a token. POSMall stores only a SHA-256 hash and cannot show the plain token again.
+
+tabs:
+    fields:
+        scopes:
+            tab: Access
+            label: API access
+            type: partial
+            path: $/kodzero/posmall/models/apitoken/_scope_tree.htm
+            span: full
+
+        allowed_origins:
+            tab: Access
+            label: Allowed origins
+            type: textarea
+            size: small
+            span: right
+            comment: Optional browser origins, one per line. Leave empty for server-to-server use.
+
+        allowed_customer_ids:
+            tab: Access
+            label: Allowed customer IDs
+            type: textarea
+            size: small
+            span: left
+            comment: Optional customer IDs, one per line. Leave empty only for trusted server-to-server tokens.
+
+        allowed_vendor_ids:
+            tab: Access
+            label: Allowed vendor IDs
+            type: textarea
+            size: small
+            span: right
+            comment: Optional vendor IDs, one per line. Requests outside this list are rejected.
+
+        allowed_channel_ids:
+            tab: Access
+            label: Allowed channel IDs
+            type: textarea
+            size: small
+            span: left
+            comment: Optional channel IDs, one per line.
+
+        allowed_warehouse_ids:
+            tab: Access
+            label: Allowed warehouse IDs
+            type: textarea
+            size: small
+            span: right
+            comment: Optional warehouse IDs, one per line.
+
+        rate_limit_per_minute:
+            tab: Limits
+            label: Requests per minute
+            type: number
+            span: left
+            comment: Overrides the global POSMall API rate limit when set.
+
+        expires_at:
+            tab: Limits
+            label: Expires at
+            type: datepicker
+            mode: datetime
+            span: right
+
+        revoked_at:
+            tab: State
+            label: Revoked at
+            type: datepicker
+            mode: datetime
+            span: left
+            comment: Set this value to disable the token.
+
+        last_used_at:
+            tab: State
+            label: Last used at
+            type: datepicker
+            mode: datetime
+            span: right
+            disabled: true

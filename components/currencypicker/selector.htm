@@ -1,0 +1,10 @@
+<select name="currency"
+        class="mall-selectbox-sm form-select form-select-sm w-auto"
+        aria-label="{{ 'kodzero.posmall::frontend.currency.select'|trans }}"
+        onchange="var url = new window.URL(window.location.href); url.searchParams.set('posmall_currency', this.value); window.location.href = url.toString();">
+    {% for currency in __SELF__.currencies %}
+        <option value="{{ currency.id }}" {{ currency.id == __SELF__.activeCurrency.id ? 'selected' }}>
+            {{ currency.code }}
+        </option>
+    {% endfor %}
+</select>

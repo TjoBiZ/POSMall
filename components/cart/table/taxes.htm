@@ -1,0 +1,29 @@
+{% if __SELF__.showTaxes %}
+    {% for entry in totals.taxes|default([]) %}
+        <tr class="mall-cart__taxes mall-cart__taxes--{{ loop.index }}">
+            <td colspan="2"></td>
+            <td class="text-end">
+                {{ entry.tax.name }}
+            </td>
+            <td class="text-end">
+                {{ entry.tax.percentage }} %
+            </td>
+            <td class="text-end">
+                {{ entry.total|money }}
+            </td>
+        </tr>
+    {% endfor %}
+
+    {% if totals.taxes.count|default(0) > 1 %}
+        <tr class="mall-cart__taxes-total">
+            <td colspan="2"></td>
+            <td class="text-end">
+                {{ 'kodzero.posmall::frontend.total.taxes'|trans }}
+            </td>
+            <td></td>
+            <td class="text-end">
+                {{ totals.totalTaxes|money }}
+            </td>
+        </tr>
+    {% endif %}
+{% endif %}

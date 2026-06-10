@@ -1,0 +1,17 @@
+<a href="javascript:;"
+   class="mall-wishlist-item list-group-item list-group-item-action d-flex justify-content-between align-items-center {{ __SELF__.currentItem and list_id == __SELF__.currentItem.hashId ? 'mall-wishlist-item--active active' }}"
+   data-request="onSelect"
+   data-request-data="id: '{{ list_id }}'"
+>
+    <div class="mall-wishlist-item__data">
+        <div class="mall-wishlist-item__name fw-semibold">
+            {{ label|default('kodzero.posmall::frontend.wishlist.default_name'|trans) }}
+        </div>
+        <div class="mall-wishlist-item__description small">
+            {{ 'kodzero.posmall::frontend.wishlist.count'|transchoice(count|default(0), { count: count|default(0) }) }}
+        </div>
+    </div>
+    <div class="mall-wishlist-item__meta badge bg-primary rounded-pill">
+        {{ (total|default(0))|money }}
+    </div>
+</a>

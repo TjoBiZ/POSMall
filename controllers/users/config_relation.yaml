@@ -1,0 +1,12 @@
+# ===================================
+#  Relation Behavior Config
+# ===================================
+
+posmall_addresses:
+    label: 'kodzero.posmall::lang.common.address'
+    manage:
+        form: $/kodzero/posmall/models/address/fields.yaml
+        list: $/kodzero/posmall/models/address/columns.yaml
+    view:
+        list: $/kodzero/posmall/models/address/columns.yaml
+        toolbarButtons: create|delete

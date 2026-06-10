@@ -1,0 +1,17 @@
+fields:
+    warehouse:
+        label: Warehouse
+        type: relation
+        nameFrom: name
+        span: left
+    variant:
+        label: Variant
+        type: relation
+        nameFrom: name
+        emptyOption: Product base stock
+        span: right
+    stock:
+        label: Stock
+        type: number
+        span: left
+        default: 0

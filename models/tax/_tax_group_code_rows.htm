@@ -1,0 +1,26 @@
+<?php $rows = $model->exists ? $model->tax_group_code_rows()->orderBy('tax_group_code')->get() : collect(); ?>
+
+<?php if ($rows->isEmpty()): ?>
+    <p class="help-block">No normalized child tax group rows are linked yet.</p>
+<?php else: ?>
+    <div class="control-list">
+        <table class="table data">
+            <thead>
+                <tr>
+                    <th>Tax group code</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($rows as $row): ?>
+                    <tr>
+                        <td><?= e($row->tax_group_code) ?></td>
+                        <td><?= e($row->tax_group_name) ?></td>
+                        <td><?= e($row->tax_group_description) ?></td>
+                    </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+    </div>
+<?php endif ?>

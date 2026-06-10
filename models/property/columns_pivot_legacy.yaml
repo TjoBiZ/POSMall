@@ -1,0 +1,43 @@
+columns:
+    sort_order_handle:
+            label: " "
+            type: partial
+            path: $/kodzero/posmall/models/property/_reorder_handle.htm
+            sortable: false
+            width: 20px
+    pivot_sort_order:
+        invisible: true
+        type: number
+        sortable: true
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        type: text
+        searchable: true
+        sortable: false
+    type:
+        label: 'kodzero.posmall::lang.custom_fields.type'
+        searchable: true
+        sortable: false
+        type: partial
+        path: $/kodzero/posmall/models/property/_type.htm
+    unit:
+        label: 'kodzero.posmall::lang.common.unit'
+        type: text
+        searchable: true
+        sortable: false
+    pivot[filter_type]:
+        label: 'kodzero.posmall::lang.properties.filter_type'
+        sortable: false
+        type: partial
+        path: $/kodzero/posmall/models/property/_filter_type.htm
+    pivot[use_for_variants]:
+        label: 'kodzero.posmall::lang.properties.use_for_variants'
+        sortable: false
+        type: partial
+        path: $/kodzero/posmall/models/property/_use_for_variants.htm
+    created_at:
+        label: 'kodzero.posmall::lang.common.created_at'
+        type: datetime
+        searchable: true
+        sortable: false
+        invisible: true

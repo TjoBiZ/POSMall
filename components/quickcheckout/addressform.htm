@@ -1,0 +1,71 @@
+{% set googlePlacesKey = googlePlacesBrowserApiKey|default('') %}
+{% set googleAutocompleteEnabled = googlePlacesAddressAutocompleteEnabled|default(false) and googlePlacesKey %}
+<div class="mall-address-form--{{ type }}"
+     data-mall-address-zip-suggest
+     data-mall-address-zip-handler="{{ __SELF__ }}::onSuggestAddressZip"
+     data-mall-address-zip-prefix="{{ type }}_"
+     data-mall-google-places-enabled="{{ googleAutocompleteEnabled ? '1' : '0' }}"
+     data-mall-google-places-api-key="{{ googlePlacesKey|e('html_attr') }}">
+    <div class="mall-two-fields row g-3">
+        <div class="mall-form-control col-12 col-md-6">
+            <label for="{{ type }}_company" class="form-label">{{ 'kodzero.posmall::frontend.form.company'|trans }}</label>
+            <input id="{{ type }}_company" type="text"
+                   class="form-control"
+                   placeholder="{{ 'kodzero.posmall::frontend.form.company_placeholder'|trans }}"
+                   name="{{ type }}_company">
+            <div data-validate-for="{{ type }}_company" class="invalid-feedback d-block"></div>
+        </div>
+        <div class="mall-form-control col-12 col-md-6">
+            <label for="{{ type }}_address_name" class="form-label">{{ 'kodzero.posmall::frontend.form.recipient'|trans }}</label>
+            <input id="{{ type }}_address_name" type="text"
+                   class="form-control"
+                   placeholder="{{ 'kodzero.posmall::frontend.form.recipient_placeholder'|trans }}"
+                   name="{{ type }}_address_name">
+            <div data-validate-for="{{ type }}_address_name" class="invalid-feedback d-block"></div>
+        </div>
+    </div>
+    <div class="mall-form-control mb-3">
+        <label for="{{ type }}_lines" class="form-label">Street address</label>
+        <input id="{{ type }}_lines" class="form-control" name="{{ type }}_lines" type="text"
+               list="{{ type }}_address_suggestions"
+               autocomplete="address-line1"
+               autocapitalize="words"
+               spellcheck="false">
+        <datalist id="{{ type }}_address_suggestions"></datalist>
+        <div data-validate-for="{{ type }}_lines" class="invalid-feedback d-block"></div>
+    </div>
+    <div class="mall-form-control mb-3">
+        <label for="{{ type }}_details" class="form-label">{{ 'kodzero.posmall::frontend.form.address_details'|trans }}</label>
+        <input id="{{ type }}_details" class="form-control" name="{{ type }}_details" type="text" autocomplete="address-line2">
+        <div data-validate-for="{{ type }}_details" class="invalid-feedback d-block"></div>
+    </div>
+    {% if type == 'shipping' %}
+        <details class="mall-address-notes mb-3">
+            <summary class="mall-address-notes__summary">{{ 'kodzero.posmall::frontend.form.delivery_notes'|trans }}</summary>
+            <div class="mall-form-control mt-2">
+                <label for="{{ type }}_delivery_notes" class="form-label visually-hidden">{{ 'kodzero.posmall::frontend.form.delivery_notes'|trans }}</label>
+                <textarea id="{{ type }}_delivery_notes"
+                          class="form-control"
+                          name="{{ type }}_delivery_notes"
+                          rows="3"
+                          placeholder="{{ 'kodzero.posmall::frontend.form.delivery_notes_placeholder'|trans }}"></textarea>
+                <div class="form-text">{{ 'kodzero.posmall::frontend.form.delivery_notes_hint'|trans }}</div>
+                <div data-validate-for="{{ type }}_delivery_notes" class="invalid-feedback d-block"></div>
+            </div>
+        </details>
+    {% endif %}
+    <div class="mall-form-control mb-3">
+        <label for="{{ type }}_city" class="form-label">{{ 'kodzero.posmall::frontend.form.city'|trans }}</label>
+        <input id="{{ type }}_city" class="form-control" name="{{ type }}_city" type="text" autocomplete="address-level2">
+        <div data-validate-for="{{ type }}_city" class="invalid-feedback d-block"></div>
+    </div>
+    <div class="{{ __SELF__.useState ? 'mall-two-fields row g-3 mt-0' : 'mt-3' }}" id="countryState_{{ type }}">
+        {% partial __SELF__ ~ '::countrystate' type=type %}
+    </div>
+    <div class="mall-form-control mb-3">
+        <label for="{{ type }}_zip" class="form-label">{{ 'kodzero.posmall::frontend.form.zip'|trans }}</label>
+        <input id="{{ type }}_zip" class="form-control" name="{{ type }}_zip" type="text" list="{{ type }}_zip_suggestions" autocomplete="postal-code" inputmode="numeric">
+        <datalist id="{{ type }}_zip_suggestions"></datalist>
+        <div data-validate-for="{{ type }}_zip" class="invalid-feedback d-block"></div>
+    </div>
+</div>

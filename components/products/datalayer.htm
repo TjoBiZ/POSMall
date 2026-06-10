@@ -1,0 +1,94 @@
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    window.dataLayer = window.dataLayer || [];
+
+    var data = {{ __SELF__.dataLayer|raw }};
+
+    /**
+     * Send product impressions to Google Tag Manager.
+     */
+    window.dataLayer.push(data);
+
+    /**
+     * Build a lookup table by item id for fast click tracking.
+     */
+    var lookup = {};
+
+    if (
+        data &&
+        data.ecommerce &&
+        Array.isArray(data.ecommerce.impressions)
+    ) {
+        data.ecommerce.impressions.forEach(function (item) {
+            lookup[item.id] = item;
+        });
+    }
+
+    /**
+     * Track product clicks before navigation.
+     *
+     * Preserves the original behavior:
+     * - prevent immediate navigation;
+     * - show the October loading indicator;
+     * - push productClick to dataLayer;
+     * - navigate by eventCallback or by 500 ms fallback.
+     */
+    document.body.addEventListener('click', function (event) {
+        const link = event.target.closest('[data-mall-item-id]');
+
+        if (!link) {
+            return;
+        }
+
+        const item = lookup[link.dataset.mallItemId];
+
+        if (!item) {
+            return;
+        }
+
+        event.preventDefault();
+
+        if (
+            window.oc &&
+            window.oc.stripeLoadIndicator &&
+            typeof window.oc.stripeLoadIndicator.show === 'function'
+        ) {
+            window.oc.stripeLoadIndicator.show();
+        }
+
+        var callbackWasCalled = false;
+
+        var callback = function () {
+            if (callbackWasCalled) {
+                return;
+            }
+
+            callbackWasCalled = true;
+            document.location = link.href;
+        };
+
+        setTimeout(callback, 500);
+
+        window.dataLayer.push({
+            event: 'productClick',
+            ecommerce: {
+                click: {
+                    actionField: {
+                        list: 'Category {{ category.name }}'
+                    },
+                    products: [{
+                        name: item.name,
+                        id: item.id,
+                        price: item.price,
+                        brand: item.brand,
+                        category: item.cat,
+                        variant: item.variant,
+                        position: item.position
+                    }]
+                }
+            },
+            eventCallback: callback
+        });
+    });
+});
+</script>

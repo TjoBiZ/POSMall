@@ -1,0 +1,23 @@
+{% set fieldId = 'field-' ~ field.hashId %}
+<div class="mall-form-control mb-3">
+    <label for="{{ fieldId }}" class="mall-label form-label">{{ field.name }}</label>
+    <input type="hidden" data-mall-custom-field id="{{ fieldId }}" name="fields[{{ field.hashId }}]"
+           data-id="{{ field.hashId }}">
+    <div class="mall-field-image-selector d-flex flex-wrap gap-2">
+        {% for option in field.custom_field_options|default([]) %}
+            <a class="mall-option-selector d-block border rounded p-1" data-target="#{{ fieldId }}" data-value="{{ option.hashId }}">
+                {% set optimizedImage = posmall_image_sources(option.image, option.value|default(field.name), 'catalog') %}
+                {% set imageSrc = optimizedImage ? optimizedImage.jpeg : option.image.thumb(90, 90, null) %}
+                {% if optimizedImage and optimizedImage.webp %}
+                    <picture>
+                        <source srcset="{{ optimizedImage.webp }}" type="image/webp">
+                        <img src="{{ imageSrc }}" class="rounded" alt="{{ optimizedImage.alt }}"/>
+                    </picture>
+                {% else %}
+                    <img src="{{ imageSrc }}" class="rounded" alt=""/>
+                {% endif %}
+            </a>
+        {% endfor %}
+    </div>
+    <div data-validate-for="{{ field.hashId }}" class="invalid-feedback d-block"></div>
+</div>

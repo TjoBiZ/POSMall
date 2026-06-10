@@ -1,0 +1,17 @@
+{% if shipping.method|default(null) is not null %}
+    <tr class="mall-cart__shipping">
+        <td>
+            {{ shipping.method.name }}
+        </td>
+        <td class="text-end posmall-money-nowrap">
+            {{ shipping.totalPostTaxes|money }}
+        </td>
+    </tr>
+{% else %}
+    <tr class="mall-cart__shipping mall-cart__noShippingMethod">
+        <td>
+            {{ 'kodzero.posmall::frontend.no_shipping_method'|trans }}
+        </td>
+        <td></td>
+    </tr>
+{% endif %}

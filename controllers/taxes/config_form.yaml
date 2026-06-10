@@ -1,0 +1,12 @@
+name: kodzero.posmall::lang.common.taxes
+modelClass: KodZero\POSMall\Models\Tax
+form: $/kodzero/posmall/models/tax/fields.yaml
+defaultRedirect: kodzero/posmall/taxes
+create:
+    title: 'kodzero.posmall::lang.titles.taxes.create'
+    redirect: 'kodzero/posmall/taxes/update/:id'
+    redirectClose: kodzero/posmall/taxes
+update:
+    title: 'kodzero.posmall::lang.titles.taxes.update'
+    redirect: kodzero/posmall/taxes
+    redirectClose: kodzero/posmall/taxes

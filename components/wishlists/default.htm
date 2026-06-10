@@ -1,0 +1,16 @@
+<div class="mall-wishlists-manager row g-4">
+    {% if __SELF__.items.count|default(0) > 0 %}
+        <div class="mall-wishlists-manager__lists col-12 col-lg-4">
+            <div class="mall-wishlists list-group">
+                {% partial __SELF__ ~ '::list' items=__SELF__.items %}
+            </div>
+        </div>
+        <div class="mall-wishlists-manager__contents mall-wishlist-content col-12 col-lg-8">
+            {% partial __SELF__ ~ '::contents' item=__SELF__.currentItem %}
+        </div>
+    {% else %}
+        <div class="mall-wishlists-manager__well col-12">
+            {% partial __SELF__ ~ '::empty' %}
+        </div>
+    {% endif %}
+</div>

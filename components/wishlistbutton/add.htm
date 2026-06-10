@@ -1,0 +1,11 @@
+<div class="mall-wishlist-button__new input-group mt-2"
+     data-posmall-wishlist-create
+     data-handler="{{ __SELF__ }}::onCreate"
+     data-product-id="{{ __SELF__.encode(__SELF__.property('product')) }}"
+     data-variant-id="{{ __SELF__.encode(__SELF__.property('variant')) }}"
+     data-placeholder="{{ 'kodzero.posmall::frontend.wishlist.create_placeholder'|trans|e('html_attr') }}">
+    <input type="text" class="mall-wishlist-button__name-input form-control">
+    <div class="mall-wishlist-button__new-label input-group-text">
+        {{ 'kodzero.posmall::frontend.wishlist.create'|trans }}
+    </div>
+</div>

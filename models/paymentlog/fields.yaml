@@ -1,0 +1,65 @@
+fields:
+    failed:
+        label: 'kodzero.posmall::lang.order.status'
+        span: auto
+        path: $/kodzero/posmall/controllers/paymentlogs/_failed_callout.htm
+        type: partial
+    payment_method:
+        label: 'kodzero.posmall::lang.common.payment_method'
+        span: auto
+        cssClass: ''
+        path: $/kodzero/posmall/controllers/paymentlogs/_payment_method_callout.htm
+        type: partial
+    reference:
+        label: 'kodzero.posmall::lang.common.reference'
+        span: auto
+        readonly: 1
+        type: text
+    payment_provider:
+        label: 'kodzero.posmall::lang.common.payment_provider'
+        span: auto
+        readonly: 1
+        type: text
+    ip:
+        label: IP
+        span: auto
+        readonly: 1
+        type: text
+    session_id:
+        label: 'kodzero.posmall::lang.common.session_id'
+        span: auto
+        type: text
+        readonly: 1
+tabs:
+    fields:
+        code:
+            label: 'kodzero.posmall::lang.common.code'
+            span: auto
+            readonly: 1
+            type: partial
+            path: $/kodzero/posmall/controllers/paymentlogs/_data.htm
+            commentAbove: 'kodzero.posmall::lang.payment_log.message_comment'
+            tab: 'kodzero.posmall::lang.payment_log.payment_data'
+        message:
+            label: 'kodzero.posmall::lang.common.message'
+            span: auto
+            readonly: 1
+            type: partial
+            path: $/kodzero/posmall/controllers/paymentlogs/_data.htm
+            commentAbove: 'kodzero.posmall::lang.payment_log.message_comment'
+            tab: 'kodzero.posmall::lang.payment_log.payment_data'
+        data:
+            label: 'kodzero.posmall::lang.common.data'
+            span: auto
+            type: partial
+            path: $/kodzero/posmall/controllers/paymentlogs/_data.htm
+            commentAbove: 'kodzero.posmall::lang.payment_log.data_comment'
+            tab: 'kodzero.posmall::lang.payment_log.payment_data'
+        order_data:
+            label: 'kodzero.posmall::lang.order.data'
+            span: auto
+            cssClass: ''
+            path: $/kodzero/posmall/controllers/paymentlogs/_order_data.htm
+            type: partial
+            commentAbove: 'kodzero.posmall::lang.payment_log.order_data_comment'
+            tab: 'kodzero.posmall::lang.payment_log.payment_data'

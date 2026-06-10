@@ -1,0 +1,13 @@
+subject = "{{ 'kodzero.posmall::mail.order.shipped.subject' | trans() }}"
+description = "Sent when tracking information was added"
+==
+
+{{ 'kodzero.posmall::mail.common.hello' | trans({firstname: order.customer.firstname, lastname: order.customer.lastname}) }}
+
+{{ 'kodzero.posmall::mail.order.shipped.message' | trans({number: order.order_number}) }}
+
+{% partial 'posmall.order.tracking' order=order %}
+
+{% partial 'button' url=account_url type='primary' body %}
+    {{ 'kodzero.posmall::mail.common.view_order_status_online' | trans() }}
+{% endpartial %}

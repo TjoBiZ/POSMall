@@ -1,0 +1,20 @@
+<div class="mall-product row g-4 align-items-start"
+     data-posmall-product
+     data-component-alias="{{ __SELF__ }}"
+     data-item-slug="{{ item.slug|e('html_attr') }}"
+     data-stock-checking-text="{{ 'kodzero.posmall::frontend.stock.checking'|trans|e('html_attr') }}">
+    <div class="mall-product__info col-12 col-lg-7">
+        {% partial __SELF__ ~ '::info' %}
+    </div>
+    <div class="mall-product__cart col-12 col-lg-5">
+        <div class="card shadow-sm border-0 sticky-lg-top">
+            <div class="card-body">
+                {% partial __SELF__ ~ '::cart' %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if dataLayer|default(false) %}
+    {% partial __SELF__ ~ '::datalayer' %}
+{% endif %}

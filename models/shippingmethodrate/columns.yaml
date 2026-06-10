@@ -1,0 +1,17 @@
+columns:
+    from_weight:
+        label: 'kodzero.posmall::lang.shipping_method_rates.from_weight'
+        type: number
+        searchable: true
+        sortable: true
+    to_weight:
+        label: 'kodzero.posmall::lang.shipping_method_rates.to_weight'
+        type: number
+        searchable: true
+        sortable: true
+    price:
+        label: 'kodzero.posmall::lang.product.price'
+        type: partial
+        path: $/kodzero/posmall/models/shippingmethodrate/_price.htm
+        searchable: true
+        sortable: true

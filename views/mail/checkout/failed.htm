@@ -1,0 +1,12 @@
+subject = "{{ 'kodzero.posmall::mail.checkout.failed.subject' | trans({number: order.order_number}) }}"
+description = "Sent when a checkout has failed"
+==
+{{ 'kodzero.posmall::mail.common.hello' | trans({firstname: order.customer.firstname, lastname: order.customer.lastname}) }}
+
+{{ 'kodzero.posmall::mail.checkout.failed.problem_message' | trans() }}
+
+{{ 'kodzero.posmall::mail.checkout.failed.check_order_status' | trans() }}
+
+{% partial 'button' url=account_url type='primary' body %}
+    {{ 'kodzero.posmall::mail.common.view_order_status_online' | trans() }}
+{% endpartial %}

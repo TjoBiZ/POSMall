@@ -1,0 +1,8 @@
+# ===================================
+#  Import/Export Behavior Config
+# ===================================
+
+export:
+    title: kodzero.posmall::lang.titles.orders.export
+    modelClass: KodZero\POSMall\Models\OrderExport
+    list: $/kodzero/posmall/models/order/export_columns.yaml

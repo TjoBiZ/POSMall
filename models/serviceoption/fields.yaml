@@ -1,0 +1,14 @@
+fields:
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        span: auto
+        type: text
+    _prices:
+        label: 'kodzero.posmall::lang.product.price'
+        span: auto
+        type: posmall.price
+    description:
+        label: 'kodzero.posmall::lang.product.description'
+        size: small
+        span: full
+        type: richeditor

@@ -1,0 +1,16 @@
+<tr class="mall-cart__grand-total">
+    <td colspan="4" class="text-end">
+        {% if __SELF__.showShipping %}
+            {{ 'kodzero.posmall::frontend.grand_total'|trans }}
+        {% else %}
+            {{ 'kodzero.posmall::frontend.total'|trans }}
+        {% endif %}
+    </td>
+    <td class="text-end fw-bold h5 posmall-money-nowrap">
+        {% if __SELF__.showShipping %}
+            {{ totals.totalPostTaxes|money }}
+        {% else %}
+            {{ totals.productPostTaxes|money }}
+        {% endif %}
+    </td>
+</tr>

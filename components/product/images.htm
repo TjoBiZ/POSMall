@@ -1,0 +1,87 @@
+{% set productImages = images|default([]) %}
+{% set productVideos = videos|default([]) %}
+{% set imageCount = productImages|length %}
+{% set videoCount = productVideos|length %}
+{% set mediaCount = imageCount + videoCount %}
+
+{% if mediaCount > 0 %}
+    <div class="mall-product__images mb-4" data-mall-gallery>
+        <div class="mall-product__gallery-main ratio ratio-1x1 rounded overflow-hidden bg-body-tertiary border"
+             data-mall-gallery-main>
+            {% if imageCount > 0 %}
+                {% set image = productImages|first %}
+                {% set mainImage = posmall_image_sources(image, image.title|default(item.name|default('Product image')), 'product') %}
+                {% set mainImageSrc = mainImage ? mainImage.jpeg : (image.extension|default('') == 'svg' ? image.path : image.thumb(900, 900, null)) %}
+                <a class="mall-product__gallery-main-link d-block ratio ratio-1x1 rounded overflow-hidden bg-body-tertiary border"
+                   href="{{ image.path }}"
+                   data-mall-gallery-main-link>
+                    {% if mainImage and mainImage.webp %}
+                        <picture>
+                            <source srcset="{{ mainImage.webp }}" type="image/webp">
+                            <img src="{{ mainImageSrc }}"
+                                 class="mall-product__gallery-main-image w-100 h-100 object-fit-contain"
+                                 alt="{{ mainImage.alt }}"
+                                 data-mall-gallery-main-image>
+                        </picture>
+                    {% else %}
+                        <img src="{{ mainImageSrc }}"
+                             class="mall-product__gallery-main-image w-100 h-100 object-fit-contain"
+                             alt="{{ image.title|default(item.name|default('Product image')) }}"
+                             data-mall-gallery-main-image>
+                    {% endif %}
+                </a>
+            {% else %}
+                {% set video = productVideos|first %}
+                <iframe class="mall-product__gallery-main-frame"
+                        src="{{ video.embed_url|e('html_attr') }}"
+                        title="{{ video.title|e('html_attr') }}"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                        data-mall-gallery-main-frame></iframe>
+            {% endif %}
+        </div>
+
+        {% if mediaCount > 1 or videoCount > 0 %}
+            <div class="mall-product__gallery-thumbs d-flex flex-wrap gap-2 mt-3" role="list">
+                {% for image in productImages %}
+                    {% set galleryImage = posmall_image_sources(image, image.title|default(item.name|default('Product image')), 'product') %}
+                    {% set previewSrc = galleryImage ? galleryImage.jpeg : (image.extension|default('') == 'svg' ? image.path : image.thumb(900, 900, null)) %}
+                    {% set thumbSrc = image.extension|default('') == 'svg' ? image.path : image.thumb(120, 120, null) %}
+                    <button class="mall-product__gallery-thumb btn p-0 border rounded overflow-hidden {{ loop.first ? 'border-primary border-2' : '' }}"
+                            type="button"
+                            data-mall-gallery-thumb
+                            data-media-type="image"
+                            data-full-src="{{ image.path }}"
+                            data-preview-src="{{ previewSrc }}"
+                            data-preview-webp="{{ galleryImage and galleryImage.webp ? galleryImage.webp : '' }}"
+                            data-title="{{ image.title|default(item.name|default('Product image'))|e('html_attr') }}"
+                            aria-label="Image {{ loop.index }}">
+                        <img src="{{ thumbSrc }}"
+                             class="mall-product__gallery-thumb-image d-block object-fit-contain bg-body-tertiary"
+                             width="72"
+                             height="72"
+                             alt="{{ image.title|default(item.name|default('Product image')) }}">
+                    </button>
+                {% endfor %}
+                {% for video in productVideos %}
+                    <button class="mall-product__gallery-thumb mall-product__gallery-thumb--video btn p-0 border rounded overflow-hidden {{ imageCount == 0 and loop.first ? 'border-primary border-2' : '' }}"
+                            type="button"
+                            data-mall-gallery-thumb
+                            data-media-type="youtube"
+                            data-video-src="{{ video.embed_url|e('html_attr') }}"
+                            data-title="{{ video.title|e('html_attr') }}"
+                            aria-label="{{ video.title|e('html_attr') }}">
+                        <img src="{{ video.thumbnail_url|e('html_attr') }}"
+                             class="mall-product__gallery-thumb-image d-block object-fit-contain bg-body-tertiary"
+                             width="72"
+                             height="72"
+                             alt="{{ video.title }}">
+                        <span class="mall-product__gallery-thumb-play" aria-hidden="true"></span>
+                    </button>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="mall-product__images mall-product__images--empty ratio ratio-1x1 rounded bg-body-tertiary border mb-4"></div>
+{% endif %}

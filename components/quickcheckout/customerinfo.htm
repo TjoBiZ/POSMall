@@ -1,0 +1,26 @@
+<header class="mall-quick-checkout__collapsible-header card-header bg-transparent d-flex justify-content-between gap-3">
+    <h2 class="mall-quick-checkout__heading h5 mb-0">{{ 'kodzero.posmall::frontend.customer_information'|trans }}</h2>
+    <div class="mall-quick-checkout__collapsible-summary text-muted">
+        {{ __SELF__.cart.shipping_address.one_liner|default(null) }}
+    </div>
+</header>
+<section class="mall-quick-checkout__collapsible-content card-body">
+    <div class="mall-quick-checkout__collapsible-inner">
+        {% if __SELF__.user|default(null) %}
+            <div class="mall-cart-summary">
+                <div class="mall-cart-summary__info mall-cart-summary__info--two-columns row g-3">
+                    <div class="mall-cart-summary__billing-address col-12 col-md-6">
+                        <h4 class="mall-cart-summary__heading h6 text-uppercase text-muted">{{ 'kodzero.posmall::frontend.billing_address'|trans }}</h4>
+                        {% component 'billingAddressSelector' %}
+                    </div>
+                    <div class="mall-cart-summary__shipping-address col-12 col-md-6">
+                        <h4 class="mall-cart-summary__heading h6 text-uppercase text-muted">{{ 'kodzero.posmall::frontend.shipping_address'|trans }}</h4>
+                        {% component 'shippingAddressSelector' %}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            {% partial __SELF__ ~ '::signup' %}
+        {% endif %}
+    </div>
+</section>

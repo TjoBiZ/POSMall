@@ -1,0 +1,20 @@
+columns:
+    sort_order:
+        label: 'kodzero.posmall::lang.common.sort_order'
+        type: number
+        searchable: false
+        sortable: true
+        invisible: true
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        type: text
+    title:
+        label: 'kodzero.posmall::lang.price_category_settings.title_label'
+        type: text
+    code:
+        label: 'kodzero.posmall::lang.common.code'
+        type: text
+    is_enabled:
+        label: 'kodzero.posmall::lang.price_category_settings.is_enabled'
+        type: switch
+        searchable: true

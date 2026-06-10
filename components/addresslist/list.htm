@@ -1,0 +1,63 @@
+{% if __SELF__.addresses.count|default(0) > 0 %}
+    <div class="table-responsive">
+    <table class="mall-table mall-address-list__table table table-hover align-middle">
+        {% for address in __SELF__.addresses %}
+            <tr>
+                <td>
+                    {% if address.company %}
+                        {{ address.company }}<br/>
+                    {% endif %}
+                    {{ address.name }}<br/>
+                </td>
+                <td>
+                    {{ address.lines|e|nl2br }}<br/>
+                    {{ address.zip }} {{ address.city }}<br/>
+                    {% if address.state_id %}
+                        {{ address.state.name }}<br/>
+                    {% endif %}
+                    {{ address.country.name }}
+                    {% if address.delivery_notes|default(null) %}
+                        <div class="small text-muted mt-2">
+                            <strong>{{ 'kodzero.posmall::frontend.form.delivery_notes'|trans }}:</strong>
+                            {{ address.delivery_notes|e|nl2br }}
+                        </div>
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="mall-switcher__outer">
+                        <div class="mall-switcher">
+                            <a href="javascript:;" data-request="onChangeDefaultBillingAddress"
+                               data-request-data="id: '{{ address.hashId }}'" data-request-flash
+                               class="mall-switcher__item {{ __SELF__.defaultBillingAddressId == address.id ? 'mall-switcher__item--active' }}">
+                                {{ 'kodzero.posmall::frontend.billing_address'|trans }}
+                            </a>
+                            <a href="javascript:;" data-request="onChangeDefaultShippingAddress"
+                               data-request-data="id: '{{ address.hashId }}'" data-request-flash
+                               class="mall-switcher__item {{ __SELF__.defaultShippingAddressId == address.id ? 'mall-switcher__item--active' }}">
+                                {{ 'kodzero.posmall::frontend.shipping_address'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                </td>
+                <td class="mall-address-list__table-actions">
+                    <a href="{{ __SELF__.addressPage | page({address: address.hashId, redirect: 'account'}) }}"
+                       class="mall-btn mall-btn--sm btn btn-outline-primary btn-sm">
+                        {{ 'kodzero.posmall::frontend.edit'|trans }}
+                    </a>
+                    {% if __SELF__.addresses.count|default(0) > 1 %}
+                        <a href="javascript:;" data-request="onDelete" data-request-data="id: '{{ address.hashId }}'"
+                           data-request-confirm="{{ 'kodzero.posmall::frontend.are_you_sure'|trans }}" data-request-flash
+                           class="mall-btn mall-btn--sm btn btn-outline-danger btn-sm">
+                            {{ 'kodzero.posmall::frontend.delete'|trans }}
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+{% else %}
+    <div class="mall-callout alert alert-info mb-0">
+        {{ 'kodzero.posmall::frontend.empty'|trans }}
+    </div>
+{% endif %}

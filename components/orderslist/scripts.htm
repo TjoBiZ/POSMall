@@ -1,0 +1,35 @@
+{% put scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    /**
+     * Toggle order details row.
+     *
+     * Preserves the original behavior:
+     * - clicking an order row toggles the next table row;
+     * - clicking a link inside the row keeps the link behavior unchanged;
+     * - the is-open class is toggled on the clicked order row.
+     */
+    document.body.addEventListener('click', function (event) {
+        const orderRow = event.target.closest('.mall-orders-list__order');
+
+        if (!orderRow) {
+            return;
+        }
+
+        if (event.target.closest('a')) {
+            return;
+        }
+
+        const detailsRow = orderRow.nextElementSibling;
+
+        if (detailsRow && detailsRow.tagName.toLowerCase() === 'tr') {
+            const isHidden = detailsRow.style.display === 'none';
+
+            detailsRow.style.display = isHidden ? '' : 'none';
+        }
+
+        orderRow.classList.toggle('is-open');
+    });
+});
+</script>
+{% endput %}

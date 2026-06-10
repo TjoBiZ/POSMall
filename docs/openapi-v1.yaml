@@ -1,0 +1,514 @@
+openapi: 3.0.3
+info:
+  title: POSMall REST API
+  version: "1.0"
+  description: Public-safe POSMall REST API v1 contract. Runtime base path is /posmall/api/v1.
+servers:
+  - url: /posmall/api/v1
+security:
+  - bearerToken: []
+  - apiKeyHeader: []
+components:
+  securitySchemes:
+    bearerToken:
+      type: http
+      scheme: bearer
+      bearerFormat: POSMall API token
+    apiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-POSMall-API-Key
+  parameters:
+    VendorContext:
+      name: X-POSMall-Vendor
+      in: header
+      required: false
+      schema: {type: string}
+      description: Optional vendor slug context.
+    ChannelContext:
+      name: X-POSMall-Channel
+      in: header
+      required: false
+      schema: {type: string}
+      description: Optional channel slug context.
+    WarehouseContext:
+      name: X-POSMall-Warehouse
+      in: header
+      required: false
+      schema: {type: string}
+      description: Optional warehouse slug context.
+    Page:
+      name: page
+      in: query
+      required: false
+      schema: {type: integer, minimum: 1, default: 1}
+    PerPage:
+      name: per_page
+      in: query
+      required: false
+      schema: {type: integer, minimum: 1, maximum: 100}
+    CustomerId:
+      name: customer_id
+      in: query
+      required: true
+      schema: {type: integer}
+  schemas:
+    SuccessEnvelope:
+      type: object
+      required: [ok, data]
+      properties:
+        ok: {type: boolean, enum: [true]}
+        data:
+          type: object
+          additionalProperties: true
+    ErrorEnvelope:
+      type: object
+      required: [ok, error]
+      properties:
+        ok: {type: boolean, enum: [false]}
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: {type: string}
+            message: {type: string}
+            fields:
+              type: object
+              additionalProperties: true
+    AddressInput:
+      type: object
+      required: [name, lines, zip, city, country_id]
+      properties:
+        name: {type: string}
+        company: {type: string}
+        lines: {type: string}
+        zip: {type: string}
+        city: {type: string}
+        country_id: {type: integer}
+        state_id: {type: integer, nullable: true}
+        delivery_notes: {type: string, nullable: true}
+        default_billing: {type: boolean}
+        default_shipping: {type: boolean}
+    CartItemInput:
+      type: object
+      required: [customer_id, product_id]
+      properties:
+        customer_id: {type: integer}
+        product_id: {oneOf: [{type: integer}, {type: string}]}
+        variant_id: {oneOf: [{type: integer}, {type: string}], nullable: true}
+        quantity: {type: integer, minimum: 1}
+        service_option_ids:
+          type: array
+          items: {oneOf: [{type: integer}, {type: string}]}
+        service_options_per_quantity: {type: boolean}
+    CartQuantityInput:
+      type: object
+      required: [customer_id, quantity]
+      properties:
+        customer_id: {type: integer}
+        quantity: {type: integer, minimum: 1}
+    CustomerOnlyInput:
+      type: object
+      required: [customer_id]
+      properties:
+        customer_id: {type: integer}
+    CheckoutOrderInput:
+      type: object
+      required: [customer_id]
+      properties:
+        customer_id: {type: integer}
+        idempotency_key: {type: string, maxLength: 191}
+        customer_notes: {type: string, maxLength: 1000}
+        create_payment_link: {type: boolean}
+    FavoriteListInput:
+      type: object
+      required: [customer_id, name]
+      properties:
+        customer_id: {type: integer}
+        name: {type: string}
+    FavoriteItemInput:
+      type: object
+      required: [customer_id, product_id]
+      properties:
+        customer_id: {type: integer}
+        product_id: {oneOf: [{type: integer}, {type: string}]}
+        variant_id: {oneOf: [{type: integer}, {type: string}], nullable: true}
+        quantity: {type: integer, minimum: 1}
+  responses:
+    Ok:
+      description: Successful POSMall API response.
+      content:
+        application/json:
+          schema: {$ref: "#/components/schemas/SuccessEnvelope"}
+    Error:
+      description: Validation, auth, ownership, context, rate-limit or not-found error.
+      content:
+        application/json:
+          schema: {$ref: "#/components/schemas/ErrorEnvelope"}
+paths:
+  /status:
+    get:
+      tags: [status]
+      parameters: [{$ref: "#/components/parameters/VendorContext"}, {$ref: "#/components/parameters/ChannelContext"}, {$ref: "#/components/parameters/WarehouseContext"}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /categories:
+    get:
+      tags: [catalog]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /products:
+    get:
+      tags: [catalog]
+      parameters:
+        - {$ref: "#/components/parameters/Page"}
+        - {$ref: "#/components/parameters/PerPage"}
+        - {name: category, in: query, required: false, schema: {type: string}}
+        - {name: include_children, in: query, required: false, schema: {type: boolean}}
+        - {name: include_variants, in: query, required: false, schema: {type: boolean}}
+        - {name: sort, in: query, required: false, schema: {type: string}}
+        - {$ref: "#/components/parameters/VendorContext"}
+        - {$ref: "#/components/parameters/ChannelContext"}
+        - {$ref: "#/components/parameters/WarehouseContext"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /products/{slug}:
+    get:
+      tags: [catalog]
+      parameters:
+        - {name: slug, in: path, required: true, schema: {type: string}}
+        - {$ref: "#/components/parameters/VendorContext"}
+        - {$ref: "#/components/parameters/ChannelContext"}
+        - {$ref: "#/components/parameters/WarehouseContext"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /products/{slug}/reviews:
+    get:
+      tags: [reviews]
+      parameters:
+        - {name: slug, in: path, required: true, schema: {type: string}}
+        - {$ref: "#/components/parameters/Page"}
+        - {$ref: "#/components/parameters/PerPage"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+    post:
+      tags: [reviews]
+      parameters:
+        - {name: slug, in: path, required: true, schema: {type: string}}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {type: object, additionalProperties: true}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /brands:
+    get:
+      tags: [discovery]
+      parameters: [{$ref: "#/components/parameters/Page"}, {$ref: "#/components/parameters/PerPage"}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /brands/{slug}:
+    get:
+      tags: [discovery]
+      parameters: [{name: slug, in: path, required: true, schema: {type: string}}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /brands/{slug}/products:
+    get:
+      tags: [discovery]
+      parameters:
+        - {name: slug, in: path, required: true, schema: {type: string}}
+        - {$ref: "#/components/parameters/Page"}
+        - {$ref: "#/components/parameters/PerPage"}
+        - {$ref: "#/components/parameters/VendorContext"}
+        - {$ref: "#/components/parameters/ChannelContext"}
+        - {$ref: "#/components/parameters/WarehouseContext"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /properties:
+    get:
+      tags: [discovery]
+      parameters:
+        - {name: category, in: query, required: false, schema: {type: string}}
+        - {name: with_values, in: query, required: false, schema: {type: boolean}}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /vendors:
+    get:
+      tags: [context]
+      parameters: [{$ref: "#/components/parameters/Page"}, {$ref: "#/components/parameters/PerPage"}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /vendors/{slug}:
+    get:
+      tags: [context]
+      parameters: [{name: slug, in: path, required: true, schema: {type: string}}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /vendors/{slug}/products:
+    get:
+      tags: [context]
+      parameters:
+        - {name: slug, in: path, required: true, schema: {type: string}}
+        - {$ref: "#/components/parameters/Page"}
+        - {$ref: "#/components/parameters/PerPage"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /channels:
+    get:
+      tags: [context]
+      parameters: [{$ref: "#/components/parameters/Page"}, {$ref: "#/components/parameters/PerPage"}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /channels/{slug}:
+    get:
+      tags: [context]
+      parameters: [{name: slug, in: path, required: true, schema: {type: string}}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /warehouses:
+    get:
+      tags: [context]
+      parameters: [{$ref: "#/components/parameters/Page"}, {$ref: "#/components/parameters/PerPage"}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /warehouses/{slug}:
+    get:
+      tags: [context]
+      parameters: [{name: slug, in: path, required: true, schema: {type: string}}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /warehouses/{slug}/stock:
+    get:
+      tags: [context]
+      parameters:
+        - {name: slug, in: path, required: true, schema: {type: string}}
+        - {$ref: "#/components/parameters/Page"}
+        - {$ref: "#/components/parameters/PerPage"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /services:
+    get:
+      tags: [services]
+      parameters: [{$ref: "#/components/parameters/Page"}, {$ref: "#/components/parameters/PerPage"}, {$ref: "#/components/parameters/VendorContext"}, {$ref: "#/components/parameters/ChannelContext"}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /services/{code}:
+    get:
+      tags: [services]
+      parameters:
+        - {name: code, in: path, required: true, schema: {type: string}}
+        - {$ref: "#/components/parameters/VendorContext"}
+        - {$ref: "#/components/parameters/ChannelContext"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /services/{code}/cart:
+    post:
+      tags: [services, cart]
+      parameters:
+        - {name: code, in: path, required: true, schema: {type: string}}
+        - {$ref: "#/components/parameters/VendorContext"}
+        - {$ref: "#/components/parameters/ChannelContext"}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [customer_id, service_id, service_option_ids]
+              properties:
+                customer_id: {type: integer}
+                service_id: {type: integer}
+                service_option_ids:
+                  type: array
+                  items: {type: integer}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /cart:
+    get:
+      tags: [cart]
+      parameters: [{$ref: "#/components/parameters/CustomerId"}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /cart/items:
+    post:
+      tags: [cart]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/CartItemInput"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /cart/items/{item}:
+    patch:
+      tags: [cart]
+      parameters: [{name: item, in: path, required: true, schema: {type: integer}}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/CartQuantityInput"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+    delete:
+      tags: [cart]
+      parameters: [{name: item, in: path, required: true, schema: {type: integer}}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/CustomerOnlyInput"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /cart/discounts:
+    post:
+      tags: [cart]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [customer_id, code]
+              properties:
+                customer_id: {type: integer}
+                code: {type: string}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /cart/address:
+    post:
+      tags: [cart]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [customer_id, address_id, type]
+              properties:
+                customer_id: {type: integer}
+                address_id: {type: integer}
+                type: {type: string, enum: [shipping, billing, both]}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /cart/shipping-methods:
+    get:
+      tags: [cart]
+      parameters: [{$ref: "#/components/parameters/CustomerId"}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /cart/shipping-method:
+    post:
+      tags: [cart]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [customer_id, shipping_method_id]
+              properties:
+                customer_id: {type: integer}
+                shipping_method_id: {type: integer}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /cart/payment-methods:
+    get:
+      tags: [cart]
+      parameters: [{$ref: "#/components/parameters/CustomerId"}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /cart/payment-method:
+    post:
+      tags: [cart]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [customer_id, payment_method_id]
+              properties:
+                customer_id: {type: integer}
+                payment_method_id: {type: integer}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /cart/tax-preview:
+    get:
+      tags: [cart, tax]
+      parameters: [{$ref: "#/components/parameters/CustomerId"}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /checkout/orders:
+    post:
+      tags: [checkout]
+      parameters: [{$ref: "#/components/parameters/VendorContext"}, {$ref: "#/components/parameters/ChannelContext"}, {$ref: "#/components/parameters/WarehouseContext"}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/CheckoutOrderInput"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /orders:
+    get:
+      tags: [orders]
+      parameters: [{$ref: "#/components/parameters/CustomerId"}, {$ref: "#/components/parameters/Page"}, {$ref: "#/components/parameters/PerPage"}, {$ref: "#/components/parameters/VendorContext"}, {$ref: "#/components/parameters/ChannelContext"}, {$ref: "#/components/parameters/WarehouseContext"}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /orders/{hash}:
+    get:
+      tags: [orders]
+      parameters:
+        - {name: hash, in: path, required: true, schema: {type: string}}
+        - {$ref: "#/components/parameters/CustomerId"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /orders/{hash}/status:
+    get:
+      tags: [orders]
+      parameters:
+        - {name: hash, in: path, required: true, schema: {type: string}}
+        - {$ref: "#/components/parameters/CustomerId"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /customers/{customer}:
+    get:
+      tags: [customers]
+      parameters: [{name: customer, in: path, required: true, schema: {type: integer}}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /customers/{customer}/addresses:
+    get:
+      tags: [customers]
+      parameters: [{name: customer, in: path, required: true, schema: {type: integer}}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+    post:
+      tags: [customers]
+      parameters: [{name: customer, in: path, required: true, schema: {type: integer}}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/AddressInput"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, "201": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /customers/{customer}/addresses/{address}:
+    patch:
+      tags: [customers]
+      parameters:
+        - {name: customer, in: path, required: true, schema: {type: integer}}
+        - {name: address, in: path, required: true, schema: {type: integer}}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/AddressInput"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /customers/{customer}/orders:
+    get:
+      tags: [customers, orders]
+      parameters:
+        - {name: customer, in: path, required: true, schema: {type: integer}}
+        - {$ref: "#/components/parameters/Page"}
+        - {$ref: "#/components/parameters/PerPage"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /favorite-lists:
+    get:
+      tags: [favorites]
+      parameters: [{$ref: "#/components/parameters/CustomerId"}]
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+    post:
+      tags: [favorites]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/FavoriteListInput"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, "201": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /favorite-lists/{list}/items:
+    post:
+      tags: [favorites]
+      parameters: [{name: list, in: path, required: true, schema: {type: integer}}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/FavoriteItemInput"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, "201": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}
+  /favorite-lists/{list}/items/{item}:
+    delete:
+      tags: [favorites]
+      parameters:
+        - {name: list, in: path, required: true, schema: {type: integer}}
+        - {name: item, in: path, required: true, schema: {type: integer}}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/CustomerOnlyInput"}
+      responses: {"200": {$ref: "#/components/responses/Ok"}, default: {$ref: "#/components/responses/Error"}}

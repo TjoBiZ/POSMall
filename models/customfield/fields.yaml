@@ -1,0 +1,43 @@
+fields:
+    required:
+        label: 'kodzero.posmall::lang.custom_fields.required'
+        span: left
+        type: switch
+        comment: 'kodzero.posmall::lang.custom_fields.required_comment'
+    _prices:
+        label: 'kodzero.posmall::lang.product.price'
+        span: right
+        type: posmall.price
+    name:
+        label: 'kodzero.posmall::lang.custom_fields.name'
+        oc.commentPosition: ''
+        span: auto
+        type: text
+
+    _type_dropdown:
+        label: 'kodzero.posmall::lang.custom_fields.type'
+        oc.commentPosition: ''
+        options:
+            text: 'kodzero.posmall::lang.custom_field_options.text'
+            textarea: 'kodzero.posmall::lang.custom_field_options.textarea'
+            checkbox: 'kodzero.posmall::lang.custom_field_options.checkbox'
+            dropdown: 'kodzero.posmall::lang.custom_field_options.dropdown'
+            image: 'kodzero.posmall::lang.custom_field_options.image'
+            color: 'kodzero.posmall::lang.custom_field_options.color'
+        span: auto
+        type: dropdown
+
+    options:
+        type: partial
+        path: $/kodzero/posmall/controllers/customfields/_field_options.htm
+        trigger:
+            action: show
+            field: _type_dropdown
+            condition: value[dropdown][image][color]
+
+    type:
+        label: 'kodzero.posmall::lang.custom_fields.type'
+        oc.commentPosition: ''
+        span: auto
+        type: text
+        cssClass: 'hide oc-hide'

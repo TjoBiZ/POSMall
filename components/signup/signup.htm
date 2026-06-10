@@ -1,0 +1,80 @@
+<form data-request="onSignup" data-request-validate data-request-flash>
+    {{ form_token() }}
+    <h3 class="mall-signup__heading h4 mb-3">{{ 'kodzero.posmall::frontend.signup.signup'|trans }}</h3>
+
+    <div class="mall-form-control mb-3">
+        <label for="signup_email" class="form-label">{{ 'kodzero.posmall::frontend.form.email'|trans }}</label>
+        <input id="signup_email" class="form-control" type="email" placeholder="email@email.com" name="email">
+        <div data-validate-for="email" class="invalid-feedback d-block"></div>
+    </div>
+    <div class="mall-two-fields row g-3">
+        <div class="mall-form-control col-12 col-md-6">
+            <label for="firstname" class="form-label">{{ 'kodzero.posmall::frontend.form.firstname'|trans }}</label>
+            <input id="firstname" class="form-control" type="text" name="firstname">
+            <div data-validate-for="firstname" class="invalid-feedback d-block"></div>
+        </div>
+        <div class="mall-form-control col-12 col-md-6">
+            <label for="lastname" class="form-label">{{ 'kodzero.posmall::frontend.form.lastname'|trans }}</label>
+            <input id="lastname" class="form-control" type="text" name="lastname">
+            <div data-validate-for="lastname" class="invalid-feedback d-block"></div>
+        </div>
+    </div>
+
+    <div class="mall-signup__guest-option form-check my-3">
+        <input class="js-mall-toggle-guest-signup form-check-input"
+                   id="as_guest"
+                   type="checkbox" name="as_guest"
+                   value="1">
+        <label class="mall-checkbox form-check-label" for="as_guest">
+            {{ 'kodzero.posmall::frontend.signup.as_guest'|trans }}
+        </label>
+    </div>
+
+    <div class="mall-signup__password-inputs">
+        <div class="mall-two-fields row g-3">
+            <div class="mall-form-control col-12 col-md-6">
+                <label for="signup_password" class="form-label">{{ 'kodzero.posmall::frontend.form.password'|trans }}</label>
+                <input id="signup_password" class="form-control" type="password" name="password">
+                <div data-validate-for="password" class="invalid-feedback d-block"></div>
+            </div>
+            <div class="mall-form-control col-12 col-md-6">
+                <label for="password_repeat" class="form-label">{{ 'kodzero.posmall::frontend.form.password_repeat'|trans }}</label>
+                <input id="password_repeat" class="form-control" type="password" name="password_repeat">
+                <div data-validate-for="password_repeat" class="invalid-feedback d-block"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mall-signup__billing-address mt-4">
+        <h3 class="mall-signup__subheading h5">
+            {{ 'kodzero.posmall::frontend.address'|trans }}
+        </h3>
+
+        {% partial __SELF__ ~ '::addressform' type='billing' %}
+
+        <div class="mall-signup__shipping-address-option form-check my-3">
+            <input class="js-mall-toggle-shipping-address form-check-input"
+                       id="use_different_shipping"
+                       type="checkbox"
+                       name="use_different_shipping" value="1">
+            <label class="mall-checkbox form-check-label" for="use_different_shipping">
+                {{ 'kodzero.posmall::frontend.signup.different_address'|trans }}
+            </label>
+        </div>
+    </div>
+
+    <div class="mall-shipping-address" style="display: none">
+        <h3 class="mall-signup__subheading h5">
+            {{ 'kodzero.posmall::frontend.shipping_address'|trans }}
+        </h3>
+        {% partial __SELF__ ~ '::addressform' type='shipping' %}
+    </div>
+
+    {% partial __SELF__ ~ '::terms' %}
+
+    <div class="mall-form-actions d-grid">
+        <button class="mall-btn mall-btn-signup mall-btn--primary mall-btn--full btn btn-primary btn-lg" type="submit">
+            {{ 'kodzero.posmall::frontend.proceed_to_checkout'|trans }}
+        </button>
+    </div>
+</form>

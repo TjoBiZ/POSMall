@@ -1,0 +1,30 @@
+<div>
+    <div class="mall-form-control mb-3">
+        <label for="posmall_address_id" class="form-label">{{ 'kodzero.posmall::frontend.address_selector.select'|trans }}</label>
+        <select id="posmall_address_id" name="id" class="form-select">
+            {% for address in addresses|default([]) %}
+                <option value="{{ address.id }}" {{ address.id == activeAddress ? 'selected' : '' }}>
+                    {{ address.oneLiner }}
+                </option>
+            {% endfor %}
+            <option value="new">
+                {{ 'kodzero.posmall::frontend.address_selector.create'|trans }}
+            </option>
+        </select>
+        <div data-validate-for="id" class="invalid-feedback d-block"></div>
+    </div>
+
+    <div class="mall-form-actions d-flex flex-column flex-md-row gap-2">
+        <button class="mall-btn mall-btn--primary mall-btn--sm js-change-address-apply"
+                data-request="{{ __SELF__ }}::onUpdateAddress"
+                data-request-validate
+                data-request-success="window.POSMallBus && window.POSMallBus.publish('posmall.address.update')"
+                type="submit">
+            {{ 'kodzero.posmall::frontend.apply'|trans }}
+        </button>
+        <a href="{{ __SELF__.addressPage|page({address: address.hashId, redirect: __SELF__.property('redirect')}) }}"
+           class="mall-btn mall-btn--link mall-btn--sm btn btn-outline-secondary">
+            {{ 'kodzero.posmall::frontend.address_selector.edit'|trans }}
+        </a>
+    </div>
+</div>

@@ -1,0 +1,196 @@
+fields:
+    is_enabled:
+        type: switch
+        label: kodzero.posmall::lang.tax.is_enabled
+        span: left
+        default: true
+        comment: '&nbsp;'
+    is_default:
+        type: switch
+        label: kodzero.posmall::lang.tax.set_as_default
+        span: right
+        comment: 'kodzero.posmall::lang.tax.set_as_default_comment'
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        oc.commentPosition: ''
+        span: left
+        type: text
+    percentage:
+        label: 'kodzero.posmall::lang.tax.percentage'
+        oc.commentPosition: ''
+        span: right
+        type: number
+        attributes:
+            step: 0.0001
+            min: 0
+            max: 100
+    state_codes:
+        label: Applies to states
+        comment: USA state codes covered by this tax rate. Use comma, semicolon or dot separators, for example WA, CA.
+        span: left
+        type: text
+    state_code:
+        label: Primary state
+        comment: Optional primary two-letter USA state code for imports/history. If empty, the first Applies to states code is used.
+        span: right
+        type: text
+    rate_percent:
+        label: USA rate percent
+        comment: USA tax rate snapshot. Defaults to Percentage when empty.
+        span: left
+        type: number
+        attributes:
+            step: 0.0001
+            min: 0
+            max: 100
+    tax_group_code:
+        label: Tax group code
+        span: left
+        type: text
+    tax_group_name:
+        label: Tax group name
+        span: right
+        type: text
+    tax_group_description:
+        label: Tax group description
+        size: small
+        span: left
+        type: textarea
+    tax_main_group:
+        label: Main business group
+        comment: 'Normalized parent group: physical, service, virtual, or general.'
+        span: right
+        type: text
+    tax_main_group_name:
+        label: Main business group name
+        span: left
+        type: text
+    tax_group_code_rows_preview:
+        label: Covered tax group rows
+        span: full
+        type: partial
+        path: $/kodzero/posmall/models/tax/_tax_group_code_rows.htm
+    jurisdiction_type:
+        label: Jurisdiction type
+        span: left
+        type: text
+    jurisdiction_name:
+        label: Jurisdiction name
+        span: right
+        type: text
+    jurisdiction_code:
+        label: Jurisdiction code
+        span: left
+        type: text
+    state_rate_percent:
+        label: State rate percent
+        span: right
+        type: number
+        attributes:
+            step: 0.0001
+            min: 0
+            max: 100
+    local_rate_percent:
+        label: Local rate percent
+        span: left
+        type: number
+        attributes:
+            step: 0.0001
+            min: 0
+            max: 100
+    zip_code_hints:
+        label: ZIP code hints
+        comment: Informational ZIP-5 hints only. Use exact address or ZIP+4 boundary lookup for final local tax matching.
+        span: right
+        type: text
+    zip_code_ranges:
+        label: ZIP code ranges
+        comment: Checkout ZIP matcher input. Use single ZIPs or ranges, for example 98101-98109, 98112.
+        span: left
+        type: textarea
+        size: small
+    boundary_source_url:
+        label: Boundary source URL
+        span: right
+        type: text
+    description:
+        label: Description
+        size: small
+        span: right
+        type: textarea
+    is_active:
+        label: USA tax record active
+        comment: Keep enabled for records that can be selected by the USA tax resolver.
+        span: left
+        default: true
+        type: switch
+    source_type:
+        label: Source type
+        span: right
+        type: dropdown
+        options:
+            JSON: JSON
+            CSV: CSV
+            TXT: TXT
+            XML: XML
+            XLSX: XLSX
+            HTML: HTML
+            HTML_TABLE: HTML_TABLE
+            MANUAL: MANUAL
+            HTML_EXCEL_CSV: HTML_EXCEL_CSV
+            CSV_ZIP: CSV_ZIP
+            XML_TEXT: XML_TEXT
+            TXT_XLSX_HTML: TXT_XLSX_HTML
+            HTML_DOWNLOADS: HTML_DOWNLOADS
+    source_name:
+        label: Source name
+        span: left
+        type: text
+    parser_name:
+        label: Parser adapter
+        span: right
+        type: text
+    source_url:
+        label: Source URL
+        span: left
+        type: text
+        comment: If this tax was imported from an official source, POSMall can refresh it when auto-update is enabled for this row and the daily POSMall tax update cron runs.
+    usa_auto_update_enabled:
+        label: Auto-update this tax from source
+        span: right
+        type: switch
+        default: false
+        comment: Applies only to source-backed tax rows. The global daily switch and daily POSMall tax update cron must also be enabled. POSMall skips suspicious positive-to-zero automatic changes so a broken source cannot silently erase a live rate.
+    source_hash:
+        label: Source hash
+        span: right
+        type: text
+    effective_from:
+        label: Effective from
+        span: left
+        type: datepicker
+        mode: date
+    effective_to:
+        label: Effective to
+        span: right
+        type: datepicker
+        mode: date
+    imported_at:
+        label: Imported at
+        span: left
+        type: datepicker
+        mode: datetime
+    countries:
+        label: 'kodzero.posmall::lang.tax.countries'
+        nameFrom: name
+        descriptionFrom: description
+        span: auto
+        type: relation
+        comment: 'kodzero.posmall::lang.tax.countries_comment'
+    states:
+        label: 'kodzero.posmall::lang.tax.states'
+        nameFrom: name
+        descriptionFrom: description
+        span: auto
+        type: relation
+        comment: 'kodzero.posmall::lang.tax.states_comment'

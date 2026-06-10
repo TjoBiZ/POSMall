@@ -1,0 +1,12 @@
+name: 'kodzero.posmall::lang.common.customer_groups'
+modelClass: KodZero\POSMall\Models\CustomerGroup
+form: $/kodzero/posmall/models/customergroup/fields.yaml
+defaultRedirect: kodzero/posmall/customergroups
+create:
+    title: 'kodzero.posmall::lang.titles.customer_groups.create'
+    redirect: 'kodzero/posmall/customergroups/update/:id'
+    redirectClose: kodzero/posmall/customergroups
+update:
+    title: 'kodzero.posmall::lang.titles.customer_groups.update'
+    redirect: kodzero/posmall/customergroups
+    redirectClose: kodzero/posmall/customergroups

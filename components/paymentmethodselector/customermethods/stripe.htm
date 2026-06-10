@@ -1,0 +1,11 @@
+<div class="mall-payment-customer-method__name fw-semibold">
+    {{ method.name }}
+</div>
+<div class="mall-payment-customer-method__meta small text-muted d-flex gap-2">
+    <div>
+        {{ method.data.stripe_card_brand }}
+    </div>
+    <div>
+        {{ method.data.stripe_card_last4 }}
+    </div>
+</div>

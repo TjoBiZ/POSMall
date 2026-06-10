@@ -1,0 +1,23 @@
+<div class="mall-checkout-result mall-checkout-result--failed alert alert-danger">
+    {% if __SELF__.order|default(null) %}
+        <h3 class="mall-checkout-result__heading h4">{{ 'kodzero.posmall::frontend.checkout.payment.failed.heading'|trans }}</h3>
+        <p>{{ 'kodzero.posmall::frontend.checkout.payment.failed.line_1'|trans }}</p>
+        <p>{{ 'kodzero.posmall::frontend.checkout.payment.failed.line_2'|trans }}</p>
+        {% if __SELF__.paymentError %}
+            <p>
+                {{ 'kodzero.posmall::frontend.checkout.payment.failed.line_3'|trans }}<br/>
+                <strong>{{ __SELF__.paymentError }}</strong>
+            </p>
+        {% endif %}
+        {% if __SELF__.order.payment_state_label|default(null) %}
+            <div class="mall-checkout-result__state small">
+                <span class="text-muted">{{ 'kodzero.posmall::frontend.order.payment_state'|trans }}:</span>
+                <span class="badge bg-danger">{{ __SELF__.order.payment_state_label }}</span>
+            </div>
+        {% endif %}
+    {% else %}
+        <h3 class="mall-checkout-result__heading h4">{{ 'kodzero.posmall::frontend.checkout.order.failed.heading'|trans }}</h3>
+        <p>{{ 'kodzero.posmall::frontend.checkout.order.failed.line_1'|trans }}</p>
+    {% endif %}
+    {% partial __SELF__ ~ '::resultactions' %}
+</div>

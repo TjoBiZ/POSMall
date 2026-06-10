@@ -1,0 +1,32 @@
+columns:
+    sort_order:
+        label: 'kodzero.posmall::lang.common.sort_order'
+        type: number
+        searchable: false
+        sortable: true
+        invisible: true
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        type: text
+        searchable: true
+        sortable: true
+    description:
+        label: 'kodzero.posmall::lang.product.description'
+        type: text
+        searchable: true
+        sortable: true
+    website:
+        label: 'kodzero.posmall::lang.common.website'
+        type: text
+        searchable: true
+        sortable: true
+    created_at:
+        label: 'kodzero.posmall::lang.common.created_at'
+        type: datetime
+        invisible: true
+        sortable: true
+    updated_at:
+        label: 'kodzero.posmall::lang.order.updated'
+        type: datetime
+        invisible: true
+        sortable: true

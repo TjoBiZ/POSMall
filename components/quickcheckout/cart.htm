@@ -1,0 +1,6 @@
+{% if __SELF__.cart.products.count|default(0) < 1 %}
+    <div class="alert alert-info mb-0">{{ 'kodzero.posmall::frontend.cart.empty'|trans }}</div>
+{% else %}
+    {% partial __SELF__ ~ '::carttable/base' %}
+    <div data-validate-for="cart" class="invalid-feedback d-block"></div>
+{% endif %}

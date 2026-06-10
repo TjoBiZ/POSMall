@@ -1,0 +1,21 @@
+<div class="mall-filter mall-filter--set mall-filter-category-list mall-filter-category-list--level-{{ level }} {{ level > 1 ? 'mall-filter-category-list--nested' }}">
+    {% set selected = filter['category_id'].values|default([]) %}
+    {% for category in categories %}
+        {% set isSelected = category.id in selected %}
+        <label class="js-mall-filter mall-filter__option form-check mb-1 {{ isSelected ? 'mall-filter__option--selected' : '' }}"
+               data-posmall-category-filter-option>
+            <input type="checkbox"
+                   class="form-check-input"
+                   name="filter[category_id][]"
+                   value="{{ category.id }}"
+                {% if isSelected %}
+                    checked
+                {% endif %}
+            >
+            <span class="mall-label mall-label--checkbox form-check-label">{{ category.name }}</span>
+        </label>
+        {% if category.children|length > 0 %}
+            {% partial __SELF__ ~ '::category_checkboxes' categories=category.children level=level+1 %}
+        {% endif %}
+    {% endfor %}
+</div>

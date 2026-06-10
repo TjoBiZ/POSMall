@@ -1,0 +1,16 @@
+columns:
+    warehouse:
+        label: Warehouse
+        relation: warehouse
+        select: name
+    variant:
+        label: Variant
+        relation: variant
+        select: name
+    stock:
+        label: Stock
+        type: number
+    updated_at:
+        label: Updated
+        type: datetime
+        invisible: true

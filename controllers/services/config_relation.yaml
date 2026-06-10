@@ -1,0 +1,39 @@
+options:
+    label: 'kodzero.posmall::lang.services.option'
+    view:
+        list: $/kodzero/posmall/models/serviceoption/columns.yaml
+        toolbarButtons: create|delete
+        defaultSort: ['sort_order',  'ASC']
+    manage:
+        form: $/kodzero/posmall/models/serviceoption/fields.yaml
+        recordsPerPage: 10
+    structure:
+        showTree: false
+        showReorder: true
+        showSorting: true
+        dragRow: true
+
+products:
+    label: 'kodzero.posmall::lang.common.products'
+    view:
+        showSearch: true
+        list: $/kodzero/posmall/models/product/columns.yaml
+        toolbarButtons: add|remove
+        recordUrl: 'kodzero/posmall/products/update/:id'
+    manage:
+        showSearch: true
+        list: $/kodzero/posmall/models/product/columns.yaml
+        recordsPerPage: 10
+    pivot:
+        form: $/kodzero/posmall/models/service/fields_pivot.yaml
+
+
+taxes:
+    label: 'kodzero.posmall::lang.common.taxes'
+    view:
+        list: $/kodzero/posmall/models/tax/columns.yaml
+        toolbarButtons: add|create|remove
+    manage:
+        form: $/kodzero/posmall/models/tax/fields.yaml
+        recordsPerPage: 10
+    deferredBinding: true

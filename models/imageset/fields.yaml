@@ -1,0 +1,21 @@
+fields:
+    is_main_set:
+        label: 'kodzero.posmall::lang.image_sets.is_main_set'
+        comment: 'kodzero.posmall::lang.image_sets.is_main_set_comment'
+        span: left
+        type: switch
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        span: right
+        type: text
+    images:
+        label: 'kodzero.posmall::lang.common.images'
+        mode: image
+        imageWidth: '200'
+        imageHeight: '200'
+        useCaption: true
+        thumbOptions:
+            mode: crop
+            extension: auto
+        span: full
+        type: fileupload

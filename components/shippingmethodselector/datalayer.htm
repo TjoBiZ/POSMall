@@ -1,0 +1,92 @@
+{% if url is defined and url != null %}
+    <script>
+        /**
+         * Redirect after the checkout/shipping dataLayer event is pushed.
+         *
+         * Preserves the POSMall behavior:
+         * - attach redirect as dataLayer eventCallback;
+         * - use a 500 ms fallback redirect;
+         * - push the prepared window.dataLayerData object.
+         */
+        var redirect = function () {
+            document.location = '{{ url }}';
+        };
+
+        window.dataLayerData.eventCallback = redirect;
+        setTimeout(redirect, 500);
+
+        dataLayer.push(window.dataLayerData);
+    </script>
+{% else %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            /**
+             * Subscribe to Mall frontend events using vanilla JavaScript.
+             *
+             * The previous implementation used:
+             * - frontend event subscription for posmall.cart.shippingMethodChanged
+             *
+             * The vanilla JS version uses the project-level POSMallBus event bus.
+             */
+            function subscribe(eventName, callback) {
+                if (window.POSMallBus && typeof window.POSMallBus.subscribe === 'function') {
+                    window.POSMallBus.subscribe(eventName, callback);
+                    return;
+                }
+
+                document.addEventListener(eventName, function (event) {
+                    callback(event.detail || {});
+                });
+            }
+
+            /**
+             * Build the Google Tag Manager checkout data object for the selected shipping method.
+             *
+             * Preserves the original data flow:
+             * - base object comes from {{ 'dataLayer' }} passed by the component;
+             * - checkout action field is replaced with step 2;
+             * - method is taken from method.name.
+             */
+            function dataWithShippingMethod(method) {
+                var dataLayerPayload = {{ dataLayer|json_encode|raw }};
+
+                if (!dataLayerPayload.ecommerce) {
+                    dataLayerPayload.ecommerce = {};
+                }
+
+                if (!dataLayerPayload.ecommerce.checkout) {
+                    dataLayerPayload.ecommerce.checkout = {};
+                }
+
+                dataLayerPayload.ecommerce.checkout.actionField = {
+                    step: 2,
+                    method: method && method.name ? method.name : null
+                };
+
+                return dataLayerPayload;
+            }
+
+            /**
+             * Initialize dataLayerData from the currently active shipping method.
+             */
+            window.dataLayerData = dataWithShippingMethod({{ cart.shipping_method|json_encode|raw }});
+
+            /**
+             * Update dataLayerData when the user selects another shipping method.
+             *
+             * Preserves:
+             * - event name: posmall.cart.shippingMethodChanged;
+             * - input data: data.method;
+             * - output target: window.dataLayerData.
+             */
+            subscribe('posmall.cart.shippingMethodChanged', function (data) {
+                if (!data || !data.method) {
+                    return;
+                }
+
+                window.dataLayerData = dataWithShippingMethod(data.method);
+            });
+        });
+    </script>
+    <div id="mall-datalayer"></div>
+{% endif %}

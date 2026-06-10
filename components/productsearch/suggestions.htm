@@ -1,0 +1,14 @@
+{% if __SELF__.query|length >= 2 %}
+    <div class="posmall-search-suggestions list-group shadow-sm">
+        {% for product in __SELF__.suggestions %}
+            {% partial __SELF__ ~ '::item' product=product %}
+        {% else %}
+            <div class="list-group-item text-muted">
+                {{ 'kodzero.posmall::frontend.search.empty'|trans }}
+            </div>
+        {% endfor %}
+        <a href="{{ __SELF__.searchUrl(__SELF__.query) }}" class="list-group-item list-group-item-action text-primary fw-semibold">
+            {{ 'kodzero.posmall::frontend.search.show_all'|trans }}
+        </a>
+    </div>
+{% endif %}

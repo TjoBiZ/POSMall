@@ -1,0 +1,19 @@
+<div data-control="toolbar">
+    <a
+            data-control="popup"
+            data-size="huge"
+            data-handler="onRelationButtonCreate"
+            data-extra-data="id: <?= e($this->params[0]) ?>"
+            href="javascript:;"
+            class="btn btn-sm btn-secondary oc-icon-file">
+        <?= e(trans('kodzero.posmall::lang.variant.create')) ?>
+    </a>
+    
+    <button
+            class="btn btn-sm btn-secondary oc-icon-trash-o"
+            data-request="onRelationButtonDelete"
+            data-request-confirm="<?= e(trans('kodzero.posmall::lang.variant.delete_confirm')) ?>"
+            data-stripe-load-indicator>
+        <?= e(trans('kodzero.posmall::lang.variant.delete')) ?>
+    </button>
+</div>

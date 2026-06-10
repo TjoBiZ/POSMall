@@ -1,0 +1,14 @@
+name: POSMall Warehouse
+modelClass: KodZero\POSMall\Models\Warehouse
+form: $/kodzero/posmall/models/warehouse/fields.yaml
+defaultRedirect: kodzero/posmall/warehouses
+create:
+    title: Create POSMall Warehouse
+    redirect: 'kodzero/posmall/warehouses/update/:id'
+    redirectClose: kodzero/posmall/warehouses
+update:
+    title: Update POSMall Warehouse
+    redirect: kodzero/posmall/warehouses
+    redirectClose: kodzero/posmall/warehouses
+preview:
+    title: Preview POSMall Warehouse

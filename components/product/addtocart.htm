@@ -1,0 +1,31 @@
+{% if not item.allow_out_of_stock_purchases %}
+    <div class="mall-product__property-stock alert {{ stock > 0 ? 'alert-success' : 'alert-danger' }} py-2">
+        {% if stock > 10 %}
+            {{ 'kodzero.posmall::frontend.stock.many_available'|trans }}
+        {% elseif stock > 0 %}
+            {{ 'kodzero.posmall::frontend.stock.available'|transchoice(stock, {stock: stock}) }}
+        {% else %}
+            {{ 'kodzero.posmall::frontend.stock.unavailable'|trans }}
+        {% endif %}
+    </div>
+{% endif %}
+{% if stock|default(0) > 0 or item.allow_out_of_stock_purchases %}
+    <div class="mall-product__add-to-cart-form d-grid gap-3">
+        <div class="mall-form-control">
+            <label for="quantity" class="form-label">{{ 'kodzero.posmall::frontend.quantity'|trans }}</label>
+            <input type="number"
+                   id="quantity"
+                   class="mall-input form-control"
+                   min="{{ item.quantity_min | default(1) }}"
+                   max="{{ item.quantity_max }}"
+                   name="quantity"
+                   value="{{ item.quantity_default | default(1) }}">
+            <div data-validate-for="quantity" class="invalid-feedback d-block"></div>
+        </div>
+        <button type="submit" class="mall-add-to-cart-button btn btn-primary btn-lg" data-attach-loading>
+            {{ 'kodzero.posmall::frontend.cart.add'|trans }}
+        </button>
+    </div>
+{% endif %}
+
+{% partial __SELF__ ~ '::belowcartbutton' %}

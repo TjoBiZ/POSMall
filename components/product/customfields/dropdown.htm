@@ -1,0 +1,13 @@
+<div class="mall-form-control mb-3">
+    <label for="field-{{ field.hashId }}" class="mall-label form-label">{{ field.name }}</label>
+    <select class="mall-input form-select" id="field-{{ field.hashId }}"
+            name="fields[{{ field.hashId }}]"
+            data-id="{{ field.hashId }}"
+            data-mall-custom-field>
+        <option value="">{{ 'kodzero.posmall::frontend.select'|trans }}</option>
+        {% for option in field.custom_field_options|default([]) %}
+            <option value="{{ option.hashId }}">{{ option.name }}</option>
+        {% endfor %}
+    </select>
+    <div data-validate-for="{{ field.hashId }}" class="invalid-feedback d-block"></div>
+</div>

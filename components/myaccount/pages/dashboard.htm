@@ -1,0 +1,102 @@
+<div class="mall-account-dashboard">
+    {% set stats = __SELF__.dashboardStats %}
+
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
+            <h2 class="h4 mb-2">{{ 'kodzero.posmall::frontend.account.dashboard'|trans }}</h2>
+            <p class="text-body-secondary mb-0">
+                {% if __SELF__.customer.firstname|default(null) %}
+                    {{ 'kodzero.posmall::frontend.account.dashboard.welcome_name'|trans({ name: __SELF__.customer.firstname }) }}
+                {% else %}
+                    {{ 'kodzero.posmall::frontend.account.dashboard.welcome'|trans }}
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-md-6 col-xl-3">
+            <a class="card shadow-sm border-0 h-100 text-decoration-none text-body"
+               href="{{ __SELF__.pageUrl('orders') }}"
+               data-posmall-dashboard-stat="orders">
+                <div class="card-body">
+                    <div class="h3 mb-1" data-posmall-dashboard-count="orders">{{ stats.orders }}</div>
+                    <p class="text-body-secondary mb-0">
+                        {{ 'kodzero.posmall::frontend.account.dashboard.orders_count'|transchoice(stats.orders, { count: stats.orders }) }}
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+            <a class="card shadow-sm border-0 h-100 text-decoration-none text-body"
+               href="{{ __SELF__.pageUrl('addresses') }}"
+               data-posmall-dashboard-stat="addresses">
+                <div class="card-body">
+                    <div class="h3 mb-1" data-posmall-dashboard-count="addresses">{{ stats.addresses }}</div>
+                    <p class="text-body-secondary mb-0">
+                        {{ 'kodzero.posmall::frontend.account.dashboard.addresses_count'|transchoice(stats.addresses, { count: stats.addresses }) }}
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+            <a class="card shadow-sm border-0 h-100 text-decoration-none text-body"
+               href="{{ __SELF__.pageUrl('favorites') }}"
+               data-posmall-dashboard-stat="favorites-lists">
+                <div class="card-body">
+                    <div class="h3 mb-1" data-posmall-dashboard-count="favorites-lists">{{ stats.favoritesLists }}</div>
+                    <p class="text-body-secondary mb-0">
+                        {{ 'kodzero.posmall::frontend.account.dashboard.wishlists_count'|transchoice(stats.favoritesLists, { count: stats.favoritesLists }) }}
+                    </p>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+            <a class="card shadow-sm border-0 h-100 text-decoration-none text-body"
+               href="{{ __SELF__.pageUrl('favorites') }}"
+               data-posmall-dashboard-stat="favorite-items">
+                <div class="card-body">
+                    <div class="h3 mb-1" data-posmall-dashboard-count="favorite-items">{{ stats.favoriteItems }}</div>
+                    <p class="text-body-secondary mb-0">
+                        {{ 'kodzero.posmall::frontend.account.dashboard.wishlist_items_count'|transchoice(stats.favoriteItems, { count: stats.favoriteItems }) }}
+                    </p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-12 col-md-6 col-xl-3">
+            <a class="card shadow-sm border-0 h-100 text-decoration-none text-body" href="{{ __SELF__.pageUrl('orders') }}">
+                <div class="card-body">
+                    <h3 class="h6 text-uppercase text-body-secondary">{{ 'kodzero.posmall::frontend.orders'|trans }}</h3>
+                    <p class="mb-0">{{ 'kodzero.posmall::frontend.account.dashboard.orders_hint'|trans }}</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+            <a class="card shadow-sm border-0 h-100 text-decoration-none text-body" href="{{ __SELF__.pageUrl('favorites') }}">
+                <div class="card-body">
+                    <h3 class="h6 text-uppercase text-body-secondary">{{ 'kodzero.posmall::frontend.wishlists'|trans }}</h3>
+                    <p class="mb-0">{{ 'kodzero.posmall::frontend.account.dashboard.wishlist_hint'|trans }}</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+            <a class="card shadow-sm border-0 h-100 text-decoration-none text-body" href="{{ __SELF__.pageUrl('profile') }}">
+                <div class="card-body">
+                    <h3 class="h6 text-uppercase text-body-secondary">{{ 'kodzero.posmall::frontend.profile'|trans }}</h3>
+                    <p class="mb-0">{{ 'kodzero.posmall::frontend.account.dashboard.profile_hint'|trans }}</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+            <a class="card shadow-sm border-0 h-100 text-decoration-none text-body" href="{{ __SELF__.pageUrl('addresses') }}">
+                <div class="card-body">
+                    <h3 class="h6 text-uppercase text-body-secondary">{{ 'kodzero.posmall::frontend.addresses'|trans }}</h3>
+                    <p class="mb-0">{{ 'kodzero.posmall::frontend.account.dashboard.addresses_hint'|trans }}</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

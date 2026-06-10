@@ -1,0 +1,134 @@
+# ===================================
+#  Relation Behavior Config
+# ===================================
+
+custom_fields:
+    label: 'kodzero.posmall::lang.common.custom_fields'
+    view:
+        list: $/kodzero/posmall/models/customfield/columns.yaml
+        toolbarButtons: add|create|remove
+    manage:
+        form: $/kodzero/posmall/models/customfield/fields.yaml
+        recordsPerPage: 10
+        showSearch: true
+    deferredBinding: true
+
+files:
+    label: 'kodzero.posmall::lang.product.product_file_version'
+    view:
+        list: $/kodzero/posmall/models/productfile/columns.yaml
+        toolbarButtons: create|delete
+        showSorting: false
+        defaultSort: 'created_at DESC'
+        scope: sortLatest
+    manage:
+        form: $/kodzero/posmall/models/productfile/fields.yaml
+        recordsPerPage: 10
+    deferredBinding: true
+
+services:
+    label: 'kodzero.posmall::lang.common.services'
+    view:
+        list: $/kodzero/posmall/models/service/columns.yaml
+        toolbarButtons: add|remove
+    manage:
+        form: $/kodzero/posmall/models/service/fields.yaml
+        recordsPerPage: 10
+        showSearch: true
+    pivot:
+        form: $/kodzero/posmall/models/service/fields_pivot.yaml
+    deferredBinding: true
+
+variants:
+    label: 'kodzero.posmall::lang.common.variant'
+    view:
+        list: $/kodzero/posmall/models/variant/columns.yaml
+        toolbarPartial: variants_toolbar
+    manage:
+        form: $/kodzero/posmall/models/variant/fields.yaml
+        recordsPerPage: 10
+    deferredBinding: true
+
+accessories:
+    label: 'kodzero.posmall::lang.common.accessories'
+    view:
+        list: $/kodzero/posmall/models/product/columns.yaml
+        recordUrl: kodzero/posmall/products/update/:id
+        toolbarButtons: add|remove
+    manage:
+        form: $/kodzero/posmall/models/product/fields_create.yaml
+        recordsPerPage: 10
+        showSearch: true
+    deferredBinding: true
+
+taxes:
+    label: 'kodzero.posmall::lang.common.taxes'
+    view:
+        list: $/kodzero/posmall/models/tax/columns.yaml
+        toolbarButtons: add|create|remove
+    manage:
+        form: $/kodzero/posmall/models/tax/fields.yaml
+        recordsPerPage: 10
+        showSearch: true
+    deferredBinding: true
+
+brand:
+    label: 'kodzero.posmall::lang.common.brand'
+    view:
+        form: $/kodzero/posmall/models/brand/fields_relation_manager.yaml
+        toolbarButtons: add|create|update|remove
+    manage:
+        form: $/kodzero/posmall/models/brand/fields.yaml
+        list: $/kodzero/posmall/models/brand/columns.yaml
+        showSearch: true
+        recordsPerPage: 10
+
+image_sets:
+    label: 'kodzero.posmall::lang.common.images'
+    view:
+        list: $/kodzero/posmall/models/imageset/columns.yaml
+        toolbarButtons: create|delete
+    manage:
+        list: $/kodzero/posmall/models/imageset/columns.yaml
+        form: $/kodzero/posmall/models/imageset/fields.yaml
+
+reviews:
+    label: 'kodzero.posmall::lang.common.review'
+    view:
+        list: $/kodzero/posmall/models/review/columns.yaml
+        toolbarButtons: create|delete
+    manage:
+        list: $/kodzero/posmall/models/review/columns.yaml
+        form: $/kodzero/posmall/models/review/fields.yaml
+
+vendors:
+    label: POSMall Vendors
+    view:
+        list: $/kodzero/posmall/models/vendor/columns.yaml
+        toolbarButtons: add|remove
+    manage:
+        form: $/kodzero/posmall/models/vendor/fields.yaml
+        recordsPerPage: 10
+        showSearch: true
+    deferredBinding: true
+
+channels:
+    label: POSMall Channels
+    view:
+        list: $/kodzero/posmall/models/channel/columns.yaml
+        toolbarButtons: add|remove
+    manage:
+        form: $/kodzero/posmall/models/channel/fields.yaml
+        recordsPerPage: 10
+        showSearch: true
+    deferredBinding: true
+
+warehouse_inventory:
+    label: POSMall Warehouse Inventory
+    view:
+        list: $/kodzero/posmall/models/warehouseinventory/columns.yaml
+        toolbarButtons: create|delete
+    manage:
+        form: $/kodzero/posmall/models/warehouseinventory/fields.yaml
+        recordsPerPage: 10
+    deferredBinding: true

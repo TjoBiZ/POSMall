@@ -1,0 +1,28 @@
+fields:
+    is_enabled:
+        type: switch
+        label: kodzero.posmall::lang.order_state_settings.is_enabled
+        span: left
+        default: true
+    name:
+        label: 'kodzero.posmall::lang.order_states.name'
+        oc.commentPosition: ''
+        span: left
+        type: text
+    flag:
+        label: 'kodzero.posmall::lang.order_states.flag'
+        oc.commentPosition: ''
+        emptyOption: '--'
+        span: right
+        type: dropdown
+    description:
+        label: 'kodzero.posmall::lang.product.description'
+        size: large
+        oc.commentPosition: ''
+        span: auto
+        type: textarea
+    color:
+        label: 'kodzero.posmall::lang.order_states.color'
+        oc.commentPosition: ''
+        span: auto
+        type: colorpicker

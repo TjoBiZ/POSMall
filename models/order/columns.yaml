@@ -1,0 +1,105 @@
+columns:
+    invoice_number:
+        label: 'kodzero.posmall::lang.order.invoice_number'
+        type: number
+        searchable: true
+        sortable: true
+        invisible: true
+    order_number:
+        label: 'kodzero.posmall::lang.order.order_number'
+        type: number
+        searchable: true
+        sortable: true
+    payment_hash:
+        label: 'kodzero.posmall::lang.order.payment_hash'
+        type: text
+        searchable: true
+        sortable: true
+        invisible: true
+    customer:
+        label: 'kodzero.posmall::lang.order.customer'
+        relation: customer
+        type: text
+        searchable: true
+        sortable: false
+        select: concat(firstname, ' ', lastname)
+    email:
+        label: 'kodzero.posmall::lang.order.email'
+        type: partial
+        path: $/kodzero/posmall/models/order/_email.htm
+        sortable: false
+        searchable: false
+    api_source:
+        label: 'kodzero.posmall::lang.order.api_source'
+        type: text
+        searchable: true
+        sortable: true
+    api_token:
+        label: 'kodzero.posmall::lang.order.api_token'
+        relation: api_token
+        select: name
+        type: text
+        sortable: false
+        invisible: true
+    vendor:
+        label: 'kodzero.posmall::lang.order.vendor'
+        relation: vendor
+        select: name
+        type: text
+        sortable: false
+    channel:
+        label: 'kodzero.posmall::lang.order.channel'
+        relation: channel
+        select: name
+        type: text
+        sortable: false
+    warehouse:
+        label: 'kodzero.posmall::lang.order.warehouse'
+        relation: warehouse
+        select: name
+        type: text
+        sortable: false
+        invisible: true
+    ip_address:
+        label: 'kodzero.posmall::lang.common.ip_address'
+        type: text
+        searchable: true
+        sortable: true
+    created_at:
+        label: 'kodzero.posmall::lang.common.created_at'
+        type: datetime
+        sortable: true
+    total_post_taxes:
+        label: 'kodzero.posmall::lang.order.grand_total'
+        path: $/kodzero/posmall/models/order/_total.htm
+        type: partial
+        align: right
+        sortable: true
+    order_state:
+        label: 'kodzero.posmall::lang.order.status'
+        type: partial
+        path: $/kodzero/posmall/models/order/_order_state.htm
+        sortable: false
+        searchable: false
+    payment_state:
+        label: 'kodzero.posmall::lang.order.payment_status'
+        type: partial
+        path: $/kodzero/posmall/models/order/_payment_state.htm
+        sortable: true
+        searchable: false
+    customer_notes:
+        label: 'kodzero.posmall::lang.order.customer_notes'
+        type: text
+        invisible: true
+        searchable: true
+    admin_notes:
+        label: 'kodzero.posmall::lang.order.admin_notes'
+        type: text
+        invisible: true
+        searchable: true
+    shipped_at:
+        label: 'kodzero.posmall::lang.order.shipped'
+        type: partial
+        path: $/kodzero/posmall/models/order/_shipped.htm
+        sortable: true
+        searchable: false

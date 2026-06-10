@@ -1,0 +1,22 @@
+fields:
+    file:
+        label: 'kodzero.posmall::lang.product_file.file'
+        span: full
+        type: fileupload
+        mode: file
+    display_name:
+        label: 'kodzero.posmall::lang.common.display_name'
+        comment: 'kodzero.posmall::lang.product_file.display_name_comment'
+        span: auto
+        type: text
+    version:
+        label: 'kodzero.posmall::lang.common.version'
+        comment: 'kodzero.posmall::lang.product_file.version_comment'
+        span: auto
+        type: text
+    variants:
+        label: 'kodzero.posmall::lang.product_file.limit_to_variants'
+        comment: 'kodzero.posmall::lang.product_file.limit_to_variants_comment'
+        span: auto
+        type: relation
+        conditions: product_id = :product_id

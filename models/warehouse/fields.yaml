@@ -1,0 +1,31 @@
+fields:
+    name:
+        label: Name
+        span: left
+        type: text
+    slug:
+        label: Slug
+        span: right
+        type: text
+        preset:
+            field: name
+            type: slug
+    type:
+        label: Type
+        span: left
+        type: dropdown
+        options:
+            main: Main
+            dropship: Dropship
+            store: Store
+            external: External
+    is_active:
+        label: Active
+        span: right
+        type: switch
+        default: 1
+    is_default:
+        label: Default
+        span: right
+        type: switch
+        default: 0

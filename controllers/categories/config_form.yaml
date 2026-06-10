@@ -1,0 +1,14 @@
+name: 'kodzero.posmall::lang.common.category'
+modelClass: KodZero\POSMall\Models\Category
+form: $/kodzero/posmall/models/category/fields.yaml
+defaultRedirect: kodzero/posmall/categories
+create:
+    title: 'kodzero.posmall::lang.titles.categories.create'
+    redirect: 'kodzero/posmall/categories/update/:id'
+    redirectClose: kodzero/posmall/categories
+update:
+    title: 'kodzero.posmall::lang.titles.categories.update'
+    redirect: kodzero/posmall/categories
+    redirectClose: kodzero/posmall/categories
+preview:
+    title: 'kodzero.posmall::lang.titles.categories.preview'

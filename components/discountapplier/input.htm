@@ -1,0 +1,14 @@
+<form data-request="onApplyDiscount"
+      data-request-validate
+      data-request-flash
+      data-request-success="window.POSMallBus && window.POSMallBus.publish('posmall.discount.applied')">
+    {{ form_token() }}
+    <div class="mall-form-control mb-3">
+        <label for="code" class="form-label">{{ 'kodzero.posmall::frontend.discount.label'|trans }}</label>
+        <div class="input-group">
+            <input id="code" class="form-control" name="code" type="text" placeholder="{{ 'kodzero.posmall::frontend.discount.placeholder'|trans }}">
+            <button type="submit" class="mall-btn btn btn-outline-primary">{{ 'kodzero.posmall::frontend.discount.apply'|trans }}</button>
+        </div>
+        <div data-validate-for="code" class="invalid-feedback d-block"></div>
+    </div>
+</form>

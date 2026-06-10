@@ -1,0 +1,92 @@
+fields:
+    is_enabled:
+        type: switch
+        label: kodzero.posmall::lang.payment_method_settings.is_enabled
+        span: left
+        default: true
+    is_default:
+        type: switch
+        label: kodzero.posmall::lang.payment_method_settings.set_as_default
+        span: right
+tabs:
+    fields:
+        name:
+            label: 'kodzero.posmall::lang.common.name'
+            oc.commentPosition: ''
+            span: auto
+            type: text
+            tab: 'kodzero.posmall::lang.product.general'
+        payment_provider:
+            label: 'kodzero.posmall::lang.common.payment_provider'
+            oc.commentPosition: ''
+            span: auto
+            type: dropdown
+            tab: 'kodzero.posmall::lang.product.general'
+        code:
+            label: 'kodzero.posmall::lang.common.code'
+            comment: 'kodzero.posmall::lang.common.code_comment'
+            span: auto
+            type: text
+            placeholder: 'kodzero.posmall::lang.common.code'
+            preset:
+                field: name
+                type: slug
+            tab: 'kodzero.posmall::lang.product.general'
+        pdf_partial:
+            label: 'kodzero.posmall::lang.payment_method.pdf_partial'
+            comment: 'kodzero.posmall::lang.payment_method.pdf_partial_comment'
+            oc.commentPosition: ''
+            span: auto
+            type: dropdown
+            tab: 'kodzero.posmall::lang.product.general'
+        logo:
+            label: 'kodzero.posmall::lang.common.logo'
+            oc.commentPosition: ''
+            mode: image
+            fileTypes: jpg,jpeg,bmp,png,webp,gif,svg
+            imageWidth: '200'
+            imageHeight: '200'
+            useCaption: 0
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: auto
+            type: fileupload
+            tab: 'kodzero.posmall::lang.product.general'
+        instructions:
+            label: 'kodzero.posmall::lang.payment_method.instructions'
+            comment: 'kodzero.posmall::lang.payment_method.instructions_comment'
+            size: large
+            span: auto
+            type: codeeditor
+            language: twig
+            tab: 'kodzero.posmall::lang.product.general'
+        description:
+            label: 'kodzero.posmall::lang.product.description'
+            size: large
+            span: auto
+            type: richeditor
+            tab: 'kodzero.posmall::lang.product.general'
+        fee_label:
+            label: 'kodzero.posmall::lang.payment_method.fee_label'
+            span: left
+            type: text
+            comment: 'kodzero.posmall::lang.payment_method.fee_label_comment'
+            tab: 'kodzero.posmall::lang.common.fees'
+        taxes:
+            span: right
+            path: taxes
+            type: partial
+            tab: 'kodzero.posmall::lang.common.fees'
+        _prices:
+            label: 'kodzero.posmall::lang.payment_method.price'
+            span: left
+            type: posmall.price
+            comment: 'kodzero.posmall::lang.payment_method.price_comment'
+            tab: 'kodzero.posmall::lang.common.fees'
+        fee_percentage:
+            label: 'kodzero.posmall::lang.payment_method.fee_percentage'
+            span: left
+            type: text
+            comment: 'kodzero.posmall::lang.payment_method.fee_percentage_comment'
+            tab: 'kodzero.posmall::lang.common.fees'

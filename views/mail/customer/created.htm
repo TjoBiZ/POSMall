@@ -1,0 +1,19 @@
+subject = "{{ 'kodzero.posmall::mail.customer.created.subject' | trans({firstname: customer.firstname, lastname: customer.lastname}) }}"
+description = "Sent after a customer signs up"
+==
+
+{{ 'kodzero.posmall::mail.common.hello' | trans({firstname: customer.firstname, lastname: customer.lastname}) }}
+
+{% if confirm %}
+    {{ 'kodzero.posmall::mail.customer.created.confirm_mail' | trans() }}
+{% else %}
+    {{ 'kodzero.posmall::mail.customer.created.message' | trans({email: user.email}) }}
+{% endif %}
+
+{{ 'kodzero.posmall::mail.customer.created.possibilities' | trans() }}
+
+{% partial 'button' url=(confirm ? confirm_url : app_url) type='primary' body %}
+    {{ confirm
+       ? 'kodzero.posmall::mail.customer.created.button.confirm' | trans()
+       : 'kodzero.posmall::mail.customer.created.button.visit_store' | trans() }}
+{% endpartial %}

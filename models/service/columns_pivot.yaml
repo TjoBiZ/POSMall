@@ -1,0 +1,10 @@
+columns:
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        type: text
+        searchable: true
+        sortable: true
+    pivot[required]:
+        label: 'kodzero.posmall::lang.services.required'
+        type: switch
+        sortable: true

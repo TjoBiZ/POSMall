@@ -1,0 +1,140 @@
+{% set url = (productPage|page({ slug: product.data.slug, variant: product.variant.hashId|default(null) })) %}
+{% set image = product.variant|default(null) ? product.variant.image : product.data.image %}
+{% set productName = product.data.name %}
+{% set variantName = product.variant ? product.variant.name : null %}
+{% set isServiceCarrier = product.data.user_defined_id|default('') starts with 'POSMALL-SERVICE-CARRIER-' %}
+{% set firstServiceOption = product.service_options.first|default(null) %}
+{% set serviceName = firstServiceOption ? firstServiceOption.service.name|default(null) : null %}
+{% set serviceQuantityMultiplier = product.serviceQuantityMultiplier|default(product.quantity) %}
+{% set url = isServiceCarrier and firstServiceOption ? ('posmall-service'|page({ slug: firstServiceOption.service.code })) : url %}
+<tr class="mall-cart__product">
+    <td class="w-auto">
+        {% if image|default(null) %}
+            {% set optimizedImage = posmall_image_sources(image, productName, 'catalog') %}
+            {% set imageSrc = optimizedImage ? optimizedImage.jpeg : (image.extension|default('') == 'svg' ? image.path : image.thumb(96, 96, null)) %}
+            <a href="{{ url }}">
+                {% if optimizedImage and optimizedImage.webp %}
+                    <picture>
+                        <source srcset="{{ optimizedImage.webp }}" type="image/webp">
+                        <img src="{{ imageSrc }}" class="rounded border object-fit-contain bg-body-tertiary" width="72" height="72" alt="{{ productName }}"/>
+                    </picture>
+                {% else %}
+                    <img src="{{ imageSrc }}" class="rounded border object-fit-contain bg-body-tertiary" width="72" height="72" alt="{{ productName }}"/>
+                {% endif %}
+            </a>
+        {% endif %}
+    </td>
+    <td>
+        <a href="{{ url }}" class="fw-semibold text-decoration-none">
+            {{ isServiceCarrier and serviceName ? serviceName : productName }}
+        </a>
+        {% if isServiceCarrier %}
+            <br/>
+            <span class="text-muted small">{{ 'kodzero.posmall::lang.common.service'|trans }}</span>
+        {% endif %}
+        {% if variantName %}
+            <br/>
+            <span class="text-muted small">
+                {{ 'kodzero.posmall::lang.common.variant'|trans }}: {{ variantName }}
+            </span>
+        {% endif %}
+        {% if product.variant and product.variant.properties_description %}
+            <br/>
+            <span class="text-muted small">
+                {{ product.variant.properties_description|raw }}
+            </span>
+        {% endif %}
+        {% if product.custom_field_values %}
+            <br/>
+            <span class="text-muted small">
+                {{ product.custom_field_value_description|raw }}
+            </span>
+        {% endif %}
+        <div>
+           <a href="javascript:;"
+               class="js-mall-remove-product link-danger small"
+               data-posmall-cart-remove
+               data-id="{{ product.hashId }}"
+               data-confirm-message="{{ 'kodzero.posmall::frontend.confirm'|trans|e('html_attr') }}"
+            >
+                {{ 'kodzero.posmall::frontend.remove'|trans }}
+            </a>
+        </div>
+    </td>
+    <td class="text-end text-nowrap">
+        {% partial __SELF__ ~ '::table/quantitydropdown' product=product %}
+    </td>
+    <td class="text-end text-nowrap">
+        {{ product.baseProductPostTaxes|money }}
+        {% if product.custom_field_values.count|default(0) > 0 and product.customFieldPostTaxes > 0 %}
+            <div class="mall-cart__price-additions small text-muted">
+                {{ 'kodzero.posmall::lang.common.custom_fields'|trans }}
+            </div>
+        {% endif %}
+        {% if product.service_options.count|default(0) > 0 and product.servicePostTaxes > 0 %}
+            <div class="mall-cart__price-additions small text-muted">
+                {{ 'kodzero.posmall::frontend.services.selected'|trans }}
+            </div>
+        {% endif %}
+    </td>
+    <td class="text-end fw-semibold text-nowrap">
+        {{ product.totalPostTaxes|money }}
+    </td>
+</tr>
+
+{% for option in product.service_options %}
+    <tr class="mall-cart__services {{ loop.first ? 'mall-cart__services--first' }} {{ loop.last ? 'mall-cart__services--last' }}">
+        <td></td>
+        <td class="small">
+            {% if loop.first %}
+                <div class="fw-semibold text-body mb-1">{{ 'kodzero.posmall::frontend.services.selected'|trans }}</div>
+            {% endif %}
+            <div class="text-muted">
+                <strong>{{ option.service.name|default(serviceName)|default('') }}</strong>
+                <span aria-hidden="true">/</span>
+                {{ option.name }}
+            </div>
+            {% if option.description %}
+                <div class="text-muted">{{ option.description|content }}</div>
+            {% endif %}
+        </td>
+        <td class="text-end text-nowrap small text-muted">
+            {{ serviceQuantityMultiplier }} x
+        </td>
+        <td class="text-end text-nowrap small text-muted" title="{{ 'kodzero.posmall::frontend.services.unit_price'|trans|e('html_attr') }}">
+            {{ option.price().integer|money }}
+        </td>
+        <td class="text-end text-nowrap small text-muted" title="{{ 'kodzero.posmall::frontend.services.line_total'|trans|e('html_attr') }}">
+            {{ (option.price().integer * serviceQuantityMultiplier)|money }}
+        </td>
+    </tr>
+{% endfor %}
+
+{% for value in product.custom_field_values|default([]) %}
+    {% set valuePrice = value.priceForFieldOption().where('currency_id', product.activeCurrency.id).first() %}
+    {% set valuePriceInteger = valuePrice.integer|default(0) %}
+    {% if valuePriceInteger > 0 %}
+        <tr class="mall-cart__custom-fields {{ loop.first ? 'mall-cart__custom-fields--first' }} {{ loop.last ? 'mall-cart__custom-fields--last' }}">
+            <td></td>
+            <td class="small">
+                {% if loop.first %}
+                    <div class="fw-semibold text-body mb-1">{{ 'kodzero.posmall::lang.common.custom_fields'|trans }}</div>
+                {% endif %}
+                <div class="text-muted">
+                    <strong>{{ value.custom_field.name }}</strong>
+                    <span aria-hidden="true">/</span>
+                    {{ value.display_value|raw }}
+                </div>
+            </td>
+            <td class="text-end text-nowrap small text-muted">
+                {{ product.quantity }} x
+            </td>
+            <td class="text-end text-nowrap small text-muted" title="{{ 'kodzero.posmall::frontend.services.unit_price'|trans|e('html_attr') }}">
+                {{ valuePriceInteger|money }}
+            </td>
+            <td class="text-end text-nowrap small text-muted" title="{{ 'kodzero.posmall::frontend.services.line_total'|trans|e('html_attr') }}">
+                {{ (valuePriceInteger * product.quantity)|money }}
+            </td>
+        </tr>
+    {% endif %}
+{% endfor %}

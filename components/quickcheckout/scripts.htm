@@ -1,0 +1,378 @@
+{% put scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const quickCheckoutForm = document.querySelector('.mall-quick-checkout');
+    const overlay = document.querySelector('.mall-overlay');
+    const confirmMessage = '{{ 'kodzero.posmall::frontend.confirm' | trans | e('js') }}';
+
+    /**
+     * Publish a frontend Mall event through the project event bus.
+     */
+    function publish(eventName, data) {
+        if (window.POSMallBus && typeof window.POSMallBus.publish === 'function') {
+            window.POSMallBus.publish(eventName, data || {});
+            return;
+        }
+
+        document.dispatchEvent(new CustomEvent(eventName, {
+            detail: data || {}
+        }));
+    }
+
+    /**
+     * Subscribe to a frontend Mall event through the project event bus.
+     */
+    function subscribe(eventName, callback) {
+        if (window.POSMallBus && typeof window.POSMallBus.subscribe === 'function') {
+            window.POSMallBus.subscribe(eventName, callback);
+            return;
+        }
+
+        document.addEventListener(eventName, function (event) {
+            callback(event.detail || {});
+        });
+    }
+
+    /**
+     * Send an October CMS AJAX request.
+     */
+    function request(element, handler, options) {
+        if (!window.oc || typeof window.oc.request !== 'function') {
+            console.error('October AJAX function oc.request is not available.');
+            return null;
+        }
+
+        return window.oc.request(element || document.body, handler, options || {});
+    }
+
+    /**
+     * Show the checkout overlay.
+     *
+     * Preserves original behavior:
+     * - move overlay to body;
+     * - show it before checkout submit.
+     */
+    function showOverlay() {
+        if (!overlay) {
+            return;
+        }
+
+        document.body.prepend(overlay);
+        overlay.style.display = '';
+    }
+
+    /**
+     * Hide the checkout overlay.
+     */
+    function hideOverlay() {
+        if (!overlay) {
+            return;
+        }
+
+        overlay.style.display = 'none';
+    }
+
+    /**
+     * Show or hide all elements matching selector.
+     */
+    function toggleElements(selector, shouldShow) {
+        document.querySelectorAll(selector).forEach(function (element) {
+            element.style.display = shouldShow ? '' : 'none';
+        });
+    }
+
+    /**
+     * Enable or disable all checkout buttons.
+     */
+    function setCheckoutButtonsEnabled(isEnabled) {
+        document.querySelectorAll('.js-mall-checkout').forEach(function (button) {
+            button.disabled = !isEnabled;
+        });
+    }
+
+    /**
+     * Open the checkout collapsible element that contains the first visible validation error.
+     *
+     * Preserves the original quick checkout error UX:
+     * - find first visible [data-validate-for].oc-visible;
+     * - open its closest .mall-quick-checkout__collapsible-element.
+     */
+    function openFirstValidationErrorBlock() {
+        const visibleError = Array.from(
+            document.querySelectorAll('[data-validate-for].oc-visible')
+        ).find(function (element) {
+            return element.offsetParent !== null;
+        });
+
+        if (!visibleError) {
+            return;
+        }
+
+        const collapsible = visibleError.closest('.mall-quick-checkout__collapsible-element');
+
+        if (!collapsible) {
+            return;
+        }
+
+        document.querySelectorAll('.mall-quick-checkout__collapsible-element--open').forEach(function (element) {
+            element.classList.remove('mall-quick-checkout__collapsible-element--open');
+        });
+
+        collapsible.classList.add('mall-quick-checkout__collapsible-element--open');
+    }
+
+    /**
+     * Handle checkout callback failure.
+     *
+     * Preserves:
+     * - hide overlay;
+     * - open the block with first validation error.
+     */
+    function handleCheckoutCallbackError() {
+        hideOverlay();
+        openFirstValidationErrorBlock();
+    }
+
+    /**
+     * Run registered checkout callbacks.
+     *
+     * Preserves original data flow:
+     * - callbacks live in window.Mall.Callbacks.Checkout;
+     * - each callback is executed before submit;
+     * - Promise.all decides whether submit continues.
+     */
+    function runCheckoutCallbacks() {
+        window.Mall = window.Mall || {};
+        window.Mall.Callbacks = window.Mall.Callbacks || {};
+        window.Mall.Callbacks.Checkout = window.Mall.Callbacks.Checkout || {};
+
+        const callbackKeys = Object.keys(window.Mall.Callbacks.Checkout);
+
+        if (callbackKeys.length < 1) {
+            return Promise.resolve();
+        }
+
+        const callbacks = callbackKeys.map(function (handler) {
+            return window.Mall.Callbacks.Checkout[handler]();
+        });
+
+        return Promise.all(callbacks);
+    }
+
+    /**
+     * Submit quick checkout form.
+     *
+     * Preserves:
+     * - handler: quickCheckout::onSubmit
+     * - non-406 errors redirect to account page
+     * - 406 validation errors use October default error handler and open the invalid block
+     */
+    function submitQuickCheckout() {
+        if (!quickCheckoutForm) {
+            console.error('Quick checkout form .mall-quick-checkout was not found.');
+            return;
+        }
+
+        request(quickCheckoutForm, '{{ __SELF__ }}::onSubmit', {
+            error: function (data, responseCode, xhr) {
+                if (responseCode !== 406) {
+                    document.location.href = '{{ __SELF__.accountPage | page }}';
+                    return;
+                }
+
+                if (typeof this.error === 'function') {
+                    this.error(data, responseCode, xhr);
+                }
+
+                handleCheckoutCallbackError();
+            }
+        });
+    }
+
+    /**
+     * Main quick checkout button.
+     *
+     * Preserves:
+     * - selector: .js-mall-checkout
+     * - prevent default
+     * - overlay before processing
+     * - callbacks before submit
+     */
+    document.body.addEventListener('click', function (event) {
+        const checkoutButton = event.target.closest('.js-mall-checkout');
+
+        if (!checkoutButton) {
+            return;
+        }
+
+        event.preventDefault();
+
+        showOverlay();
+
+        runCheckoutCallbacks()
+            .then(submitQuickCheckout)
+            .catch(handleCheckoutCallbackError);
+    });
+
+    /**
+     * Toggle separate shipping address block.
+     */
+    document.body.addEventListener('click', function (event) {
+        const checkbox = event.target.closest('.js-mall-toggle-shipping-address');
+
+        if (!checkbox) {
+            return;
+        }
+
+        toggleElements('.mall-shipping-address', checkbox.checked);
+    });
+
+    /**
+     * Toggle password inputs for guest signup.
+     */
+    document.body.addEventListener('click', function (event) {
+        const checkbox = event.target.closest('.js-mall-toggle-guest-signup');
+
+        if (!checkbox) {
+            return;
+        }
+
+        toggleElements('.mall-quick-checkout__password-inputs', !checkbox.checked);
+    });
+
+    /**
+     * Open one quick checkout collapsible block.
+     *
+     * Preserves:
+     * - remove open class from currently open blocks;
+     * - add open class to clicked block.
+     */
+    document.body.addEventListener('click', function (event) {
+        const collapsible = event.target.closest('.mall-quick-checkout__collapsible-element');
+
+        if (!collapsible) {
+            return;
+        }
+
+        document.querySelectorAll('.mall-quick-checkout__collapsible-element--open').forEach(function (element) {
+            element.classList.remove('mall-quick-checkout__collapsible-element--open');
+        });
+
+        collapsible.classList.add('mall-quick-checkout__collapsible-element--open');
+    });
+
+    /**
+     * Disable checkout button by default until terms are accepted.
+     */
+    setCheckoutButtonsEnabled(false);
+
+    /**
+     * Enable checkout button when terms checkbox is checked.
+     */
+    document.body.addEventListener('click', function (event) {
+        const termsCheckbox = event.target.closest('.js-mall-toggle-signup-terms');
+
+        if (!termsCheckbox) {
+            return;
+        }
+
+        setCheckoutButtonsEnabled(termsCheckbox.checked);
+    });
+
+    /**
+     * Refresh cart and shipping methods after address/country changes.
+     *
+     * Preserves original data flow:
+     * - event: posmall.address.update
+     * - country source: billing_country_id by default
+     * - if shipping address checkbox checked, use shipping_country_id
+     * - handler: quickCheckout::onRun
+     * - data: country_id
+     * - partial updates:
+     *   - quickCheckout::cart => .mall-quick-checkout__cart
+     *   - quickCheckout::shippingmethod => .mall-quick-checkout__shipping-methods
+     */
+    subscribe('posmall.address.update', function () {
+        let countryInput = document.getElementById('billing_country_id');
+        const shippingAddressCheckbox = document.querySelector('.js-mall-toggle-shipping-address');
+
+        if (shippingAddressCheckbox && shippingAddressCheckbox.checked) {
+            countryInput = document.getElementById('shipping_country_id');
+        }
+
+        request(quickCheckoutForm || document.body, '{{ __SELF__ }}::onRun', {
+            data: {
+                country_id: countryInput ? countryInput.value : null
+            },
+            update: {
+                '{{ __SELF__ }}::cart': '.mall-quick-checkout__cart',
+                '{{ __SELF__ }}::shippingmethod': '.mall-quick-checkout__shipping-methods'
+            }
+        });
+    });
+
+    /**
+     * Reset checkout callbacks when payment method option changes.
+     *
+     * Preserves original behavior:
+     * - click inside .mall-quick-checkout__payment-methods
+     * - target .mall-quick-checkout__toggle-option
+     * - reset window.Mall.Callbacks.Checkout
+     */
+    document.body.addEventListener('click', function (event) {
+        const paymentOption = event.target.closest(
+            '.mall-quick-checkout__payment-methods .mall-quick-checkout__toggle-option'
+        );
+
+        if (!paymentOption) {
+            return;
+        }
+
+        window.Mall = window.Mall || {};
+        window.Mall.Callbacks = window.Mall.Callbacks || {};
+        window.Mall.Callbacks.Checkout = {};
+    });
+
+    /**
+     * Remove product from quick checkout cart.
+     *
+     * Preserves:
+     * - handler: quickCheckout::onRemoveProduct
+     * - data: id
+     * - partial update: quickCheckout::cart => .mall-cart
+     * - loading indicator
+     * - confirm message
+     * - event: posmall.cart.update
+     * - event: posmall.cart.productRemoved
+     */
+    document.body.addEventListener('click', function (event) {
+        const removeButton = event.target.closest('.js-mall-remove-product');
+
+        if (!removeButton) {
+            return;
+        }
+
+        event.preventDefault();
+
+        request(removeButton, '{{ __SELF__ }}::onRemoveProduct', {
+            data: {
+                id: removeButton.dataset.id
+            },
+            update: {
+                '{{ __SELF__ }}::cart': '.mall-cart'
+            },
+            loading: window.oc ? window.oc.stripeLoadIndicator : null,
+            confirm: confirmMessage,
+            success: function (data) {
+                if (typeof this.success === 'function') {
+                    this.success(data);
+                }
+
+                publish('posmall.cart.update', data);
+                publish('posmall.cart.productRemoved', data);
+            }
+        });
+    });
+});
+</script>
+{% endput %}

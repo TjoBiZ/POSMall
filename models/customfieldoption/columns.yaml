@@ -1,0 +1,10 @@
+columns:
+    custom_field_id:
+        label: custom_field_id
+        type: number
+    name:
+        label: 'kodzero.posmall::lang.custom_field_options.option'
+        type: text
+    price:
+        label: 'kodzero.posmall::lang.product.price'
+        type: posmall.price

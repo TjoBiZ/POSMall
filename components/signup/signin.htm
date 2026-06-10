@@ -1,0 +1,21 @@
+<h3 class="mall-signup__heading h4 mb-3">{{ 'kodzero.posmall::frontend.signup.signin'|trans }}</h3>
+<form data-request="onSignin" data-request-validate data-request-flash>
+    {{ form_token() }}
+    <div class="mall-form-control mb-3">
+        <label for="signin_email" class="form-label">{{ 'kodzero.posmall::frontend.form.email'|trans }}</label>
+        <input id="signin_email" class="form-control" name="login" type="text" placeholder="email@example.com">
+        <div data-validate-for="login" class="invalid-feedback d-block"></div>
+    </div>
+    <div class="mall-form-control mb-3">
+        <label for="signin_password" class="form-label">{{ 'kodzero.posmall::frontend.form.password'|trans }}</label>
+        <input id="signin_password" class="form-control" type="password" placeholder="******************"
+               name="password">
+        <div data-validate-for="password" class="invalid-feedback d-block"></div>
+    </div>
+    <div class="mall-form-actions d-flex flex-wrap align-items-center gap-2">
+        <button class="mall-btn mall-btn--primary btn btn-primary" type="submit">
+            {{ 'kodzero.posmall::frontend.form.signin'|trans }}
+        </button>
+        {% partial __SELF__ ~ '::reset_password' %}
+    </div>
+</form>

@@ -1,0 +1,52 @@
+columns:
+    user_defined_id:
+        label: 'kodzero.posmall::lang.product.user_defined_id'
+        type: text
+        searchable: true
+        sortable: true
+    name:
+        label: 'kodzero.posmall::lang.product.name'
+        type: text
+        searchable: true
+        sortable: true
+    description:
+        label: 'kodzero.posmall::lang.product.description'
+        searchable: true
+        sortable: true
+        invisible: true
+    published:
+        label: 'kodzero.posmall::lang.product.published'
+        type: partial
+        path: $/kodzero/posmall/models/product/_published.htm
+        sortable: true
+    is_virtual:
+        label: 'kodzero.posmall::lang.product.is_virtual'
+        type: switch
+        sortable: true
+    inventory_management_method:
+        label: 'kodzero.posmall::lang.product.inventory_management_method'
+        type: text
+        sortable: true
+    categories:
+        label: 'kodzero.posmall::lang.common.category'
+        relation: categories
+        select: name
+        sortable: true
+        searchable: true
+    price:
+        label: 'kodzero.posmall::lang.product.price'
+        type: partial
+        path: $/kodzero/posmall/models/product/_price.htm
+        searchable: false
+        sortable: false
+        align: right
+    stock:
+        label: 'kodzero.posmall::lang.product.stock'
+        type: number
+        sortable: true
+    price_includes_tax:
+        label: 'kodzero.posmall::lang.product.taxable'
+        type: partial
+        path: $/kodzero/posmall/models/product/_taxable.htm
+        sortable: true
+        invisible: true

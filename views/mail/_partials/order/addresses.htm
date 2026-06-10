@@ -1,0 +1,11 @@
+name = "Addresses"
+==
+## {{ order.shipping_address_same_as_billing
+? ('kodzero.posmall::mail.order.partials.billing_and_shipping' | trans())
+: ('kodzero.posmall::mail.order.partials.billing_address' | trans()) }}
+{% partial 'posmall.customer.address' address=order.billing_address order=order showDeliveryNotes=order.shipping_address_same_as_billing %}
+
+{% if not order.shipping_address_same_as_billing %}
+    ## {{ 'kodzero.posmall::mail.order.partials.shipping_address' | trans() }}
+    {% partial 'posmall.customer.address' address=order.shipping_address order=order showDeliveryNotes=true %}
+{% endif %}

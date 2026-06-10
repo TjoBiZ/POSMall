@@ -1,0 +1,408 @@
+fields:
+    name:
+        label: 'kodzero.posmall::lang.product.name'
+        oc.commentPosition: ''
+        span: auto
+        type: text
+        placeholder: 'kodzero.posmall::lang.product.name'
+    slug:
+        label: 'kodzero.posmall::lang.common.slug'
+        oc.commentPosition: ''
+        span: auto
+        type: text
+        placeholder: 'kodzero.posmall::lang.common.slug'
+        preset:
+            field: name
+            type: slug
+tabs:
+    lazy:
+        - 'kodzero.posmall::lang.common.attachments'
+        - 'kodzero.posmall::lang.common.taxes'
+        - 'kodzero.posmall::lang.common.cart'
+        - 'kodzero.posmall::lang.common.accessories'
+        - 'kodzero.posmall::lang.common.reviews'
+    fields:
+        published:
+            label: 'kodzero.posmall::lang.product.published'
+            span: left
+            type: switch
+            comment: 'kodzero.posmall::lang.product.published_comment'
+            tab: 'kodzero.posmall::lang.product.general'
+        categories:
+            label: 'kodzero.posmall::lang.common.categories'
+            oc.commentPosition: ''
+            nameFrom: name
+            descriptionFrom: description
+            span: right
+            type: relation
+            tab: 'kodzero.posmall::lang.product.general'
+        allow_out_of_stock_purchases:
+            label: 'kodzero.posmall::lang.product.allow_out_of_stock_purchases'
+            span: left
+            type: switch
+            comment: 'kodzero.posmall::lang.product.allow_out_of_stock_purchases_comment'
+            tab: 'kodzero.posmall::lang.product.general'
+            trigger:
+                action: hide
+                field: inventory_management_method
+                condition: 'value[variant]'
+        inventory_management_method:
+            label: 'kodzero.posmall::lang.product.inventory_management_method'
+            oc.commentPosition: ''
+            span: left
+            type: dropdown
+            tab: 'kodzero.posmall::lang.product.general'
+        group_by_property_id:
+            label: 'kodzero.posmall::lang.product.group_by_property'
+            oc.commentPosition: ''
+            span: left
+            trigger:
+                action: show
+                field: inventory_management_method
+                condition: 'value[variant]'
+            type: dropdown
+            tab: 'kodzero.posmall::lang.product.general'
+            dependsOn: categories
+        _table_trigger:
+            oc.commentPosition: ''
+            span: left
+            type: partial
+            path: price_table_trigger
+            tab: 'kodzero.posmall::lang.product.general'
+        product_files_section:
+            label: 'kodzero.posmall::lang.product.product_files'
+            span: full
+            type: section
+            comment: 'kodzero.posmall::lang.product.product_files_section_comment'
+            tab: 'kodzero.posmall::lang.product.general'
+        file_session_required:
+            label: 'kodzero.posmall::lang.product_file.session_required'
+            comment: 'kodzero.posmall::lang.product_file.session_required_comment'
+            span: full
+            type: checkbox
+            tab: 'kodzero.posmall::lang.product.general'
+        file_expires_after_days:
+            label: 'kodzero.posmall::lang.product_file.expires_after_days'
+            comment: 'kodzero.posmall::lang.product_file.expires_after_days_comment'
+            span: auto
+            type: number
+            tab: 'kodzero.posmall::lang.product.general'
+        file_max_download_count:
+            label: 'kodzero.posmall::lang.product_file.max_download_count'
+            comment: 'kodzero.posmall::lang.product_file.max_download_count_comment'
+            span: auto
+            type: number
+            tab: 'kodzero.posmall::lang.product.general'
+        missing_file_hint:
+            span: full
+            type: partial
+            path: missing_file_hint
+            tab: 'kodzero.posmall::lang.product.general'
+        product_files:
+            span: full
+            path: product_files
+            type: partial
+            tab: 'kodzero.posmall::lang.product.general'
+        variants_section:
+            label: 'kodzero.posmall::lang.common.variants'
+            span: full
+            type: section
+            comment: 'kodzero.posmall::lang.products.variants_comment'
+            tab: 'kodzero.posmall::lang.product.general'
+            trigger:
+                action: hide
+                field: inventory_management_method
+                condition: 'value[single]'
+        variants:
+            span: full
+            path: variants
+            type: partial
+            tab: 'kodzero.posmall::lang.product.general'
+            dependsOn: categories
+            trigger:
+                action: hide
+                field: inventory_management_method
+                condition: 'value[single]'
+        description_short:
+            label: 'kodzero.posmall::lang.product.description_short'
+            size: small
+            oc.commentPosition: ''
+            span: left
+            type: textarea
+            tab: 'kodzero.posmall::lang.product.description'
+        user_defined_id:
+            label: 'kodzero.posmall::lang.product.user_defined_id'
+            oc.commentPosition: ''
+            span: auto
+            type: text
+            tab: 'kodzero.posmall::lang.product.description'
+        description:
+            label: 'kodzero.posmall::lang.product.description'
+            size: giant
+            span: left
+            type: richeditor
+            tab: 'kodzero.posmall::lang.product.description'
+        gtin:
+            label: 'kodzero.posmall::lang.product.gtin'
+            oc.commentPosition: ''
+            span: auto
+            type: text
+            tab: 'kodzero.posmall::lang.product.description'
+        mpn:
+            label: 'kodzero.posmall::lang.product.mpn'
+            oc.commentPosition: ''
+            span: right
+            type: text
+            tab: 'kodzero.posmall::lang.product.description'
+        brand:
+            span: right
+            path: brand
+            type: partial
+            tab: 'kodzero.posmall::lang.product.description'
+        additional_descriptions:
+            label: 'kodzero.posmall::lang.product.additional_descriptions'
+            oc.commentPosition: ''
+            prompt: 'kodzero.posmall::lang.common.add_value'
+            span: auto
+            type: repeater
+            tab: 'kodzero.posmall::lang.product.details'
+            form:
+                fields:
+                    name:
+                        label: 'kodzero.posmall::lang.common.name'
+                        oc.commentPosition: ''
+                        span: full
+                        type: text
+                        required: true
+                    value:
+                        label: 'kodzero.posmall::lang.common.value'
+                        oc.commentPosition: ''
+                        span: full
+                        type: richeditor
+                        required: true
+        additional_properties:
+            label: 'kodzero.posmall::lang.product.additional_properties'
+            oc.commentPosition: ''
+            prompt: 'kodzero.posmall::lang.common.add_value'
+            span: auto
+            type: repeater
+            tab: 'kodzero.posmall::lang.product.details'
+            form:
+                fields:
+                    name:
+                        label: 'kodzero.posmall::lang.common.name'
+                        oc.commentPosition: ''
+                        span: left
+                        type: text
+                        required: true
+                    value:
+                        label: 'kodzero.posmall::lang.common.value'
+                        oc.commentPosition: ''
+                        span: right
+                        type: text
+                        required: true
+        _properties:
+            oc.commentPosition: ''
+            prompt: 'kodzero.posmall::lang.common.add_value'
+            span: full
+            type: posmall.propertyfields
+            tab: 'kodzero.posmall::lang.common.properties'
+            dependsOn: [categories, inventory_management_method]
+        price_includes_tax:
+            label: 'kodzero.posmall::lang.product.price_includes_tax'
+            span: auto
+            default: 1
+            type: switch
+            comment: 'kodzero.posmall::lang.product.price_includes_tax_comment'
+            tab: 'kodzero.posmall::lang.common.taxes'
+        sell_only_to_tax_states:
+            label: Sell only to states selected in taxes
+            comment: When enabled, checkout can allow this product only in states listed by the selected tax records.
+            span: auto
+            type: switch
+            tab: 'kodzero.posmall::lang.common.taxes'
+        taxes:
+            label: 'kodzero.posmall::lang.common.taxes'
+            oc.commentPosition: ''
+            span: left
+            type: partial
+            path: taxes
+            tab: 'kodzero.posmall::lang.common.taxes'
+        image_sets:
+            label: 'kodzero.posmall::lang.common.images'
+            oc.commentPosition: ''
+            span: left
+            type: partial
+            path: image_sets
+            tab: 'kodzero.posmall::lang.common.attachments'
+        downloads:
+            label: 'kodzero.posmall::lang.common.downloads'
+            oc.commentPosition: ''
+            mode: file
+            prompt: 'kodzero.posmall::lang.common.select_file'
+            useCaption: true
+            span: right
+            type: fileupload
+            tab: 'kodzero.posmall::lang.common.attachments'
+        links:
+            label: 'kodzero.posmall::lang.product.links'
+            oc.commentPosition: ''
+            prompt: 'kodzero.posmall::lang.common.add_value'
+            span: right
+            type: repeater
+            tab: 'kodzero.posmall::lang.common.attachments'
+            form:
+                fields:
+                    title:
+                        label: 'kodzero.posmall::lang.product.link_title'
+                        oc.commentPosition: ''
+                        span: left
+                        type: text
+                        required: true
+                    url:
+                        label: 'kodzero.posmall::lang.product.link_target'
+                        oc.commentPosition: ''
+                        span: right
+                        type: text
+                        required: true
+        embeds:
+            label: 'kodzero.posmall::lang.product.embeds'
+            prompt: 'kodzero.posmall::lang.common.add_value'
+            span: right
+            type: repeater
+            tab: 'kodzero.posmall::lang.common.attachments'
+            form:
+                fields:
+                    title:
+                        label: 'kodzero.posmall::lang.product.embed_title'
+                        span: full
+                        required: true
+                        type: text
+                    code:
+                        label: 'kodzero.posmall::lang.product.embed_code'
+                        span: full
+                        required: true
+                        comment: 'kodzero.posmall::lang.product.embed_code_comment'
+                        type: textarea
+                        size: small
+        shippable:
+            label: 'kodzero.posmall::lang.product.shippable'
+            comment: 'kodzero.posmall::lang.product.shippable_comment'
+            oc.commentPosition: ''
+            span: full
+            type: checkbox
+            tab: 'kodzero.posmall::lang.common.shipping'
+        weight:
+            label: 'kodzero.posmall::lang.product.weight'
+            oc.commentPosition: ''
+            span: auto
+            type: number
+            tab: 'kodzero.posmall::lang.common.shipping'
+        height:
+            label: 'kodzero.posmall::lang.product.height'
+            oc.commentPosition: ''
+            span: auto
+            type: number
+            tab: 'kodzero.posmall::lang.common.shipping'
+        width:
+            label: 'kodzero.posmall::lang.product.width'
+            oc.commentPosition: ''
+            span: auto
+            type: number
+            tab: 'kodzero.posmall::lang.common.shipping'
+        length:
+            label: 'kodzero.posmall::lang.product.length'
+            oc.commentPosition: ''
+            span: auto
+            type: number
+            tab: 'kodzero.posmall::lang.common.shipping'
+        stackable:
+            label: 'kodzero.posmall::lang.product.stackable'
+            span: auto
+            type: switch
+            comment: 'kodzero.posmall::lang.product.stackable_comment'
+            tab: 'kodzero.posmall::lang.common.cart'
+        custom_fields:
+            label: 'kodzero.posmall::lang.common.custom_fields'
+            oc.commentPosition: ''
+            span: right
+            type: partial
+            path: custom_fields
+            tab: 'kodzero.posmall::lang.common.cart'
+        services:
+            label: 'kodzero.posmall::lang.common.services'
+            oc.commentPosition: ''
+            span: right
+            type: partial
+            path: services
+            tab: 'kodzero.posmall::lang.common.cart'
+        quantity_default:
+            label: 'kodzero.posmall::lang.product.quantity_default'
+            oc.commentPosition: ''
+            span: left
+            type: number
+            tab: 'kodzero.posmall::lang.common.cart'
+        quantity_min:
+            label: 'kodzero.posmall::lang.product.quantity_min'
+            oc.commentPosition: ''
+            span: left
+            type: number
+            tab: 'kodzero.posmall::lang.common.cart'
+        quantity_max:
+            label: 'kodzero.posmall::lang.product.quantity_max'
+            oc.commentPosition: ''
+            span: left
+            type: number
+            tab: 'kodzero.posmall::lang.common.cart'
+        accessories:
+            label: 'kodzero.posmall::lang.common.accessories'
+            span: full
+            type: partial
+            path: accessories
+            tab: 'kodzero.posmall::lang.common.accessories'
+        meta_title:
+            label: 'kodzero.posmall::lang.common.meta_title'
+            oc.commentPosition: ''
+            span: auto
+            type: text
+            tab: 'kodzero.posmall::lang.common.seo'
+        meta_keywords:
+            label: 'kodzero.posmall::lang.common.meta_keywords'
+            oc.commentPosition: ''
+            span: auto
+            type: text
+            tab: 'kodzero.posmall::lang.common.seo'
+        meta_description:
+            label: 'kodzero.posmall::lang.common.meta_description'
+            size: large
+            oc.commentPosition: ''
+            span: left
+            type: textarea
+            tab: 'kodzero.posmall::lang.common.seo'
+        reviews:
+            span: full
+            type: partial
+            path: reviews
+            tab: 'kodzero.posmall::lang.common.reviews'
+            permissions: 'kodzero.posmall.manage_reviews'
+        vendors:
+            label: POSMall Vendors
+            span: full
+            type: partial
+            path: vendors
+            tab: Commerce Context
+            permissions: 'kodzero.posmall.manage_api'
+        channels:
+            label: POSMall Channels
+            span: full
+            type: partial
+            path: channels
+            tab: Commerce Context
+            permissions: 'kodzero.posmall.manage_api'
+        warehouse_inventory:
+            label: POSMall Warehouse Inventory
+            span: full
+            type: partial
+            path: warehouse_inventory
+            tab: Commerce Context
+            permissions: 'kodzero.posmall.manage_api'

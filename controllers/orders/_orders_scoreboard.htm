@@ -1,0 +1,83 @@
+<?php $count = $stats->count(); ?>
+<?php if ($count > 0): ?>
+<div class="scoreboard scoreboard--fix-until-toolbar-buttons-are-added">
+    <div data-control="toolbar">
+
+        <div class="scoreboard-item title-value">
+            <h4><?= e(trans('kodzero.posmall::lang.common.orders')) ?></h4>
+            <p><?= e($count) ?></p>
+            <p class="description"><?= e(trans('kodzero.posmall::lang.common.since_begin')) ?></p>
+        </div>
+
+        <div class="scoreboard-item title-value">
+            <h4><?= e(trans('kodzero.posmall::lang.common.weekly')) ?></h4>
+            <p><?= e($stats->perWeekCount()) ?></p>
+            <p class="description"><?= e(trans('kodzero.posmall::lang.common.orders')) ?></p>
+        </div>
+
+        <div class="scoreboard-item title-value">
+            <h4><?= e(trans('kodzero.posmall::lang.order.total_revenue')) ?></h4>
+            <p><?= e($money->format($stats->grandTotal())) ?></p>
+            <p class="description"><?= e(trans('kodzero.posmall::lang.common.since_begin')) ?></p>
+        </div>
+
+        <div class="scoreboard-item control-chart" data-control="chart-pie">
+            <ul>
+                <?php foreach($stats->byState() as $state): ?>
+                <li data-color="<?= e($state->color) ?>">
+                    <?= e($state->label) ?>
+                    <span><?= e($state->value)?></span>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <div class="scoreboard-item control-chart" data-control="chart-pie">
+            <ul>
+                <?php foreach($stats->byPaymentState() as $state): ?>
+                <li data-color="<?= e($state->color) ?>">
+                    <?= e($state->label) ?>
+                    <span><?= e($state->value)?></span>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <div class="scoreboard-item control-chart" data-control="chart-pie">
+            <h4><?= e(trans('kodzero.posmall::lang.order.vendor')) ?></h4>
+            <ul>
+                <?php foreach($stats->byVendor() as $state): ?>
+                <li data-color="<?= e($state->color) ?>">
+                    <?= e($state->label) ?>
+                    <span><?= e($state->value)?></span>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <div class="scoreboard-item control-chart" data-control="chart-pie">
+            <h4><?= e(trans('kodzero.posmall::lang.order.channel')) ?></h4>
+            <ul>
+                <?php foreach($stats->byChannel() as $state): ?>
+                <li data-color="<?= e($state->color) ?>">
+                    <?= e($state->label) ?>
+                    <span><?= e($state->value)?></span>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <div class="scoreboard-item control-chart" data-control="chart-pie">
+            <h4><?= e(trans('kodzero.posmall::lang.order.warehouse')) ?></h4>
+            <ul>
+                <?php foreach($stats->byWarehouse() as $state): ?>
+                <li data-color="<?= e($state->color) ?>">
+                    <?= e($state->label) ?>
+                    <span><?= e($state->value)?></span>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

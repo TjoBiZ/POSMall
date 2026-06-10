@@ -1,0 +1,325 @@
+<?php
+$scopeGroups = \KodZero\POSMall\Models\ApiToken::scopeTree();
+$knownScopes = \KodZero\POSMall\Models\ApiToken::knownScopes();
+$currentScopes = $formModel instanceof \KodZero\POSMall\Models\ApiToken
+    ? (array)($formModel->scopes ?: [])
+    : [];
+
+if ($currentScopes === []) {
+    $currentScopes = ['catalog:read'];
+}
+
+$currentScopes = array_values(array_filter(array_map('strval', $currentScopes)));
+$unknownScopes = array_values(array_diff($currentScopes, $knownScopes));
+?>
+
+<div
+    class="posmall-api-scope-tree"
+    data-posmall-api-scope-tree
+    data-known-scopes="<?= e(json_encode($knownScopes)) ?>"
+>
+    <div class="callout callout-info">
+        <div class="header">
+            <i class="icon-key"></i>
+            <h3>API permission tree</h3>
+        </div>
+        <div class="content">
+            <p>
+                Select the business capabilities this key may use. Context allow-lists below narrow
+                the selected scopes by customer, vendor, channel, warehouse and browser origin.
+            </p>
+        </div>
+    </div>
+
+    <div class="posmall-api-scope-tree__grid">
+        <?php foreach ($scopeGroups as $groupIndex => $group): ?>
+            <section class="posmall-api-scope-tree__group">
+                <h4><?= e($group['label']) ?></h4>
+                <p class="help-block"><?= e($group['description']) ?></p>
+
+                <?php foreach (($group['items'] ?? []) as $scope): ?>
+                    <?php
+                    $code = (string)$scope['scope'];
+                    $id = 'posmall-api-scope-' . preg_replace('/[^a-z0-9_]+/', '-', strtolower($code));
+                    $checked = in_array($code, $currentScopes, true);
+                    $isDanger = !empty($scope['danger']);
+                    ?>
+                    <label
+                        class="posmall-api-scope-tree__item <?= $isDanger ? 'is-danger' : '' ?>"
+                        for="<?= e($id) ?>"
+                    >
+                        <input
+                            id="<?= e($id) ?>"
+                            type="checkbox"
+                            value="<?= e($code) ?>"
+                            data-posmall-api-scope="<?= e($code) ?>"
+                            <?= $checked ? 'checked' : '' ?>
+                        >
+                        <span class="posmall-api-scope-tree__body">
+                            <span class="posmall-api-scope-tree__title">
+                                <strong><?= e($scope['label']) ?></strong>
+                                <span class="label <?= $isDanger ? 'label-danger' : 'label-info' ?>">
+                                    <?= e($scope['verb']) ?>
+                                </span>
+                                <code><?= e($code) ?></code>
+                            </span>
+                            <span class="posmall-api-scope-tree__description">
+                                <?= e($scope['description']) ?>
+                            </span>
+                            <span class="posmall-api-scope-tree__depends">
+                                <?= e($scope['depends']) ?>
+                            </span>
+                        </span>
+                    </label>
+                <?php endforeach ?>
+            </section>
+        <?php endforeach ?>
+    </div>
+
+    <div class="callout callout-warning posmall-api-scope-tree__wildcard-warning" data-posmall-api-wildcard-warning>
+        <div class="header">
+            <i class="icon-warning"></i>
+            <h3>Full API access is selected</h3>
+        </div>
+        <div class="content">
+            <p>
+                The wildcard scope bypasses individual scope checks. Use it only for fully trusted
+                server-side integrations. Keep customer, vendor, channel, warehouse and origin
+                restrictions as narrow as the integration allows.
+            </p>
+        </div>
+    </div>
+
+    <div class="callout callout-info posmall-api-scope-tree__summary">
+        <div class="header">
+            <i class="icon-filter"></i>
+            <h3>Effective access summary</h3>
+        </div>
+        <div class="content">
+            <p data-posmall-api-scope-summary></p>
+            <p class="help-block">
+                The token must pass both checks: selected scopes and the allow-lists below. Empty
+                allow-lists mean that dimension is not narrowed for trusted server-to-server use.
+            </p>
+            <p
+                class="help-block posmall-api-scope-tree__unknown"
+                data-posmall-api-unknown-scopes
+                <?= $unknownScopes === [] ? 'hidden' : '' ?>
+            >
+                Unmapped scopes are not valid and must be removed before saving:
+                <code><?= e(implode(', ', $unknownScopes)) ?></code>
+            </p>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="posmall-api-scopes-field">Effective scopes</label>
+        <textarea
+            id="posmall-api-scopes-field"
+            name="ApiToken[scopes]"
+            class="form-control custom-scrollbar"
+            rows="6"
+        ><?= e(implode("\n", $currentScopes)) ?></textarea>
+        <p class="help-block">
+            The tree above updates this field. Advanced users may edit one scope per line.
+            Use <code>*</code> only for trusted internal integrations.
+        </p>
+    </div>
+</div>
+
+<style>
+    .posmall-api-scope-tree__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 16px;
+        margin-bottom: 16px;
+    }
+
+    .posmall-api-scope-tree__group {
+        border: 1px solid #d7dde2;
+        border-radius: 4px;
+        padding: 14px;
+        background: #fff;
+    }
+
+    .posmall-api-scope-tree__item {
+        display: flex;
+        gap: 10px;
+        padding: 10px 0;
+        border-top: 1px solid #edf0f2;
+        cursor: pointer;
+    }
+
+    .posmall-api-scope-tree__item:first-of-type {
+        border-top: 0;
+    }
+
+    .posmall-api-scope-tree__item input {
+        margin-top: 4px;
+    }
+
+    .posmall-api-scope-tree__body,
+    .posmall-api-scope-tree__description,
+    .posmall-api-scope-tree__depends {
+        display: block;
+    }
+
+    .posmall-api-scope-tree__title {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 4px;
+    }
+
+    .posmall-api-scope-tree__description {
+        color: #47525d;
+        margin-bottom: 3px;
+    }
+
+    .posmall-api-scope-tree__depends {
+        color: #7d8790;
+        font-size: 12px;
+    }
+
+    .posmall-api-scope-tree__item.is-danger {
+        color: #8a2a20;
+    }
+
+    .posmall-api-scope-tree__wildcard-warning {
+        display: none;
+    }
+
+    .posmall-api-scope-tree.has-wildcard .posmall-api-scope-tree__wildcard-warning {
+        display: block;
+    }
+</style>
+
+<script>
+(function () {
+    function normalizeScopes(value) {
+        return String(value || '')
+            .split(/[\r\n,]+/)
+            .map(function (scope) { return scope.trim(); })
+            .filter(Boolean)
+            .filter(function (scope, index, list) { return list.indexOf(scope) === index; });
+    }
+
+    function initScopeTree(root) {
+        if (!root || root.dataset.posmallScopeTreeReady === '1') {
+            return;
+        }
+
+        var textarea = root.querySelector('textarea[name="ApiToken[scopes]"]');
+        if (!textarea) {
+            return;
+        }
+
+        root.dataset.posmallScopeTreeReady = '1';
+
+        var knownScopes = [];
+        try {
+            knownScopes = JSON.parse(root.getAttribute('data-known-scopes') || '[]');
+        } catch (error) {
+            knownScopes = [];
+        }
+
+        var checkboxes = Array.prototype.slice.call(root.querySelectorAll('[data-posmall-api-scope]'));
+        var summary = root.querySelector('[data-posmall-api-scope-summary]');
+        var unknown = root.querySelector('[data-posmall-api-unknown-scopes]');
+
+        function selectedKnownScopes() {
+            return checkboxes
+                .filter(function (checkbox) { return checkbox.checked; })
+                .map(function (checkbox) { return checkbox.value; });
+        }
+
+        function unknownScopes() {
+            return normalizeScopes(textarea.value)
+                .filter(function (scope) { return knownScopes.indexOf(scope) === -1; });
+        }
+
+        function renderSummary() {
+            var selected = selectedKnownScopes();
+            var extra = unknownScopes();
+            var hasWildcard = selected.indexOf('*') !== -1;
+
+            root.classList.toggle('has-wildcard', hasWildcard);
+
+            if (summary) {
+                summary.textContent = selected.length
+                    ? 'Selected scopes: ' + selected.join(', ') + (extra.length ? '. Invalid unmapped scopes in raw field: ' + extra.join(', ') + '.' : '.')
+                    : 'No known scopes selected. This token cannot use documented POSMall API routes until scopes are added.';
+            }
+
+            if (unknown) {
+                unknown.hidden = extra.length === 0;
+                unknown.innerHTML = extra.length
+                    ? 'Unmapped scopes are not valid and must be removed before saving: <code>' + extra.map(escapeHtml).join(', ') + '</code>'
+                    : '';
+            }
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function syncTextareaFromTree(changedScope) {
+            if (changedScope === '*') {
+                var wildcard = checkboxes.find(function (checkbox) { return checkbox.value === '*'; });
+                if (wildcard && wildcard.checked) {
+                    checkboxes.forEach(function (checkbox) {
+                        if (checkbox.value !== '*') {
+                            checkbox.checked = false;
+                        }
+                    });
+                }
+            } else {
+                var wildcardCheckbox = checkboxes.find(function (checkbox) { return checkbox.value === '*'; });
+                if (wildcardCheckbox && wildcardCheckbox.checked) {
+                    wildcardCheckbox.checked = false;
+                }
+            }
+
+            textarea.value = selectedKnownScopes().join("\n");
+            textarea.dispatchEvent(new Event('change', { bubbles: true }));
+            renderSummary();
+        }
+
+        function syncTreeFromTextarea() {
+            var values = normalizeScopes(textarea.value);
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = values.indexOf(checkbox.value) !== -1;
+            });
+            renderSummary();
+        }
+
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                syncTextareaFromTree(checkbox.value);
+            });
+        });
+
+        textarea.addEventListener('change', syncTreeFromTextarea);
+        textarea.addEventListener('input', syncTreeFromTextarea);
+        syncTreeFromTextarea();
+    }
+
+    function boot() {
+        Array.prototype.slice.call(document.querySelectorAll('[data-posmall-api-scope-tree]'))
+            .forEach(initScopeTree);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', boot);
+    } else {
+        boot();
+        window.setTimeout(boot, 100);
+    }
+})();
+</script>

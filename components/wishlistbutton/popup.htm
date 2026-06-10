@@ -1,0 +1,17 @@
+<div class="mall-wishlist-button__popup card shadow-sm border-0 mt-2">
+    <div class="mall-wishlist-button__popup-inner card-body">
+        <div class="mall-wishlist-button__popup-title d-flex justify-content-between align-items-start gap-3 mb-2">
+            <span class="fw-semibold">{{ 'kodzero.posmall::frontend.wishlist.default_name'|trans }}</span>
+            <a href="{{ 'posmall-account'|page({ page: 'favorites' }) }}"
+               target="_blank"
+               rel="noopener"
+               class="small text-nowrap">
+                View all Favorites
+            </a>
+        </div>
+        <div class="mall-wishlists mall-wishlists--height-limited">
+            {% partial __SELF__ ~ '::list' items=__SELF__.items %}
+        </div>
+        {% partial __SELF__ ~ '::add' %}
+    </div>
+</div>

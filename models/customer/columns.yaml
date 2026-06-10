@@ -1,0 +1,9 @@
+columns:
+    firstname:
+        label: 'kodzero.posmall::frontend.form.firstname'
+        type: text
+        searchable: true
+    lastname:
+        label: 'kodzero.posmall::frontend.form.lastname'
+        type: text
+        searchable: true

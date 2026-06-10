@@ -1,0 +1,15 @@
+{% if not __SELF__.priceRange == false %}
+    <div class="mall-property-group mb-3">
+        <div class="mall-property-group__name mall-property-group__name--price d-flex justify-content-between gap-2 fw-semibold mb-2">
+            <div>{{ 'kodzero.posmall::frontend.price'|trans }}</div>
+            {% partial __SELF__ ~ '::clearfilter' id='price' %}
+        </div>
+        <div class="mall-property">
+            {% partial __SELF__ ~ '::range'
+                id  = 'price'
+                slug  = 'price'
+                min = __SELF__.priceRange[0]
+                max = __SELF__.priceRange[1] %}
+        </div>
+    </div>
+{% endif %}

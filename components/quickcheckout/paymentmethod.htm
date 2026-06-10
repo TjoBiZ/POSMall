@@ -1,0 +1,55 @@
+<header class="mall-quick-checkout__collapsible-header card-header bg-transparent d-flex justify-content-between gap-3">
+    <h2 class="mall-quick-checkout__heading h5 mb-0">{{ 'kodzero.posmall::frontend.payment'|trans }}</h2>
+    <div class="mall-quick-checkout__collapsible-summary text-muted">
+        {% if cart.payment_method is defined %}
+            {{ cart.payment_method.name|default(null) }}
+        {% endif %}
+    </div>
+</header>
+<section class="mall-quick-checkout__collapsible-content card-body">
+    <div class="mall-quick-checkout__collapsible-inner d-grid gap-3">
+        {% for method in __SELF__.paymentMethods %}
+            {% set isActiveMethod = cart.payment_method.id == method.id %}
+            <a href="javascript:;" class="mall-quick-checkout__toggle-option card text-decoration-none text-reset {{ isActiveMethod ? 'mall-quick-checkout__toggle-option--active border-primary' : '' }}"
+               data-request="onChangePaymentMethod"
+               data-request-data="id: '{{ method.id }}'"
+               data-request-success="window.POSMallBus && window.POSMallBus.publish('posmall.cart.paymentMethodChanged', data)"
+            >
+                <div class="card-body d-flex align-items-center gap-3">
+                <div class="mall-quick-checkout__toggle-option-selection">
+                    <div
+                        class="mall-selection-indicator {{ isActiveMethod ? 'mall-selection-indicator--active' : '' }}">
+                        &check;
+                    </div>
+                </div>
+                <div class="mall-quick-checkout__toggle-option-text flex-grow-1">
+                    <h4 class="mall-quick-checkout__toggle-option-name h6 mb-1">{{ method.name }}</h4>
+                    <div class="mall-quick-checkout__toggle-option-meta small text-muted">
+                        {% if method.description|default(null) %}
+                            <div>
+                                {{ method.description|raw }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if method.logo|default(null) %}
+                    <div class="mall-quick-checkout__toggle-option-logo">
+                        <img class="mall-quick-checkout__toggle-option-image"
+                             src="{{ method.logo.thumb(75, 75) }}" alt=""/>
+                    </div>
+                {% endif %}
+                </div>
+            </a>
+            {% if isActiveMethod %}
+                <div class="mall-quick-checkout__payment-method-form card card-body bg-body-tertiary">
+                    {{ __SELF__.renderPaymentForm()|raw }}
+                </div>
+                {% if this.request.ajax %}
+                    {% scripts %}
+                {% endif %}
+            {% endif %}
+        {% else %}
+            <p class="alert alert-warning mb-0">{{ 'kodzero.posmall::frontend.no_payment_method_available'|trans }} </p>
+        {% endfor %}
+    </div>
+</section>

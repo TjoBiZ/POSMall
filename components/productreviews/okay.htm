@@ -1,0 +1,6 @@
+<div class="mall-callout">
+    <p>{{ 'kodzero.posmall::frontend.reviews.callout'|trans }}</p>
+    {% if __SELF__.isModerated and isNew %}
+        <p>{{ 'kodzero.posmall::frontend.reviews.moderated'|trans }}</p>
+    {% endif %}
+</div>

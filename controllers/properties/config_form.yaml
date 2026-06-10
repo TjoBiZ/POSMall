@@ -1,0 +1,12 @@
+name: 'kodzero.posmall::lang.product.properties'
+modelClass: KodZero\POSMall\Models\Property
+form: $/kodzero/posmall/models/property/fields.yaml
+defaultRedirect: kodzero/posmall/properties
+create:
+    title: 'kodzero.posmall::lang.titles.properties.create'
+    redirect: 'kodzero/posmall/properties/update/:id'
+    redirectClose: kodzero/posmall/properties
+update:
+    title: 'kodzero.posmall::lang.titles.properties.edit'
+    redirect: kodzero/posmall/properties
+    redirectClose: kodzero/posmall/properties

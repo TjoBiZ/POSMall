@@ -1,0 +1,23 @@
+columns:
+    name:
+        label: Name
+        searchable: true
+        sortable: true
+    slug:
+        label: Slug
+        searchable: true
+        sortable: true
+    type:
+        label: Type
+        searchable: true
+        sortable: true
+    is_active:
+        label: Active
+        type: switch
+    is_default:
+        label: Default
+        type: switch
+    created_at:
+        label: Created
+        type: datetime
+        invisible: true

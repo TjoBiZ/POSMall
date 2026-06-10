@@ -1,0 +1,55 @@
+{% set isActiveMethod = cart.shipping_method.id == method.id %}
+<div class="mall-shipping-method__entry js-mall-select-shipping-method card
+     {{ isActiveMethod ? 'mall-shipping-method__entry--active border-primary' : '' }}"
+     data-id="{{ method.id }}"
+     role="radio"
+     aria-checked="{{ isActiveMethod ? 'true' : 'false' }}"
+     aria-current="{{ isActiveMethod ? 'true' : 'false' }}"
+>
+    <div class="card-body d-flex gap-3 align-items-start">
+        <div class="mall-shipping-method__logo flex-shrink-0">
+            {% if method.logo|default(null) %}
+                <img class="mall-shipping-method__logo img-fluid rounded" src="{{ method.logo.thumb(120, null) }}" alt="{{ method.name }}"/>
+            {% endif %}
+        </div>
+        <div class="mall-shipping-method__text flex-grow-1">
+            <div class="mall-shipping-method__heading">
+                <div class="mall-shipping-method__name h6 mb-1">{{ method.name }}</div>
+                <div class="mall-shipping-method__meta small text-muted">
+                    {% if method.guaranteed_delivery_days %}
+                        <div class="mall-shipping-method__delivery-days">
+                            {% set days = method.guaranteed_delivery_days %}
+                            {{ 'kodzero.posmall::frontend.shipping_method.guaranteed_delivery_days'
+                                | transchoice(days, {days: days})
+                            }}
+                        </div>
+                    {% endif %}
+                    <div class="mall-shipping-method__price fw-semibold text-body">
+                        {{ method.price().integer > 0
+                        ? (method.price().string|raw)
+                        : ('kodzero.posmall::frontend.no_additional_charges'|trans) }}
+                    </div>
+                </div>
+            </div>
+            <div class="mall-shipping-method__toggle"
+                 style="{% if not isActiveMethod %}display: none{% endif %}">
+                {% if method.description %}
+                    <div class="mall-shipping-method__description mt-3">
+                        {{ method.description|raw }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="mall-shipping-method__selector flex-shrink-0">
+            {% if not isActiveMethod %}
+                <button class="mall-shipping-method__select-button btn btn-outline-primary"
+                        data-attach-loading
+                        data-request="{{ __SELF__ }}::onChangeMethod"
+                        data-request-success="window.POSMallBus && window.POSMallBus.publish('posmall.cart.shippingMethodChanged', data)"
+                        data-request-data="id: '{{ method.id }}'">
+                    {{ 'kodzero.posmall::frontend.shipping_method.button_label'|trans }}
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,116 @@
+<?php
+
+namespace KodZero\POSMall\Classes\Traits\Cart;
+
+use Auth;
+use Cookie;
+use KodZero\POSMall\Models\Cart;
+use KodZero\POSMall\Models\CartProduct;
+use KodZero\POSMall\Models\Customer;
+use KodZero\POSMall\Models\CustomerGroupPrice;
+use RainLab\User\Models\User;
+use Session;
+
+trait CartSession
+{
+    public static function byUser(?User $user)
+    {
+        $customer = Customer::forUser($user);
+
+        if ($customer === null) {
+            return self::bySession();
+        }
+
+        $cart = self::orderBy('created_at', 'DESC')
+            ->firstOrNew(['customer_id' => $customer->id]);
+
+        if (! $cart->shipping_address_id || ! $cart->billing_address_id) {
+            if (! $cart->shipping_address_id) {
+                $cart->shipping_address_id = $customer->default_shipping_address_id;
+            }
+
+            if (! $cart->billing_address_id) {
+                $cart->billing_address_id = $customer->default_billing_address_id;
+            }
+
+            if ($cart->exists) {
+                $cart->save();
+            }
+        }
+
+        return $cart;
+    }
+
+    /**
+     * Transfer a session attached cart to a customer.
+     *
+     * @param $customer
+     *
+     * @return Cart
+     */
+    public static function transferSessionCartToCustomer(Customer $customer): Cart
+    {
+        $cart = self::bySession();
+
+        return $cart->transferToCustomer($customer);
+    }
+
+    /**
+     * Transfer a cart to a customer.
+     * @param $customer
+     * @return Cart
+     */
+    public function transferToCustomer(Customer $customer): Cart
+    {
+        $shippingId = $customer->default_shipping_address_id ?? $customer->default_billing_address_id;
+
+        // Remove any old active cart by this customer.
+        $existing = Cart::where('customer_id', $customer->id)->whereNull('session_id')->first();
+
+        if ($existing) {
+            $existing->delete();
+        }
+
+        $this->session_id          = null;
+        $this->customer_id         = $customer->id;
+        $this->billing_address_id  = $customer->default_billing_address_id;
+        $this->shipping_address_id = $shippingId;
+
+        // If the logged-in user belongs to a customer group, ensure
+        // that group-specific prices are applied to the cart products.
+        if (Auth::getUser()?->kodzero_posmall_customer_group_id !== null) {
+            $this->products->each(function (CartProduct $cartProduct) {
+                if (!$cartProduct->product->price() instanceof CustomerGroupPrice) {
+                    return;
+                }
+
+                $model = $cartProduct->variant ?? $cartProduct->product;
+                $price = $model->priceIncludingCustomFieldValues($cartProduct->custom_field_values);
+                
+                $cartProduct->attributes['price'] = $cartProduct->mapJsonPrice($price, 1);
+                $cartProduct->save();
+            });
+        }
+
+        $this->save();
+
+        return $this;
+    }
+
+    /**
+     * Create a cart for an unregistered user. The cart id
+     * is stored to the session and to a cookie. When the user
+     * visits the website again we will try to fetch the id of an old
+     * cart from the session or from the cookie.
+     *
+     * @return Cart
+     */
+    protected static function bySession(): Cart
+    {
+        $sessionId = Session::get('cart_session_id') ?? Cookie::get('cart_session_id') ?? str_random(100);
+        Cookie::queue('cart_session_id', $sessionId, 9e6);
+        Session::put('cart_session_id', $sessionId);
+
+        return self::orderBy('created_at', 'DESC')->firstOrNew(['session_id' => $sessionId]);
+    }
+}

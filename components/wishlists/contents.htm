@@ -1,0 +1,77 @@
+{% if allItems is defined %}
+<div class="mall-wishlists-manager__header card shadow-sm border-0 mb-3">
+    <div class="card-body">
+        <h3 class="h5 mb-1">All Favorites</h3>
+        <p class="text-muted mb-0">All saved items across your Favorites lists. Duplicate products are shown once.</p>
+    </div>
+</div>
+
+<div class="mall-wishlists-manager__well card shadow-sm border-0 mb-3"
+     data-posmall-wishlists-content
+     data-current-id=""
+     data-remove-handler="{{ __SELF__ }}::onRemove"
+     data-update-quantity-handler="{{ __SELF__ }}::onUpdateQuantity"
+     data-confirm-message="{{ 'kodzero.posmall::frontend.confirm'|trans|e('html_attr') }}">
+    <div class="card-body p-0">
+        {% partial __SELF__ ~ '::cart' allItems=allItems %}
+    </div>
+</div>
+{% else %}
+<div class="mall-wishlists-manager__header card shadow-sm border-0 mb-3">
+    <form class="mall-wishlists-manager__form card-body d-flex flex-wrap gap-2">
+        <input type="text" value="{{ item.name|e('html_attr') }}" name="name" class="mall-wishlists-manager__input form-control">
+        <input type="hidden" value="{{ item.hashId }}" name="id">
+        <button class="mall-btn mall-wishlists-manager__action-button btn btn-outline-primary"
+                data-request="onRename"
+                data-attach-loading
+                data-request-flash
+                data-request-validate>
+            {{ 'kodzero.posmall::frontend.wishlist.rename'|trans }}
+        </button>
+        <button class="mall-btn mall-wishlists-manager__action-button btn btn-outline-danger d-inline-flex align-items-center gap-2"
+                data-request="onDelete"
+                data-request-confirm="{{ 'kodzero.posmall::frontend.confirm'|trans }}"
+                data-attach-loading
+                data-request-flash
+                data-request-validate
+                aria-label="Delete Favorites list">
+            <svg class="mall-trash-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M11.06 64l-.16-2.72-2.2-41.89h5.75l2.05 38.86h31l2-38.86h5.8L53 64H11.06zM44.22 0v7.19H60v5.75H4V7.19h15.78V0zM24.81 7.19h14.38V3.6H24.81zm3.72 46.37l-.73-34.17h-5l.73 34.17zm11.86 0l.73-34.17h-5l-.73 34.17z"/>
+            </svg>
+            <span>Delete list</span>
+        </button>
+    </form>
+</div>
+
+<div class="mall-wishlists-manager__well card shadow-sm border-0 mb-3"
+     data-posmall-wishlists-content
+     data-current-id="{{ __SELF__.currentItem.hashId|e('html_attr') }}"
+     data-remove-handler="{{ __SELF__ }}::onRemove"
+     data-update-quantity-handler="{{ __SELF__ }}::onUpdateQuantity"
+     data-confirm-message="{{ 'kodzero.posmall::frontend.confirm'|trans|e('html_attr') }}">
+    <div class="card-body p-0">
+    {% partial __SELF__ ~ '::cart' %}
+    </div>
+</div>
+
+{% if __SELF__.currentItem.items.count|default(0) > 0 %}
+<div class="mall-wishlists-manager__actions d-flex flex-wrap gap-2 justify-content-end">
+    {% if __SELF__.allowPDFDownload|default(false) %}
+    <a class="mall-btn mall-btn--default btn btn-outline-secondary"
+       href="?download={{ __SELF__.currentItem.hashId }}"
+        target="_blank">
+        {{ 'kodzero.posmall::frontend.wishlists.pdf_download'|trans }}
+    </a>
+    {% endif %}
+    <button class="mall-btn mall-btn--primary btn btn-primary"
+            data-request="onAddToCart"
+            data-request-data="id: '{{ __SELF__.currentItem.hashId }}'"
+            data-attach-loading
+            data-request-flash
+            data-request-validate>
+        {{ 'kodzero.posmall::frontend.wishlists.addtocart'|trans }}
+    </button>
+</div>
+{% endif %}
+{% endif %}

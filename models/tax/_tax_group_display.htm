@@ -1,0 +1,20 @@
+<?php $rows = $record->tax_group_code_rows()->orderBy('tax_group_code')->get(); ?>
+
+<?php if ($rows->count() > 1): ?>
+    <details>
+        <summary><?= e($rows->count()) ?> <?= e(strtolower($record->tax_main_group_display)) ?> tax groups</summary>
+        <?php foreach ($rows as $row): ?>
+            <div style="margin-top: 4px">
+                <strong><?= e($row->tax_group_code) ?></strong><br>
+                <small><?= e($row->tax_group_name ?: 'Unnamed tax group') ?></small>
+            </div>
+        <?php endforeach ?>
+    </details>
+<?php elseif ($rows->count() === 1): ?>
+    <?php $row = $rows->first(); ?>
+    <?= e($row->tax_group_code) ?><br>
+    <small><?= e($row->tax_group_name ?: $record->tax_group_name) ?></small>
+<?php else: ?>
+    <?= e($record->tax_group_code) ?><br>
+    <small><?= e($record->tax_group_name) ?></small>
+<?php endif ?>

@@ -1,0 +1,29 @@
+<?php
+$sourceBacked = $record->isSourceBacked();
+$enabled = $sourceBacked && (bool)$record->usa_auto_update_enabled;
+$cronStatus = app(\KodZero\POSMall\Classes\System\SchedulerCronStatus::class)->check();
+$title = $sourceBacked
+    ? $cronStatus['label'] . '. ' . $cronStatus['message'] . ' Expected cron: ' . $cronStatus['expected_command']
+    : 'This tax has no source metadata. Auto-update is available only for imported/source-backed taxes.';
+?>
+
+<div class="posmall-tax-auto-update-cell" onclick="event.stopPropagation();" onmousedown="event.stopPropagation();">
+    <label class="custom-switch" title="<?= e($title) ?>">
+	        <input
+	            type="checkbox"
+	            class="posmall-tax-auto-update-switch"
+	            <?= $enabled ? 'checked="checked"' : '' ?>
+	            <?= $sourceBacked ? '' : 'disabled="disabled"' ?>
+	            onclick="event.stopPropagation();"
+	            onmousedown="event.stopPropagation();"
+	            data-posmall-tax-id="<?= (int)$record->id ?>"
+	        >
+        <span class="switch-indicator"></span>
+    </label>
+    <details style="display: inline-block; margin-left: 6px;" title="<?= e($title) ?>" onclick="event.stopPropagation();" onmousedown="event.stopPropagation();">
+        <summary class="oc-icon-info-circle text-info" style="cursor: pointer; display: inline-block;" onclick="event.stopPropagation();" onmousedown="event.stopPropagation();"></summary>
+        <small style="display: block; min-width: 260px; white-space: normal; margin-top: 4px;">
+            <?= e($title) ?>
+        </small>
+    </details>
+</div>

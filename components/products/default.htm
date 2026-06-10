@@ -1,0 +1,35 @@
+<div class="mall-products container-fluid px-0"
+     data-posmall-products
+     data-component-alias="{{ __SELF__ }}">
+    {# Initial render is flattened for the hot catalog path; keep entries.htm compatible for AJAX updates. #}
+    <div class="mall-loader text-center py-4">
+        <svg width="38" height="38" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" stroke="#333">
+            <g fill="none" fill-rule="evenodd">
+                <g transform="translate(1 1)" stroke-width="2">
+                    <circle stroke-opacity=".5" cx="18" cy="18" r="18"/>
+                    <path d="M36 18c0-9.94-8.06-18-18-18">
+                        <animateTransform
+                                attributeName="transform"
+                                type="rotate"
+                                from="0 18 18"
+                                to="360 18 18"
+                                dur="1s"
+                                repeatCount="indefinite"/>
+                    </path>
+                </g>
+            </g>
+        </svg>
+    </div>
+
+    {% if __SELF__.entriesMarkup|default(false) %}
+        {{ __SELF__.entriesMarkup|raw }}
+    {% elseif __SELF__.items.count|default(0) %}
+        {% partial __SELF__ ~ '::items' items=__SELF__.items %}
+    {% else %}
+        {% partial __SELF__ ~ '::empty' %}
+    {% endif %}
+
+    {% if __SELF__.dataLayer|default(false) %}
+        {% partial __SELF__ ~ '::datalayer' %}
+    {% endif %}
+</div>

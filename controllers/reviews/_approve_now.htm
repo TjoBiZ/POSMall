@@ -1,0 +1,20 @@
+<?php
+if($this->vars['formModel'] instanceof \KodZero\POSMall\Models\Review) {
+    $id = $this->vars['formModel']->id;
+    $handler = 'onApprove';
+    $label = 'approve_next';
+} else {
+    $id = post('manage_id');
+    $handler = 'onApproveReview';
+    $label = 'approve';
+}
+?>
+<button class="btn btn-default"
+        data-request="<?= e($handler) ?>"
+        data-request-data="id: '<?= e($id) ?>'"
+        data-dismiss="popup"
+        data-request-redirect
+        data-request-flash
+        data-attach-loading>
+    <?= e(trans('kodzero.posmall::lang.reviews.' . $label)) ?>
+</button>

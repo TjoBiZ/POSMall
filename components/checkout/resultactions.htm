@@ -1,0 +1,11 @@
+{% set orderHash = __SELF__.order ? (__SELF__.order.hash_id|default(__SELF__.order.hashId|default(null))) : null %}
+<div class="mall-checkout-result__actions d-flex flex-column flex-sm-row flex-wrap align-items-start gap-2 mt-3">
+    {% if __SELF__.order and not __SELF__.order.is_paid and orderHash %}
+        <a href="{{ 'posmall-order-pay'|page({hash: orderHash}) }}" class="mall-btn mall-btn--primary btn btn-primary">
+            {{ 'kodzero.posmall::frontend.payment_method.pay_now'|trans }}
+        </a>
+    {% endif %}
+    <a href="{{ __SELF__.accountPage|page({page: 'orders', order: orderHash}) }}" class="mall-btn btn btn-outline-secondary">
+        {{ 'kodzero.posmall::frontend.order_overview.visit'|trans }}
+    </a>
+</div>

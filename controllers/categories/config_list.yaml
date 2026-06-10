@@ -1,0 +1,17 @@
+title: 'kodzero.posmall::lang.common.categories'
+modelClass: KodZero\POSMall\Models\Category
+list: $/kodzero/posmall/models/category/columns.yaml
+recordUrl: 'kodzero/posmall/categories/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: 20
+showSetup: true
+showCheckboxes: true
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+structure:
+    showTree: true
+    showReorder: true
+    treeExpanded: true
+    maxDepth: 0

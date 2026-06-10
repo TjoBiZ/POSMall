@@ -1,0 +1,20 @@
+<div class="mall-filter mall-filter--range posmall-range-filter mb-3">
+    <div class="posmall-range-filter__values d-flex justify-content-between small text-muted mb-2">
+        <span data-range-min-label="{{ slug }}">{{ filter[slug].minValue|default(min) }}</span>
+        <span data-range-max-label="{{ slug }}">{{ filter[slug].maxValue|default(max) }}</span>
+    </div>
+    <div class="mall-slider-handles posmall-range-filter__slider"
+         data-start="{{ filter[slug].minValue|default(min) }}"
+         data-end="{{ filter[slug].maxValue|default(max) }}"
+         data-min="{{ min }}"
+         data-max="{{ max }}"
+         data-target="{{ slug }}"
+         style="width: 100%"></div>
+
+    <input data-min="{{ slug }}"
+           type="hidden" name="filter[{{ slug }}][min]"
+           value="{{ filter[slug].minValue|default() }}" />
+    <input data-max="{{ slug }}"
+           type="hidden" name="filter[{{ slug }}][max]"
+           value="{{ filter[slug].maxValue|default() }}" />
+</div>

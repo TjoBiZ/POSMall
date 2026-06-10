@@ -1,0 +1,14 @@
+name: POSMall Channel
+modelClass: KodZero\POSMall\Models\Channel
+form: $/kodzero/posmall/models/channel/fields.yaml
+defaultRedirect: kodzero/posmall/channels
+create:
+    title: Create POSMall Channel
+    redirect: 'kodzero/posmall/channels/update/:id'
+    redirectClose: kodzero/posmall/channels
+update:
+    title: Update POSMall Channel
+    redirect: kodzero/posmall/channels
+    redirectClose: kodzero/posmall/channels
+preview:
+    title: Preview POSMall Channel

@@ -1,0 +1,13 @@
+name: kodzero.posmall::lang.price_category_settings.label
+modelClass: KodZero\POSMall\Models\PriceCategory
+form: $/kodzero/posmall/models/pricecategory/fields.yaml
+defaultRedirect: kodzero/posmall/pricecategories
+create:
+    title: kodzero.posmall::lang.titles.price_categories.create
+    redirect: 'kodzero/posmall/pricecategories/update/:id'
+    redirectClose: kodzero/posmall/pricecategories
+update:
+    title: kodzero.posmall::lang.titles.price_categories.update
+    redirect: kodzero/posmall/pricecategories
+    redirectClose: kodzero/posmall/pricecategories
+preview: {  }

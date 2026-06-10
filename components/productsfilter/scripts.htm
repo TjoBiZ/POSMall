@@ -1,0 +1,390 @@
+{% put scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    /**
+     * Products filter behavior using vanilla JavaScript.
+     *
+     * This script preserves the POSMall filtering behavior:
+     * - clicking filter options toggles selected state;
+     * - clearing a filter resets inputs and sliders;
+     * - select filters submit the filter form;
+     * - AJAX response updates the browser query string;
+     * - AJAX response controls visible filter groups through data-filter;
+     * - product list reload is delegated to the Products component through POSMallBus events.
+     */
+
+    const propertiesForm = document.querySelector('.mall-products-filter');
+    const componentAlias = '{{ __SELF__ }}';
+
+    if (!propertiesForm) {
+        return;
+    }
+
+    function publish(name, detail) {
+        if (window.POSMallBus) {
+            window.POSMallBus.publish(name, detail || {});
+            return;
+        }
+
+        document.dispatchEvent(new CustomEvent(name, { detail: detail || {} }));
+    }
+
+    /**
+     * Normalize October AJAX response data.
+     *
+     * Different October AJAX callbacks can return either:
+     * - the response object directly;
+     * - an XMLHttpRequest-like object with responseJSON.
+     */
+    function getResponseData(response) {
+        if (!response) {
+            return {};
+        }
+
+        if (response.responseJSON) {
+            return response.responseJSON;
+        }
+
+        return response;
+    }
+
+    /**
+     * Update the browser URL after filter changes.
+     *
+     * This restores the original queryString behavior.
+     */
+    function updateBrowserQueryString(data) {
+        if (!data || !Object.prototype.hasOwnProperty.call(data, 'queryString')) {
+            return;
+        }
+
+        const queryString = data.queryString ? '?' + data.queryString : '';
+        history.replaceState(null, '', window.location.pathname + queryString);
+    }
+
+    function replaceFilterMarkup(data) {
+        if (!data || !Object.prototype.hasOwnProperty.call(data, 'filterMarkup')) {
+            return;
+        }
+
+        propertiesForm.innerHTML = data.filterMarkup || '';
+        initRangeSliders();
+    }
+
+    /**
+     * Show/hide dependent filters based on AJAX response.
+     *
+     * The original code hid all [data-filter] elements, then showed only
+     * filters returned by the backend.
+     */
+    function updateVisibleFilters(data) {
+        if (!data || !Object.prototype.hasOwnProperty.call(data, 'filter')) {
+            return;
+        }
+
+        document.querySelectorAll('[data-filter]').forEach(function (element) {
+            element.style.display = 'none';
+        });
+
+        Object.keys(data.filter || {}).forEach(function (filterName) {
+            document.querySelectorAll('[data-filter="' + filterName + '"]').forEach(function (element) {
+                element.style.display = '';
+            });
+        });
+    }
+
+    function submitFilters() {
+        propertiesForm.dispatchEvent(new Event('submit', {
+            bubbles: true,
+            cancelable: true
+        }));
+    }
+
+    function syncSelectedState(input) {
+        const option = input.closest('.js-mall-filter');
+
+        if (!option) {
+            return;
+        }
+
+        option.classList.toggle('mall-filter__option--selected', input.checked);
+    }
+
+    /**
+     * Filter option click.
+     *
+     * Preserves original behavior:
+     * - toggle CSS selected state;
+     * - toggle hidden checkbox if checkbox is visually hidden;
+     * - submit the filter form.
+     */
+    document.body.addEventListener('click', function (event) {
+        const option = event.target.closest('.js-mall-filter');
+
+        if (!option) {
+            return;
+        }
+
+        const input = option.querySelector('input');
+
+        if (input) {
+            const isHidden = input.offsetParent === null || input.type === 'hidden';
+
+            if (!isHidden) {
+                return;
+            }
+
+            input.checked = !input.checked;
+            syncSelectedState(input);
+        } else {
+            option.classList.toggle('mall-filter__option--selected');
+        }
+
+        submitFilters();
+    });
+
+    document.body.addEventListener('change', function (event) {
+        const input = event.target.closest('.js-mall-filter input[type="checkbox"], .js-mall-filter input[type="radio"]');
+
+        if (!input) {
+            return;
+        }
+
+        syncSelectedState(input);
+        submitFilters();
+    });
+
+    /**
+     * Clear one filter group.
+     *
+     * This restores the original .js-mall-clear-filter logic.
+     */
+    document.body.addEventListener('click', function (event) {
+        const clearButton = event.target.closest('.js-mall-clear-filter');
+
+        if (!clearButton) {
+            return;
+        }
+
+        event.preventDefault();
+
+        const parent =
+            clearButton.closest('.mall-property') ||
+            clearButton.closest('.mall-property-group');
+
+        if (!parent) {
+            return;
+        }
+
+        parent.querySelectorAll('input, select, textarea').forEach(function (input) {
+            if (input.type === 'checkbox' || input.type === 'radio') {
+                input.checked = false;
+                return;
+            }
+
+            input.value = '';
+        });
+
+        parent.querySelectorAll('.mall-filter__option--selected').forEach(function (selectedOption) {
+            selectedOption.classList.remove('mall-filter__option--selected');
+        });
+
+        const slider = parent.querySelector('.mall-slider-handles');
+
+        if (slider && slider.noUiSlider) {
+            slider.noUiSlider.updateOptions({
+                start: [
+                    slider.dataset.min,
+                    slider.dataset.max
+                ]
+            });
+        }
+
+        submitFilters();
+    });
+
+    /**
+     * Select filter change.
+     *
+     * This restores the original .js-mall-select-filter behavior.
+     */
+    document.body.addEventListener('change', function (event) {
+        const select = event.target.closest('.js-mall-select-filter');
+
+        if (!select) {
+            return;
+        }
+
+        submitFilters();
+    });
+
+    /**
+     * Collapsible filter groups.
+     *
+     * This was added in the vanilla JS version and is safe to keep because
+     * it only toggles CSS classes.
+     */
+    document.body.addEventListener('click', function (event) {
+        const toggle = event.target.closest('.mall-property__toggle, .mall-property-group__toggle');
+
+        if (!toggle) {
+            return;
+        }
+
+        const parent =
+            toggle.closest('.mall-property') ||
+            toggle.closest('.mall-property-group');
+
+        if (!parent) {
+            return;
+        }
+
+        parent.classList.toggle('mall-property--collapsed');
+        parent.classList.toggle('mall-property-group--collapsed');
+    });
+
+    /**
+     * AJAX filter submit.
+     *
+     * This preserves the original request:
+     *     onSetFilter
+     *
+     * After the backend updates filter state, the Products component reloads
+     * the product list through the posmall.products.load.complete event.
+     */
+    propertiesForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        if (!window.oc || typeof window.oc.request !== 'function') {
+            console.error('October AJAX function oc.request is not available.');
+            publish('posmall.products.load.error');
+            return;
+        }
+
+        publish('posmall.products.load.start');
+
+        window.oc.request(propertiesForm, componentAlias + '::onSetFilter', {
+            loading: window.oc.stripeLoadIndicator || null,
+
+            complete: function (response) {
+                if (window.oc.stripeLoadIndicator) {
+                    window.oc.stripeLoadIndicator.hide();
+                }
+
+                const data = getResponseData(response);
+
+                updateBrowserQueryString(data);
+                replaceFilterMarkup(data);
+                updateVisibleFilters(data);
+
+                publish('posmall.products.load.complete', data);
+            },
+
+            error: function () {
+                if (window.oc.stripeLoadIndicator) {
+                    window.oc.stripeLoadIndicator.hide();
+                }
+
+                if (window.oc.flashMsg) {
+                    window.oc.flashMsg({
+                        text: '{{ 'kodzero.posmall::frontend.search_error' | trans }}',
+                        class: 'error'
+                    });
+                }
+
+                publish('posmall.products.load.error');
+            }
+        });
+    });
+
+    /**
+     * Price range sliders.
+     *
+     * This preserves the original noUiSlider behavior:
+     * - create slider from data-start / data-end / data-min / data-max;
+     * - skip the initial noUiSlider update so untouched ranges stay empty;
+     * - submit filters when slider changes.
+     */
+    function formatRangeValue(value) {
+        var number = parseFloat(value);
+
+        if (!isFinite(number)) {
+            return '';
+        }
+
+        if (Math.abs(number - Math.round(number)) < 0.005) {
+            return String(Math.round(number));
+        }
+
+        return number.toFixed(2).replace(/\.?0+$/, '');
+    }
+
+    function updateRangeLabels(slider, values) {
+        document.querySelectorAll('[data-range-min-label="' + slider.dataset.target + '"]').forEach(function (label) {
+            label.textContent = formatRangeValue(values[0]);
+        });
+
+        document.querySelectorAll('[data-range-max-label="' + slider.dataset.target + '"]').forEach(function (label) {
+            label.textContent = formatRangeValue(values[1]);
+        });
+    }
+
+    function updateRangeInputs(slider, values) {
+        document.querySelectorAll('[data-min="' + slider.dataset.target + '"]').forEach(function (input) {
+            input.value = values[0];
+        });
+
+        document.querySelectorAll('[data-max="' + slider.dataset.target + '"]').forEach(function (input) {
+            input.value = values[1];
+        });
+    }
+
+    function initRangeSliders() {
+        propertiesForm.querySelectorAll('.mall-slider-handles').forEach(function (slider) {
+            if (!window.noUiSlider) {
+                return;
+            }
+
+            if (slider.noUiSlider) {
+                return;
+            }
+
+            window.noUiSlider.create(slider, {
+                start: [
+                    slider.dataset.start,
+                    slider.dataset.end
+                ],
+                connect: true,
+                range: {
+                    min: [parseFloat(slider.dataset.min)],
+                    max: [parseFloat(slider.dataset.max)]
+                },
+                pips: {
+                    mode: 'range',
+                    density: 20
+                }
+            });
+
+            slider.dataset.rangeInitialized = '0';
+
+            slider.noUiSlider.on('update', function (values) {
+                updateRangeLabels(slider, values);
+
+                if (slider.dataset.rangeInitialized === '1') {
+                    updateRangeInputs(slider, values);
+                }
+            });
+
+            slider.dataset.rangeInitialized = '1';
+
+            slider.noUiSlider.on('change', function (values) {
+                updateRangeInputs(slider, values);
+                submitFilters();
+            });
+        });
+    }
+
+    initRangeSliders();
+});
+</script>
+{% endput %}

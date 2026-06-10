@@ -1,0 +1,128 @@
+fields:
+    parent:
+        label: 'kodzero.posmall::lang.category.parent'
+        type: dropdown
+        span: left
+    slug:
+        label: 'kodzero.posmall::lang.common.slug'
+        oc.commentPosition: ''
+        span: auto
+        preset:
+            field: name
+            type: slug
+        type: text
+    name:
+        label: 'kodzero.posmall::lang.category.name'
+        oc.commentPosition: ''
+        span: auto
+        type: text
+    image:
+        label: 'kodzero.posmall::lang.common.main_image'
+        oc.commentPosition: ''
+        mode: image
+        prompt: 'kodzero.posmall::lang.common.select_image'
+        imageWidth: '120'
+        imageHeight: '120'
+        useCaption: true
+        thumbOptions:
+            mode: crop
+            extension: auto
+        span: auto
+        type: fileupload
+    code:
+        label: 'kodzero.posmall::lang.category.code'
+        comment: 'kodzero.posmall::lang.category.code_comment'
+        span: left
+        type: text
+tabs:
+    fields:
+        inherit_property_groups:
+            label: 'kodzero.posmall::lang.category.inherit_property_groups'
+            span: auto
+            context: update
+            dependsOn: parent
+            type: switch
+            comment: 'kodzero.posmall::lang.category.inherit_property_groups_comment'
+            tab: 'kodzero.posmall::lang.common.property_groups'
+        property_groups:
+            span: full
+            path: $/kodzero/posmall/controllers/categories/_property_groups.htm
+            context: update
+            trigger:
+                action: hide
+                field: inherit_property_groups
+                condition: checked
+            type: partial
+            tab: 'kodzero.posmall::lang.common.property_groups'
+        inherit_review_categories:
+            label: 'kodzero.posmall::lang.category.inherit_review_categories'
+            span: auto
+            context: update
+            dependsOn: parent
+            type: switch
+            comment: 'kodzero.posmall::lang.category.inherit_review_categories_comment'
+            tab: 'kodzero.posmall::lang.common.review_categories'
+        review_categories:
+            oc.commentPosition: ''
+            span: full
+            path: $/kodzero/posmall/controllers/categories/_review_categories.htm
+            type: partial
+            tab: 'kodzero.posmall::lang.common.review_categories'
+            context: update
+            trigger:
+                action: hide
+                field: inherit_review_categories
+                condition: checked
+        products:
+            oc.commentPosition: ''
+            span: full
+            path: $/kodzero/posmall/controllers/categories/_products.htm
+            type: partial
+            tab: 'kodzero.posmall::lang.common.products'
+            context: update
+        sell_only_to_tax_states:
+            label: Sell only to states selected in taxes
+            comment: When enabled, checkout can allow this category only in states listed by the selected tax records.
+            span: auto
+            type: switch
+            tab: 'kodzero.posmall::lang.common.taxes'
+        taxes:
+            label: 'kodzero.posmall::lang.common.taxes'
+            span: full
+            path: $/kodzero/posmall/controllers/categories/_taxes.htm
+            type: partial
+            tab: 'kodzero.posmall::lang.common.taxes'
+            context: update
+        meta_title:
+            label: 'kodzero.posmall::lang.common.meta_title'
+            oc.commentPosition: ''
+            span: auto
+            type: text
+            tab: 'kodzero.posmall::lang.common.seo'
+        meta_description:
+            label: 'kodzero.posmall::lang.common.meta_description'
+            size: large
+            oc.commentPosition: ''
+            span: auto
+            type: textarea
+            tab: 'kodzero.posmall::lang.common.seo'
+        description_short:
+            label: 'kodzero.posmall::lang.product.description_short'
+            size: small
+            oc.commentPosition: ''
+            span: left
+            type: textarea
+            tab: 'kodzero.posmall::lang.product.description'
+        description:
+            label: 'kodzero.posmall::lang.product.description'
+            size: huge
+            oc.commentPosition: ''
+            span: left
+            type: richeditor
+            tab: 'kodzero.posmall::lang.product.description'
+        google_product_category_id:
+            label: 'kodzero.posmall::lang.category.google_product_category_id'
+            comment: 'kodzero.posmall::lang.category.google_product_category_id_comment'
+            span: right
+            type: number
+            tab: 'kodzero.posmall::lang.product.description'

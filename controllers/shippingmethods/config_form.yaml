@@ -1,0 +1,14 @@
+name: kodzero.posmall::lang.common.shipping_methods
+modelClass: KodZero\POSMall\Models\ShippingMethod
+form: $/kodzero/posmall/models/shippingmethod/fields.yaml
+defaultRedirect: kodzero/posmall/shippingmethods
+create:
+    title: 'kodzero.posmall::lang.titles.shipping_methods.create'
+    redirect: 'kodzero/posmall/shippingmethods/update/:id'
+    redirectClose: kodzero/posmall/shippingmethods
+update:
+    title: 'kodzero.posmall::lang.titles.shipping_methods.update'
+    redirect: kodzero/posmall/shippingmethods
+    redirectClose: kodzero/posmall/shippingmethods
+preview:
+    title: 'kodzero.posmall::lang.titles.shipping_methods.preview'

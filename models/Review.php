@@ -1,0 +1,163 @@
+<?php
+
+declare(strict_types=1);
+
+namespace KodZero\POSMall\Models;
+
+use Event;
+use Model;
+use October\Rain\Database\Traits\Validation;
+use KodZero\POSMall\Classes\User\Auth;
+
+/**
+ * @property Customer $customer
+ */
+class Review extends Model
+{
+    use Validation;
+
+    public $table = 'kodzero_posmall_reviews';
+
+    public $rules = [
+        'title' => 'required_with:description|max:190',
+        'description' => 'max:500',
+        'rating' => 'bail|required|integer|between:1,5',
+        'product_id' => 'bail|required|integer|exists:kodzero_posmall_products,id',
+        'variant_id' => 'bail|nullable|integer|exists:kodzero_posmall_product_variants,id',
+        'customer_id' => 'bail|nullable|integer|exists:kodzero_posmall_customers,id',
+    ];
+
+    public $fillable = [
+        'rating',
+        'title',
+        'description',
+        'pros',
+        'cons',
+    ];
+
+    public $jsonable = [
+        'pros',
+        'cons',
+    ];
+
+    public $casts = [
+        'rating'     => 'integer',
+        'ip_address' => 'string',
+    ];
+
+    public $belongsTo = [
+        'product' => Product::class,
+        'variant' => Variant::class,
+        'customer' => Customer::class,
+    ];
+
+    public $hasMany = [
+        'category_reviews' => [CategoryReview::class],
+    ];
+
+    public $dates = ['approved_at'];
+
+    public function approve()
+    {
+        $this->approved_at = now();
+        $this->save();
+
+        $this->category_reviews->each->update(['approved_at' => now()]);
+    }
+
+    public function afterCreate()
+    {
+        Event::fire('posmall.review.created', [$this]);
+    }
+
+    public function afterUpdate()
+    {
+        Event::fire('posmall.review.updated', [$this]);
+    }
+
+    public function beforeSave()
+    {
+        $this->user_hash = static::getUserHash();
+    }
+
+    public function afterSave()
+    {
+        if (! $this->approved_at) {
+            return;
+        }
+
+        if ($this->product) {
+            $this->updateRating($this->product);
+        }
+
+        if ($this->variant) {
+            $this->updateRating($this->variant);
+        }
+    }
+
+    /**
+     * Update rating re-calculates the current overall rating for a Product or Variant.
+     *
+     * @param $target
+     */
+    public function updateRating($target)
+    {
+        $baseQuery = self::when($target instanceof Product, function ($q) use ($target) {
+            $q->where('product_id', $target->id);
+        }, function ($q) use ($target) {
+            $q->where('variant_id', $target->id);
+        });
+
+        $count = $baseQuery->count();
+        $sum = $baseQuery->sum('rating');
+
+        $target->reviews_rating = round($sum / $count, 2);
+        $target->save();
+    }
+
+    /**
+     * The user hash is used to identify anonymous reviewers. This comes
+     * in handy when implementing rate limiting.
+     * @return string
+     */
+    public static function getUserHash()
+    {
+        $user = Auth::user();
+
+        $userId = $user->id ?? 0;
+        $data = implode('-', [request()->ip(), request()->userAgent(), $userId]);
+
+        return hash('sha256', $data);
+    }
+
+    public function afterDelete()
+    {
+        $this->category_reviews->each->delete();
+    }
+
+    public function filterFields($fields)
+    {
+        if ($this->approved_at !== null && isset($fields->approve_now)) {
+            $fields->approve_now->hidden = true;
+        }
+    }
+
+    public function getCustomerNameAttribute()
+    {
+        if (! $this->customer) {
+            return trans('kodzero.posmall::lang.reviews.anonymous');
+        }
+
+        return $this->customer->name;
+    }
+
+    public function getProsStringAttribute()
+    {
+        return collect($this->pros)->pluck('value')->filter()->implode("\n");
+    }
+
+    public function getConsStringAttribute()
+    {
+        return collect($this->cons)->pluck('value')->filter()->implode("\n");
+    }
+}

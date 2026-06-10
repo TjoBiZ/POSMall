@@ -1,0 +1,70 @@
+<div class="mall-products-item card h-100 shadow-sm border-0">
+    <a href="{{ productPage|page({slug: item.slug, variant: item.variantHashId}) }}"
+       class="text-decoration-none text-reset d-flex flex-column h-100"
+       data-mall-item-id="{{ item.prefixedId }}"
+    >
+        <div class="mall-products-item__image bg-body-tertiary ratio ratio-4x3 rounded-top overflow-hidden">
+            {% set cardImage = posmall_catalog_image_sources(item) %}
+            {% if cardImage.webp %}
+                <picture>
+                    <source srcset="{{ cardImage.webp }}" type="image/webp">
+                    <img src="{{ cardImage.jpeg }}"
+                         class="w-100 h-100 object-fit-contain"
+                         loading="lazy"
+                         decoding="async"
+                         alt="{{ cardImage.alt }}"/>
+                </picture>
+            {% elseif cardImage.jpeg %}
+                <img src="{{ cardImage.jpeg }}"
+                     class="w-100 h-100 object-fit-contain"
+                     loading="lazy"
+                     decoding="async"
+                     alt="{{ cardImage.alt }}"/>
+            {% endif %}
+        </div>
+        <div class="mall-products-item__info card-body d-flex flex-column gap-2">
+            <div class="mall-products-item__info-primary d-flex justify-content-between gap-3">
+                <div class="mall-products-item__name card-title fw-semibold mb-0">
+                    {{ item.name }}
+                </div>
+                {% set price = item.price() %}
+                <div class="mall-products-item__price text-primary fw-semibold text-nowrap
+                    {{ price.isCustomerSpecific ? 'mall-products-item__price--special' }}">
+                    {{ price.string|raw }}
+                </div>
+            </div>
+            <div class="mall-products-item__info-secondary small text-muted flex-grow-1">
+                {% set variantCount = item.variants|default([])|length %}
+                {% if item.inventory_management_method|default(null) == 'variant' and variantCount > 0 %}
+                    <div class="mall-products-item__variant-summary fw-semibold text-body-emphasis">
+                        {{ variantCount }} {{ variantCount == 1 ? 'variant' : 'variants' }} available
+                    </div>
+                {% endif %}
+                <div class="mall-products-item__short-description">
+                    {{ item.description_short|nl2br }}
+                </div>
+                <div class="mall-products-item__old-price text-decoration-line-through">
+                    {% if price.official %}
+                        {{ price.official.string|raw }}
+                    {% else %}
+                        {{ item.oldPrice.count|default(0) > 0 ? item.oldPrice().string|raw }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="mall-products-item__info-teritary mt-auto">
+                {% set rating = item.reviews_rating %}
+                {# To display the product's rating use: #}
+                {# set rating = item.product.reviews_rating #}
+                {% if rating > 0 %}
+                    <div class="mall-products-item__stars text-warning"
+                         data-posmall-card-rating="{{ rating|number_format(2, '.', '') }}">
+                        {% partial __SELF__ ~ '::stars' rating=rating %}
+                        <span class="mall-products-item__rating-value text-muted">
+                            {{ rating|number_format(2, '.', '') }}
+                        </span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+</div>

@@ -1,0 +1,30 @@
+fields:
+    enabled:
+        label: 'kodzero.posmall::lang.notifications.enabled'
+        span: auto
+        default: 1
+        type: switch
+        comment: 'kodzero.posmall::lang.notifications.enabled_comment'
+    code:
+        label: 'kodzero.posmall::lang.common.code'
+        span: auto
+        disabled: 1
+        type: text
+tabs:
+    fields:
+        name:
+            label: 'kodzero.posmall::lang.common.name'
+            span: auto
+            type: text
+            tab: 'kodzero.posmall::lang.product.description'
+        template:
+            label: 'kodzero.posmall::lang.notifications.template'
+            span: auto
+            type: text
+            tab: 'kodzero.posmall::lang.product.description'
+        description:
+            label: 'kodzero.posmall::lang.product.description'
+            size: small
+            span: auto
+            type: textarea
+            tab: 'kodzero.posmall::lang.product.description'

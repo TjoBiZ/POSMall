@@ -1,0 +1,106 @@
+{% put scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    /**
+     * Product listing behavior using vanilla JavaScript.
+     *
+     * This script keeps the POSMall product event flow:
+     * - filters publish "posmall.products.load.start";
+     * - filters publish "posmall.products.load.complete";
+     * - this component reloads product entries on complete;
+     * - pagination updates the URL and reloads the product list.
+     */
+
+    const componentAlias = '{{ __SELF__ }}';
+
+    function showLoader() {
+        document.querySelectorAll('.mall-products .mall-loader').forEach(function (loader) {
+            loader.style.opacity = '1';
+            loader.style.visibility = 'visible';
+        });
+    }
+
+    function hideLoader() {
+        document.querySelectorAll('.mall-products .mall-loader').forEach(function (loader) {
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+        });
+    }
+
+    function requestProductEntries() {
+        if (!window.oc || typeof window.oc.request !== 'function') {
+            console.error('October AJAX function oc.request is not available.');
+            hideLoader();
+            return;
+        }
+
+        window.oc.request(document.body, componentAlias + '::onRun', {
+            update: {
+                [componentAlias + '::entries']: '.mall-products'
+            },
+            complete: function () {
+                hideLoader();
+            },
+            error: function () {
+                hideLoader();
+            }
+        });
+    }
+
+    function publish(name, detail) {
+        if (window.POSMallBus) {
+            window.POSMallBus.publish(name, detail || {});
+            return;
+        }
+
+        document.dispatchEvent(new CustomEvent(name, { detail: detail || {} }));
+    }
+
+    function subscribe(name, callback) {
+        if (window.POSMallBus) {
+            window.POSMallBus.subscribe(name, callback);
+            return;
+        }
+
+        document.addEventListener(name, function (event) {
+            callback(event, event.detail || {});
+        });
+    }
+
+    subscribe('posmall.products.load.start', function () {
+        showLoader();
+    });
+
+    subscribe('posmall.products.load.complete', function () {
+        requestProductEntries();
+    });
+
+    subscribe('posmall.products.load.error', function () {
+        hideLoader();
+    });
+
+    document.body.addEventListener('click', function (event) {
+        const link = event.target.closest('.mall-pagination--products a');
+
+        if (!link) {
+            return;
+        }
+
+        event.preventDefault();
+
+        publish('posmall.products.load.start');
+
+        history.replaceState(null, '', link.getAttribute('href'));
+
+        publish('posmall.products.load.complete');
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    hideLoader();
+});
+</script>
+{% endput %}

@@ -1,0 +1,25 @@
+subject = "{{ 'kodzero.posmall::mail.admin.checkout_failed.subject' | trans({number: order.order_number}) }}"
+description = "Sent to the shop admin when a checkout has failed"
+==
+
+{{ 'kodzero.posmall::mail.admin.checkout_failed.not_processed' | trans() }}
+
+{% if order.payment_log %}
+    ## {{ 'kodzero.posmall::mail.admin.checkout_failed.error_details' | trans() }}
+
+    {{ 'kodzero.posmall::mail.admin.checkout_failed.payment_id' | trans() }}:<br />
+    {{ order.payment_log.id }}
+
+    {{ 'kodzero.posmall::mail.admin.checkout_failed.error' | trans() }}:<br />
+    {{ order.payment_log.message }}
+{% endif %}
+
+{% partial 'posmall.order.addresses' order=order %}
+
+## {{ 'kodzero.posmall::mail.common.order_details' | trans() }}
+{% partial 'posmall.order.table' order=order %}
+
+
+{% partial 'button' url=order_url type='primary' body %}
+    {{ 'kodzero.posmall::mail.common.view_order_in_backend' | trans() }}
+{% endpartial %}

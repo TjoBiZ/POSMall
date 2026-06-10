@@ -1,0 +1,226 @@
+tabs:
+    fields:
+        admin_email:
+            tab: General
+            label: kodzero.posmall::lang.general_settings.admin_email
+            span: left
+            type: email
+            comment: kodzero.posmall::lang.general_settings.admin_email_comment
+
+        order_notification_email:
+            tab: General
+            label: kodzero.posmall::lang.general_settings.order_notification_email
+            span: right
+            type: email
+            comment: kodzero.posmall::lang.general_settings.order_notification_email_comment
+
+        send_order_notification_to_customer:
+            tab: General
+            label: kodzero.posmall::lang.general_settings.send_order_notification_to_customer
+            span: left
+            type: switch
+            default: 1
+            comment: kodzero.posmall::lang.general_settings.send_order_notification_to_customer_comment
+
+        product_page:
+            tab: CMS Pages
+            label: kodzero.posmall::lang.general_settings.product_page
+            span: left
+            type: dropdown
+            comment: kodzero.posmall::lang.general_settings.product_page_comment
+
+        category_page:
+            tab: CMS Pages
+            label: kodzero.posmall::lang.general_settings.category_page
+            span: right
+            type: dropdown
+            comment: kodzero.posmall::lang.general_settings.category_page_comment
+
+        address_page:
+            tab: CMS Pages
+            label: kodzero.posmall::lang.general_settings.address_page
+            span: left
+            type: dropdown
+            comment: kodzero.posmall::lang.general_settings.address_page_comment
+
+        checkout_page:
+            tab: CMS Pages
+            label: kodzero.posmall::lang.general_settings.checkout_page
+            span: right
+            type: dropdown
+            comment: kodzero.posmall::lang.general_settings.checkout_page_comment
+
+        account_page:
+            tab: CMS Pages
+            label: kodzero.posmall::lang.general_settings.account_page
+            span: left
+            type: dropdown
+            comment: kodzero.posmall::lang.general_settings.account_page_comment
+
+        cart_page:
+            tab: CMS Pages
+            label: kodzero.posmall::lang.general_settings.cart_page
+            span: right
+            type: dropdown
+            comment: kodzero.posmall::lang.general_settings.cart_page_comment
+
+        redirect_to_cart:
+            tab: Customizations
+            label: kodzero.posmall::lang.general_settings.redirect_to_cart
+            span: left
+            type: switch
+            default: true
+            comment: kodzero.posmall::lang.general_settings.redirect_to_cart_comment
+
+        order_start:
+            tab: Customizations
+            label: kodzero.posmall::lang.general_settings.order_number_start
+            comment: kodzero.posmall::lang.general_settings.order_number_start_comment
+            type: text
+            span: right
+            default: 1
+
+        use_state:
+            tab: Customizations
+            label: kodzero.posmall::lang.general_settings.use_state
+            span: left
+            type: switch
+            default: 1
+            comment: kodzero.posmall::lang.general_settings.use_state_comment
+
+        group_search_results_by_product:
+            tab: Customizations
+            label: kodzero.posmall::lang.general_settings.group_search_results_by_product
+            span: left
+            type: switch
+            default: 0
+            comment: kodzero.posmall::lang.general_settings.group_search_results_by_product_comment
+
+        shipping_selection_before_payment:
+            tab: Customizations
+            label: kodzero.posmall::lang.general_settings.shipping_selection_before_payment
+            span: left
+            type: switch
+            default: 0
+            comment: kodzero.posmall::lang.general_settings.shipping_selection_before_payment_comment
+
+        storefront_assets_optimized:
+            tab: Customizations
+            label: kodzero.posmall::lang.general_settings.storefront_assets_optimized
+            span: right
+            type: switch
+            default: 0
+            comment: kodzero.posmall::lang.general_settings.storefront_assets_optimized_comment
+
+        usa_tax_helper_enabled:
+            tab: USA Taxes
+            label: Enable USA tax setup helper
+            span: left
+            type: switch
+            default: 0
+            comment: Shows the USA source helper and parsed staging table on the Taxes backend page.
+
+        usa_default_tax_id:
+            tab: USA Taxes
+            label: Default tax
+            span: right
+            type: dropdown
+            emptyOption: '-- No USA default tax'
+            comment: Used by the USA tax resolver when product, subcategory and category have no tax.
+
+        usa_sell_only_to_tax_states:
+            tab: USA Taxes
+            label: Sell only to states with selected taxes
+            span: left
+            type: switch
+            default: 0
+            comment: Checkout can use this setting to reject states that have no active USA tax record.
+
+        usa_unsupported_region_message:
+            tab: USA Taxes
+            label: Unsupported address message
+            span: right
+            type: textarea
+            size: small
+            comment: Shown during checkout when a product, service, category or global USA tax setting does not allow the customer's state.
+
+        usa_auto_update_daily:
+            tab: USA Taxes
+            label: Auto-update USA taxes daily
+            span: right
+            type: switch
+            default: 0
+            comment: Enables the Laravel scheduler hook for source-backed USA tax rows that are opted in.
+
+        _usa_tax_auto_update_hint:
+            tab: USA Taxes
+            span: full
+            type: partial
+            path: $/kodzero/posmall/models/settings/_usa_tax_auto_update_hint.htm
+
+        _address_lookup_google_hint:
+            tab: USA Taxes
+            span: full
+            type: partial
+            path: $/kodzero/posmall/models/settings/_address_lookup_google_hint.htm
+
+        google_places_address_autocomplete_enabled:
+            tab: USA Taxes
+            label: Enable Google Places address autocomplete
+            span: left
+            type: switch
+            default: 0
+            comment: Shows street-address predictions after the customer starts typing.
+
+        google_places_browser_api_key:
+            tab: USA Taxes
+            label: Google Places browser API key
+            span: right
+            type: text
+            comment: Client-visible browser key. Restrict it by HTTP referrer/domain in Google Cloud.
+
+        _address_lookup_usps_hint:
+            tab: USA Taxes
+            span: full
+            type: partial
+            path: $/kodzero/posmall/models/settings/_address_lookup_usps_hint.htm
+
+        usps_addresses_enabled:
+            tab: USA Taxes
+            label: Enable USPS address ZIP lookup
+            span: left
+            type: switch
+            default: 0
+            comment: Uses USPS Addresses API 3.0 to verify ZIP, ZIP+4, city and state after address input.
+
+        usps_addresses_environment:
+            tab: USA Taxes
+            label: USPS environment
+            span: right
+            type: dropdown
+            default: production
+            showSearch: false
+            options:
+                production: Production
+                testing: Testing / TEM
+            comment: Production is used for live checkout. Testing / TEM is only for USPS test credentials.
+
+        usps_addresses_client_id:
+            tab: USA Taxes
+            label: USPS Consumer Key
+            span: left
+            type: text
+            comment: Retrieved from the USPS Developer Portal app. Stored encrypted.
+
+        usps_addresses_client_secret:
+            tab: USA Taxes
+            label: USPS Consumer Secret
+            span: right
+            type: password
+            comment: Retrieved from the USPS Developer Portal app. Stored encrypted.
+
+        _address_lookup_summary_hint:
+            tab: USA Taxes
+            span: full
+            type: partial
+            path: $/kodzero/posmall/models/settings/_address_lookup_summary_hint.htm

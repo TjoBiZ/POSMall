@@ -1,0 +1,22 @@
+{% for entry in discounts|default([]) %}
+    <tr class="mall-cart__discount">
+        <td colspan="4" class="text-end">
+            {{ entry.discount.name }}
+            {% if entry.discount.code|default(null) %}
+                ({{ entry.discount.code }})
+                <br>
+                <a href="javascript:;"
+                   class="js-mall-remove-discount-code link-danger small"
+                   data-posmall-cart-remove-discount
+                   data-id="{{ entry.discount.hash_id }}"
+                   data-confirm-message="{{ 'kodzero.posmall::frontend.confirm'|trans|e('html_attr') }}"
+                >
+                    {{ 'kodzero.posmall::frontend.remove'|trans }}
+                </a>
+            {% endif %}
+        </td>
+        <td class="text-end text-success posmall-money-nowrap">
+            {{ entry.savings|money }}
+        </td>
+    </tr>
+{% endfor %}

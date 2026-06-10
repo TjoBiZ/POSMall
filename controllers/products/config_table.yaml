@@ -1,0 +1,19 @@
+dataSource: client
+keyFrom: id
+recordsPerPage: false
+adding: false
+deleting: false
+searching: false
+alias: pricetable
+columns:
+    type:
+        title: 'type'
+    original_id:
+        title: 'original_id'
+    name:
+        title: kodzero.posmall::lang.common.product_or_variant
+        readOnly: true
+    stock:
+        title: kodzero.posmall::lang.product.stock
+    price:
+        title: kodzero.posmall::lang.product.price

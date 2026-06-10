@@ -1,0 +1,17 @@
+<div class="mall-filter mall-filter--set">
+    {% set selected = filter[property.slug].values|default([]) %}
+    {% for value in values|default([]) %}
+        {% set isSelected = value.index_value in selected %}
+        <label class="js-mall-filter mall-filter__option form-check mb-1 {{ isSelected ? 'mall-filter__option--selected' : '' }}">
+            <input type="checkbox"
+                   class="form-check-input"
+                   name="filter[{{ property.slug }}][]"
+                   value="{{ value.index_value }}"
+                    {% if isSelected %}
+                        checked
+                    {% endif %}
+            >
+            <span class="form-check-label">{{ value.display_value|raw }} {{ property.unit }}</span>
+        </label>
+    {% endfor %}
+</div>

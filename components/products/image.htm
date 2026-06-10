@@ -1,0 +1,12 @@
+{% if item.image|default(null) %}
+    {% set optimizedImage = posmall_image_sources(item.image, item.name|default(''), 'catalog') %}
+    {% set imageSrc = optimizedImage ? optimizedImage.jpeg : (item.image.extension|default('') == 'svg' ? item.image.path : item.image.thumb(400, 300, null)) %}
+    {% if optimizedImage and optimizedImage.webp %}
+        <picture>
+            <source srcset="{{ optimizedImage.webp }}" type="image/webp">
+            <img src="{{ imageSrc }}" class="w-100 h-100 object-fit-contain" alt="{{ optimizedImage.alt }}"/>
+        </picture>
+    {% else %}
+        <img src="{{ imageSrc }}" class="w-100 h-100 object-fit-contain" alt="{{ item.name|default('') }}"/>
+    {% endif %}
+{% endif %}

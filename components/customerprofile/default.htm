@@ -1,0 +1,43 @@
+<form data-request="{{ __SELF__ }}::onSubmit" data-request-validate data-request-flash class="card shadow-sm border-0">
+    <div class="card-body">
+    <div class="mall-form-control mb-3">
+        <label for="email" class="form-label">{{ 'kodzero.posmall::frontend.form.email'|trans }}</label>
+        <input id="email" class="form-control" type="email" placeholder="email@email.com" name="email" value="{{ __SELF__.user.email|e('html_attr') }}">
+        <div data-validate-for="email" class="invalid-feedback d-block"></div>
+    </div>
+    <div class="mall-two-fields row g-3">
+        <div class="mall-form-control col-12 col-md-6">
+            <label for="firstname" class="form-label">{{ 'kodzero.posmall::frontend.form.firstname'|trans }}</label>
+            <input id="firstname" class="form-control" type="text" name="firstname" value="{{ __SELF__.customer.firstname|e('html_attr') }}">
+            <div data-validate-for="firstname" class="invalid-feedback d-block"></div>
+        </div>
+        <div class="mall-form-control col-12 col-md-6">
+            <label for="lastname" class="form-label">{{ 'kodzero.posmall::frontend.form.lastname'|trans }}</label>
+            <input id="lastname" class="form-control" type="text" name="lastname" value="{{ __SELF__.customer.lastname|e('html_attr') }}">
+            <div data-validate-for="lastname" class="invalid-feedback d-block"></div>
+        </div>
+    </div>
+    {% if __SELF__.customer.is_guest %}
+        <div class="mall-callout alert alert-info">
+            {{ 'kodzero.posmall::frontend.guest_upgrade.callout'|trans }}
+        </div>
+    {% endif %}
+    <div class="mall-two-fields row g-3">
+        <div class="mall-form-control col-12 col-md-6">
+            <label for="password" class="form-label">{{ 'kodzero.posmall::frontend.form.new_password'|trans }}</label>
+            <input id="password" class="form-control" type="password" name="password">
+            <div data-validate-for="password" class="invalid-feedback d-block"></div>
+        </div>
+        <div class="mall-form-control col-12 col-md-6">
+            <label for="password_repeat" class="form-label">{{ 'kodzero.posmall::frontend.form.password_repeat'|trans }}</label>
+            <input id="password_repeat" class="form-control" type="password" name="password_repeat">
+            <div data-validate-for="password_repeat" class="invalid-feedback d-block"></div>
+        </div>
+    </div>
+    </div>
+    <div class="mall-form-actions card-footer bg-transparent">
+        <button class="mall-btn mall-btn--primary btn btn-primary" type="submit" data-attach-loading>
+            {{ 'kodzero.posmall::frontend.save'|trans }}
+        </button>
+    </div>
+</form>

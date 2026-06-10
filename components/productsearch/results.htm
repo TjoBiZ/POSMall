@@ -1,0 +1,55 @@
+<div class="posmall-search-results">
+    {% if __SELF__.query %}
+        <h1 class="h3 mb-3">{{ 'kodzero.posmall::frontend.search.results_for'|trans({query: __SELF__.query}) }}</h1>
+        {% if __SELF__.results|length %}
+            <div class="list-group">
+                {% for product in __SELF__.results %}
+                    <a href="{{ __SELF__.productUrl(product) }}" class="posmall-search-item list-group-item list-group-item-action">
+                        <div class="posmall-search-item__image bg-body-tertiary border rounded">
+                            {% if product.image %}
+                                {% set optimizedImage = posmall_image_sources(product.image, product.image.title|default(product.name), 'catalog') %}
+                                {% set imageSrc = optimizedImage ? optimizedImage.jpeg : (product.image.extension|default('') == 'svg' ? product.image.path : product.image.thumb(80, 80, null)) %}
+                                {% if optimizedImage and optimizedImage.webp %}
+                                    <picture>
+                                        <source srcset="{{ optimizedImage.webp }}" type="image/webp">
+                                        <img src="{{ imageSrc }}" alt="{{ optimizedImage.alt }}">
+                                    </picture>
+                                {% else %}
+                                    <img src="{{ imageSrc }}" alt="{{ product.image.title|default(product.name) }}">
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="posmall-search-item__body min-w-0">
+                            <div class="fw-semibold text-truncate">{{ product.name }}</div>
+                            {% if product.user_defined_id or product.mpn or product.gtin %}
+                                <div class="small text-muted text-truncate">
+                                    {{ product.user_defined_id ?: product.mpn ?: product.gtin }}
+                                </div>
+                            {% endif %}
+                            {% if product.description_short %}
+                                <div class="small text-muted text-truncate">{{ product.description_short|striptags }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="posmall-search-item__price posmall-money-nowrap text-primary fw-semibold">
+                            {{ product.price().string|raw }}
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            {% if __SELF__.results.hasPages() %}
+                <nav class="mall-pagination mall-pagination--search d-flex justify-content-center mt-4" aria-label="{{ 'kodzero.posmall::frontend.search.pagination'|trans }}">
+                    {{ __SELF__.results|raw }}
+                </nav>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-light border">
+                {{ 'kodzero.posmall::frontend.search.empty'|trans }}
+            </div>
+        {% endif %}
+    {% else %}
+        <h1 class="h3 mb-3">{{ 'kodzero.posmall::frontend.search.title'|trans }}</h1>
+        <div class="alert alert-light border">
+            {{ 'kodzero.posmall::frontend.search.type_to_search'|trans }}
+        </div>
+    {% endif %}
+</div>

@@ -1,0 +1,13 @@
+name: Brands
+modelClass: KodZero\POSMall\Models\Brand
+form: $/kodzero/posmall/models/brand/fields.yaml
+defaultRedirect: kodzero/posmall/brands
+create:
+    title: 'kodzero.posmall::lang.titles.brands.create'
+    redirect: 'kodzero/posmall/brands/update/:id'
+    redirectClose: kodzero/posmall/brands
+update:
+    title: 'kodzero.posmall::lang.titles.brands.edit'
+    redirect: kodzero/posmall/brands
+    redirectClose: kodzero/posmall/brands
+preview: {  }

@@ -1,0 +1,93 @@
+<div class="layout">
+    <div class="layout-row">
+        <div class="padded-container">
+            <div class="callout callout-info">
+                <div class="header">
+                    <i class="icon-book"></i>
+                    <h3>POSMall REST API v1</h3>
+                </div>
+                <div class="content">
+                    <p>
+                        This page renders only the public REST documentation shipped with POSMall.
+                        Private internal GraphQL notes are not exposed here.
+                    </p>
+                    <p>
+                        <a class="btn btn-default oc-icon-key" href="<?= Backend::url('kodzero/posmall/apitokens') ?>">
+                            Manage API Tokens
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="control-tabs primary-tabs" data-control="tab">
+                <ul class="nav nav-tabs">
+                    <?php foreach ($documents as $index => $document): ?>
+                        <li class="<?= $index === 0 ? 'active' : '' ?>">
+                            <a href="#posmall-api-doc-<?= e($index) ?>"><?= e($document['title']) ?></a>
+                        </li>
+                    <?php endforeach ?>
+                    <li>
+                        <a href="#posmall-api-openapi">OpenAPI YAML</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <?php foreach ($documents as $index => $document): ?>
+                        <div class="tab-pane <?= $index === 0 ? 'active' : '' ?>">
+                            <p class="help-block"><?= e($document['path']) ?></p>
+                            <div class="posmall-api-doc-markdown">
+                                <?= $document['html'] ?>
+                            </div>
+                        </div>
+                    <?php endforeach ?>
+
+                    <div class="tab-pane">
+                        <p class="help-block">plugins/kodzero/posmall/docs/openapi-v1.yaml</p>
+                        <?php if (is_file($openApiPath)): ?>
+                            <pre class="posmall-api-openapi"><?= e(file_get_contents($openApiPath)) ?></pre>
+                        <?php else: ?>
+                            <p>OpenAPI file is missing.</p>
+                        <?php endif ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .posmall-api-doc-markdown {
+        max-width: 1180px;
+        line-height: 1.55;
+    }
+
+    .posmall-api-doc-markdown h1,
+    .posmall-api-doc-markdown h2,
+    .posmall-api-doc-markdown h3 {
+        margin-top: 24px;
+    }
+
+    .posmall-api-doc-markdown table {
+        width: 100%;
+        margin: 16px 0;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+
+    .posmall-api-doc-markdown th,
+    .posmall-api-doc-markdown td {
+        padding: 8px;
+        border: 1px solid #d7dde2;
+        vertical-align: top;
+    }
+
+    .posmall-api-doc-markdown pre,
+    .posmall-api-openapi {
+        max-height: 640px;
+        overflow: auto;
+        padding: 12px;
+        background: #f7f9fb;
+        border: 1px solid #d7dde2;
+        border-radius: 4px;
+    }
+</style>

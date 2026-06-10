@@ -1,0 +1,13 @@
+name: 'kodzero.posmall::lang.common.services'
+modelClass: KodZero\POSMall\Models\Service
+form: $/kodzero/posmall/models/service/fields.yaml
+defaultRedirect: kodzero/posmall/services
+create:
+    title: 'kodzero.posmall::lang.titles.services.create'
+    redirect: 'kodzero/posmall/services/update/:id'
+    redirectClose: kodzero/posmall/services
+update:
+    title: 'kodzero.posmall::lang.titles.services.update'
+    redirect: kodzero/posmall/services
+    redirectClose: kodzero/posmall/services
+preview: {  }

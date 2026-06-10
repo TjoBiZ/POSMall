@@ -1,0 +1,23 @@
+columns:
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        type: text
+        searchable: true
+        sortable: false
+    type:
+        label: 'kodzero.posmall::lang.custom_fields.type'
+        searchable: true
+        sortable: false
+        type: partial
+        path: $/kodzero/posmall/models/property/_type.htm
+    unit:
+        label: 'kodzero.posmall::lang.common.unit'
+        type: text
+        searchable: true
+        sortable: false
+    created_at:
+        label: 'kodzero.posmall::lang.common.created_at'
+        type: datetime
+        searchable: true
+        sortable: false
+        invisible: true

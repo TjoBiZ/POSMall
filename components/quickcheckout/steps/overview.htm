@@ -1,0 +1,54 @@
+<form class="mall-quick-checkout row g-4 align-items-start" data-request data-request-validate>
+    <div class="mall-quick-checkout__content-column col-12 col-lg-7">
+        <div class="mall-quick-checkout__collapsible d-grid gap-3">
+            <div class="mall-quick-checkout__collapsible-element mall-quick-checkout__collapsible-element--open card shadow-sm border-0">
+                {% partial __SELF__ ~ '::customerinfo' %}
+            </div>
+            <div class="mall-quick-checkout__collapsible-element mall-quick-checkout__shipping-methods card shadow-sm border-0">
+                {% partial __SELF__ ~ '::shippingmethod' %}
+            </div>
+            <div class="mall-quick-checkout__collapsible-element mall-quick-checkout__payment-methods card shadow-sm border-0">
+                {% partial __SELF__ ~ '::paymentmethod' %}
+            </div>
+        </div>
+    </div>
+    <aside class="mall-quick-checkout__cart-column col-12 col-lg-5">
+        <div class="card shadow-sm border-0 sticky-lg-top">
+            <div class="card-body">
+                <h2 class="mall-quick-checkout__heading h4 mb-3">
+                    {{ 'kodzero.posmall::frontend.checkout.your_cart'|trans }}
+                </h2>
+
+                <div class="mall-quick-checkout__cart">
+                    {% partial __SELF__ ~ '::cart' %}
+                </div>
+
+                {% if __SELF__.cart.products.count|default(0) > 0 %}
+
+                    {% if __SELF__.showNotesField %}
+                        {% partial __SELF__ ~ '::notes' %}
+                    {% endif %}
+
+                    <div class="mall-signup-terms form-check my-3">
+                        <input class="js-mall-toggle-signup-terms form-check-input"
+                               id="terms_accepted"
+                               type="checkbox"
+                               name="terms_accepted"
+                               value="1"
+                        >
+                        <label class="mall-checkbox form-check-label" for="terms_accepted">
+                            {% partial __SELF__ ~ '::termslabel' %}
+                        </label>
+                        <div data-validate-for="terms_accepted" class="invalid-feedback d-block"></div>
+                    </div>
+
+                    <div class="mall-quick-checkout__actions d-grid">
+                        <button class="js-mall-checkout mall-btn-checkout mall-btn mall-btn--secondary btn btn-primary btn-lg" type="button">
+                            {{ 'kodzero.posmall::frontend.checkout.checkout'|trans }}
+                        </button>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </aside>
+</form>

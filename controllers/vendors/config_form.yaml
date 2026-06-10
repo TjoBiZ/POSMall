@@ -1,0 +1,14 @@
+name: POSMall Vendor
+modelClass: KodZero\POSMall\Models\Vendor
+form: $/kodzero/posmall/models/vendor/fields.yaml
+defaultRedirect: kodzero/posmall/vendors
+create:
+    title: Create POSMall Vendor
+    redirect: 'kodzero/posmall/vendors/update/:id'
+    redirectClose: kodzero/posmall/vendors
+update:
+    title: Update POSMall Vendor
+    redirect: kodzero/posmall/vendors
+    redirectClose: kodzero/posmall/vendors
+preview:
+    title: Preview POSMall Vendor

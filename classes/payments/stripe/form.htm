@@ -1,0 +1,112 @@
+<div class="mall-form-control posmall-stripe-payment"
+     data-posmall-stripe-payment
+     data-publishable-key="{{ cart.payment_method.settings.stripe_publishable_key|default('')|e('html_attr') }}"
+     data-method-code="{{ cart.payment_method.code|default('')|e('html_attr') }}"
+     data-unavailable-message="{{ 'Stripe is not configured for card checkout. Check publishable/secret keys and test mode.'|e('html_attr') }}">
+    {% set googlePlacesKey = googlePlacesBrowserApiKey|default('') %}
+    {% set googleAutocompleteEnabled = googlePlacesAddressAutocompleteEnabled|default(false) and googlePlacesKey %}
+    <div class="posmall-stripe-billing"
+         data-mall-address-zip-suggest
+         data-mall-address-zip-handler="{{ addressZipHandler|default('paymentMethodSelector::onSuggestAddressZip') }}"
+         data-mall-address-zip-prefix=""
+         data-mall-google-places-enabled="{{ googleAutocompleteEnabled ? '1' : '0' }}"
+         data-mall-google-places-api-key="{{ googlePlacesKey|e('html_attr') }}">
+        <h3 class="h6 mb-3">Billing details</h3>
+        <div class="row g-3 mb-4">
+            <div class="col-12">
+                <label class="form-label" for="stripe-billing-name">Full name</label>
+                <input class="form-control"
+                       id="stripe-billing-name"
+                       name="payment_data[billing_name]"
+                       autocomplete="cc-name"
+                       data-stripe-billing-field="billing_name"
+                       value="{{ cart.customer.name|default('')|e }}">
+            </div>
+            <div class="col-12">
+                <label class="form-label" for="stripe-billing-address-line1">Street address</label>
+                <input class="form-control"
+                       id="stripe-billing-address-line1"
+                       name="payment_data[billing_address_line1]"
+                       list="stripe_billing_address_suggestions"
+                       autocomplete="billing address-line1"
+                       data-stripe-billing-field="billing_address_line1"
+                       data-mall-address-field="lines"
+                       value="{{ cart.customer.billing_address.lines_array[0]|default('')|e }}">
+                <datalist id="stripe_billing_address_suggestions"></datalist>
+            </div>
+            <div class="col-12">
+                <label class="form-label" for="stripe-billing-address-line2">Apartment, suite, unit</label>
+                <input class="form-control"
+                       id="stripe-billing-address-line2"
+                       name="payment_data[billing_address_line2]"
+                       autocomplete="billing address-line2"
+                       data-stripe-billing-field="billing_address_line2"
+                       data-mall-address-field="details"
+                       value="{{ cart.customer.billing_address.details|default(cart.customer.billing_address.lines_array[1]|default(''))|e }}">
+            </div>
+            <div class="col-12 col-md-6">
+                <label class="form-label" for="stripe-billing-city">City</label>
+                <input class="form-control"
+                       id="stripe-billing-city"
+                       name="payment_data[billing_city]"
+                       autocomplete="billing address-level2"
+                       data-stripe-billing-field="billing_city"
+                       data-mall-address-field="city"
+                       value="{{ cart.customer.billing_address.city|default('')|e }}">
+            </div>
+            <div class="col-12 col-md-6">
+                <label class="form-label" for="stripe-billing-state">State</label>
+                <input class="form-control"
+                       id="stripe-billing-state"
+                       name="payment_data[billing_state]"
+                       autocomplete="billing address-level1"
+                       data-stripe-billing-field="billing_state"
+                       data-mall-address-field="state_id"
+                       value="{{ cart.customer.billing_address.state.name|default('')|e }}">
+            </div>
+            <div class="col-12 col-md-6">
+                <label class="form-label" for="stripe-billing-postal-code">ZIP code</label>
+                <input class="form-control"
+                       id="stripe-billing-postal-code"
+                       name="payment_data[billing_postal_code]"
+                       list="stripe_billing_zip_suggestions"
+                       autocomplete="billing postal-code"
+                       data-stripe-billing-field="billing_postal_code"
+                       data-mall-address-field="zip"
+                       value="{{ cart.customer.billing_address.zip|default('')|e }}">
+                <datalist id="stripe_billing_zip_suggestions"></datalist>
+            </div>
+            <div class="col-12 col-md-6">
+                <label class="form-label" for="stripe-billing-country">Country</label>
+                <input class="form-control"
+                       id="stripe-billing-country"
+                       name="payment_data[billing_country]"
+                       autocomplete="billing country"
+                       data-stripe-billing-field="billing_country"
+                       data-mall-address-field="country_id"
+                       value="US">
+            </div>
+        </div>
+    </div>
+
+    <div class="posmall-stripe-card-fields">
+        <h3 class="h6 mb-3">Card information</h3>
+        <div class="posmall-stripe-card-grid">
+            <div class="posmall-stripe-card-row posmall-stripe-card-row--full">
+                <label class="form-label" for="card-number-element">Card number</label>
+                <div id="card-number-element" class="posmall-stripe-element" data-posmall-stripe-card-number></div>
+            </div>
+            <div class="posmall-stripe-card-row">
+                <label class="form-label" for="card-expiry-element">Expiration date</label>
+                <div id="card-expiry-element" class="posmall-stripe-element" data-posmall-stripe-card-expiry></div>
+            </div>
+            <div class="posmall-stripe-card-row">
+                <label class="form-label" for="card-cvc-element">CVC</label>
+                <div id="card-cvc-element" class="posmall-stripe-element" data-posmall-stripe-card-cvc></div>
+            </div>
+        </div>
+    </div>
+    <div id="card-errors" class="invalid-feedback d-block" data-validate-for="token"></div>
+
+    <input type="hidden" class="js-mall-checkout-trigger" name="payment_data[token]" value="" id="stripe-token">
+</div>

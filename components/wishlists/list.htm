@@ -1,0 +1,26 @@
+<a href="javascript:;"
+   class="mall-wishlist-item list-group-item list-group-item-action d-flex justify-content-between align-items-center {{ __SELF__.showingAllItems ? 'mall-wishlist-item--active active' }}"
+   data-request="onSelectAll"
+>
+    <div class="mall-wishlist-item__data">
+        <div class="mall-wishlist-item__name fw-semibold">
+            All Favorites
+        </div>
+        <div class="mall-wishlist-item__description small">
+            {{ 'kodzero.posmall::frontend.wishlist.count'|transchoice(__SELF__.allFavoriteItems.count|default(0), { count: __SELF__.allFavoriteItems.count|default(0) }) }}
+        </div>
+    </div>
+    <div class="mall-wishlist-item__meta badge bg-primary rounded-pill">
+        {{ __SELF__.allFavoriteItems.count|default(0) }}
+    </div>
+</a>
+
+{% for wishlist in items|default([]) %}
+    {% partial __SELF__ ~ '::item'
+        label=wishlist.name
+        count=wishlist.items.count|default(0)
+        total=wishlist.totals.totalPostTaxes
+        list_id=wishlist.hash_id
+        product_id=__SELF__.property('product')
+        variant_id=__SELF__.property('variant') %}
+{% endfor %}

@@ -1,0 +1,8 @@
+source_term_id,source_term_taxonomy_id,parent_term_taxonomy_id,taxonomy,name,slug,description,count,thumbnail_id,thumbnail_source_url,thumbnail_upload_path
+7,7,0,product_cat,Scarves,scarves,,23,18,https://wingsofwin.com/wp-content/uploads/2016/12/Header4K.jpg,2016/12/Header4K.jpg
+231,231,7,product_cat,Silk Scarves,silk-scarves,,11,0,,
+232,232,7,product_cat,Cotton Scarves,cotton-scarves,,11,0,,
+244,244,0,product_cat,Children's Scarves,childrens-scarves,,0,0,,
+245,245,0,product_cat,Family Look,family-look,,3,0,,
+247,247,0,product_cat,Bridesmaid's Scarves,bridesmaids-scarves,,2,0,,
+342,342,7,product_cat,Woolen scarves,woolen-scarves,,1,0,,

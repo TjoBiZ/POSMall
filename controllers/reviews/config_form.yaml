@@ -1,0 +1,13 @@
+name: 'kodzero.posmall::lang.common.reviews'
+modelClass: KodZero\POSMall\Models\Review
+form: $/kodzero/posmall/models/review/fields.yaml
+defaultRedirect: kodzero/posmall/reviews
+create:
+    title: 'kodzero.posmall::lang.titles.reviews.create'
+    redirect: 'kodzero/posmall/reviews/update/:id'
+    redirectClose: kodzero/posmall/reviews
+update:
+    title: 'kodzero.posmall::lang.titles.reviews.update'
+    redirect: kodzero/posmall/reviews
+    redirectClose: kodzero/posmall/reviews
+preview: {  }

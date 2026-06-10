@@ -1,0 +1,27 @@
+source_post_id,title,slug,status,post_date,post_modified,html_content,excerpt,categories,tags,seo_title,seo_description,source_url_guess,source_guid
+2,WingsOfWin,about,publish,2016-07-08 09:58:27,2017-03-04 14:44:58,,,,,Shop scarves - WingsOfWin,We tried a lot before we discovered an interesting idea of creating scarves with wings prints for those who dream.,https://wingsofwin.com/about/,http://wingsofwin.com/?page_id=2
+7,Scarves,shop,publish,2016-12-26 20:45:12,2017-01-30 13:28:13,,,,,,,https://wingsofwin.com/shop/,http://wingsofwin.com/shop/
+8,Cart,cart,publish,2016-12-26 20:45:12,2017-01-09 08:18:18,[woocommerce_cart],,,,,,https://wingsofwin.com/cart/,http://wingsofwin.com/cart/
+9,Checkout,checkout,publish,2016-12-26 20:45:12,2016-12-26 20:45:12,[woocommerce_checkout],,,,,,https://wingsofwin.com/checkout/,http://wingsofwin.com/checkout/
+10,My Account,my-account,publish,2016-12-26 20:45:12,2016-12-27 17:31:51,[woocommerce_my_account],,,,,,https://wingsofwin.com/my-account/,http://wingsofwin.com/my-account/
+21,Contact,contact,publish,2016-12-27 17:18:37,2017-02-25 05:16:19,"[contactform email=""scarves@wingsofwin.com""]",,,,,,https://wingsofwin.com/contact/,https://wingsofwin.com/?page_id=21
+116,Our history,our-story,publish,2017-01-29 15:07:19,2017-03-05 05:31:24,"<h2 style=""text-align: right; text-transform: uppercase;"">Our history</h2>
+<p style=""text-align: justify;"">We want to share with you the history of our family business. My husband and I have long dreamed of creating stylish and unusual things in the fashion world. We tried a lot before we discovered an interesting idea of creating scarves with wings prints for those who dream. Inspired by the nature itself, we were designing unique models just for our friends and acquaintances. Someone wanted to try on an Angel image, others preferred a bright butterfly, sophisticated swan or wise owl. We started getting new customers through word-of-mouth recommendations. So we didn't even notice how our hobby became a beautiful and popular business. And yet, we still love our work and take it as our souls' fascination, opportunity to create, surprise and delight.</p>
+<img class=""aligncenter wp-image-306 size-full"" style=""margin-top: 40px; margin-bottom: 40px;"" src=""https://wingsofwin.com/wp-content/uploads/2017/03/sketch.jpg"" width=""960"" height=""336"" />
+<p style=""text-align: justify;"">How we create beauty</p>
+<p style=""text-align: justify;"">We begin our work on scarves or wraps with a drawing:</p>
+
+<ul style=""text-align: justify;"">
+ 	<li>We draw a sketch making the details as sharp as possible</li>
+ 	<li>We scan the drawing and then use special software to turn our sketch into a digital color image.</li>
+ 	<li>We print the image on fabric and add our brand Wings of Win.</li>
+ 	<li>We edge the garment stitching on it or decorating with a fringe.</li>
+</ul>
+<img class=""aligncenter wp-image-307 size-full"" style=""margin-top: 40px; margin-bottom: 40px;"" src=""https://wingsofwin.com/wp-content/uploads/2017/03/DigitalPrintingKonicaMinolta.jpg"" width=""960"" />
+<p style=""text-align: justify;"">For our scarves we use exclusively natural fabrics: linen, silk, cotton, modal, cashmere, wool. They are thin and resilient, they accentuate the beauty of a picture, give a nice tactile feeling. The finished product made from flowing fabric fascinates with its colors and lines. It is noticed that wearing such a scarf improves a woman's posture and enhances her mood. She literally hovers above the ground.</p>
+<img class=""aligncenter wp-image-308 size-full"" style=""margin-top: 40px; margin-bottom: 40px;"" src=""https://wingsofwin.com/wp-content/uploads/2017/03/STUDIO.jpg"" width=""960"" height=""361"" />
+<p style=""text-align: justify;"">This classy accessory can easily be called a work of fine art. Shawls and scarves with wings are a great idea for a gift that is why we have designed a bright attractive branded wrapping.
+There are a lot of things ahead, we are going to move to Miami, open new shops in Florida, fulfill a lot of ambitions and plans, put new bright ideas into the world of fashion.</p>
+[rev_slider alias=""WingsOfWinScarves""]",,,,Our history,"We want to share with you the history of our family business.
+For our scarves we use exclusively natural fabrics: linen, silk, cotton, modal, cashmere, wool.",https://wingsofwin.com/our-story/,https://wingsofwin.com/?page_id=116
+219,Woocommerce Predictive Search,woocommerce-search,publish,2017-02-17 16:54:46,2017-02-17 16:54:46,[woocommerce_search],,,,,,https://wingsofwin.com/woocommerce-search/,https://wingsofwin.com/woocommerce-search/

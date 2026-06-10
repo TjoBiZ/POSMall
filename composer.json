@@ -1,0 +1,74 @@
+{
+    "name": "kodzero/posmall-plugin",
+    "type": "october-plugin",
+    "description": "PostgreSQL-first eCommerce plugin for October CMS and Laravel with catalog, POS, services, virtual products, checkout, orders and API-ready commerce workflows",
+    "keywords": [
+        "october",
+        "cms",
+        "ecommerce",
+        "e-commerce",
+        "catalog",
+        "catalog services",
+        "item customization",
+        "virtual products",
+        "point of sale",
+        "pos",
+        "store",
+        "shop",
+        "laravel",
+        "postgresql",
+        "business automation",
+        "api",
+        "graphql",
+        "plugin"
+    ],
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "KodZero"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-imagick": "*",
+        "barryvdh/laravel-dompdf": "^1.0|^2.0|^3.0",
+        "composer/installers": "~1.0",
+        "hashids/hashids": "^4.0|^5.0",
+        "league/omnipay": "^3.2",
+        "omnipay/paypal": "^3.0",
+        "omnipay/stripe": "^3.0",
+        "rainlab/user-plugin": "^1.6|^2.0|^3.0",
+        "rainlab/location-plugin": "^1.2|^2.0",
+        "rainlab/translate-plugin": "^1.9|^2.0",
+        "webonyx/graphql-php": "^15.32",
+        "whitecube/php-prices": "^2.0|^3.0"
+    },
+    "suggest": {
+        "vitalybaev/google-merchant-feed": "Required to use the Google Merchant Feed integration",
+        "bummzack/omnipay-postfinance": "Required to use the PostFinance payment provider",
+        "elasticsearch/elasticsearch": "Required to use the ElasticSearch indexing support (experimental)",
+        "offline/jsonq": "Required to use the file based index",
+        "tmarois/filebase": "Required to use the file based index",
+        "stripe/stripe-php": "Required to use the Stripe Hosted Checkout payment provider",
+        "kodzero/posmalltheme-theme": "Recommended POSMall storefront theme for catalog, product, service, cart, checkout and account pages"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.23",
+        "mockery/mockery": "^1.6",
+        "phpmd/phpmd": "^2.6",
+        "phpunit/phpunit": "^8.5|^9.0",
+        "squizlabs/php_codesniffer": "*",
+        "friendsofphp/php-cs-fixer": "^3.5.0"
+    },
+    "scripts": {
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "../../../vendor/bin/phpunit ./tests --stop-on-failure --testdox"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}

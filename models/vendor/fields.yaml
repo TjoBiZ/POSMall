@@ -1,0 +1,26 @@
+fields:
+    name:
+        label: Name
+        span: left
+        type: text
+    slug:
+        label: Slug
+        span: right
+        type: text
+        preset:
+            field: name
+            type: slug
+    contact_email:
+        label: Contact email
+        span: left
+        type: text
+    is_active:
+        label: Active
+        span: right
+        type: switch
+        default: 1
+    is_default:
+        label: Default
+        span: right
+        type: switch
+        default: 0

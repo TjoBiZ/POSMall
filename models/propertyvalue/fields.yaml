@@ -1,0 +1,11 @@
+fields:
+    property:
+        label: 'kodzero.posmall::lang.common.property'
+        oc.commentPosition: ''
+        span: auto
+        type: relation
+    value:
+        label: 'kodzero.posmall::lang.product.property_value'
+        oc.commentPosition: ''
+        span: auto
+        type: text

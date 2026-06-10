@@ -1,0 +1,5 @@
+fields:
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        span: auto
+        type: text

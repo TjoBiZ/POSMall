@@ -1,0 +1,99 @@
+columns:
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        type: text
+        searchable: true
+        sortable: true
+    percentage:
+        label: 'kodzero.posmall::lang.tax.percentage'
+        type: text
+        searchable: true
+        sortable: true
+    state_codes_display:
+        label: Applies to states
+        type: text
+        sortable: true
+    state_code:
+        label: Primary state
+        type: text
+        searchable: true
+        sortable: true
+        invisible: true
+    state_codes:
+        label: State codes raw
+        type: text
+        searchable: true
+        sortable: true
+        invisible: true
+    jurisdiction_display:
+        label: Jurisdiction
+        type: text
+        sortable: true
+    tax_main_group_display:
+        label: Main group
+        type: text
+        sortable: true
+    tax_main_group:
+        label: Main group code
+        type: text
+        searchable: true
+        sortable: true
+        invisible: true
+    jurisdiction_name:
+        label: Jurisdiction name
+        type: text
+        searchable: true
+        invisible: true
+    jurisdiction_code:
+        label: Jurisdiction code
+        type: text
+        searchable: true
+        invisible: true
+    tax_group_display:
+        label: Tax group
+        type: partial
+        path: $/kodzero/posmall/models/tax/_tax_group_display.htm
+        sortable: true
+    tax_group_code:
+        label: Tax group code
+        type: text
+        searchable: true
+        invisible: true
+    tax_group_name:
+        label: Tax group name
+        type: text
+        searchable: true
+        invisible: true
+    source_type:
+        label: Source
+        type: text
+        searchable: true
+        invisible: true
+    source_name:
+        label: Source name
+        type: text
+        searchable: true
+        invisible: true
+    parser_name:
+        label: Parser
+        type: text
+        searchable: true
+        invisible: true
+    usa_auto_update_enabled:
+        label: Auto-update
+        type: partial
+        path: $/kodzero/posmall/models/tax/_usa_auto_update.htm
+        sortable: false
+    zip_code_ranges:
+        label: ZIP ranges
+        type: text
+        searchable: true
+        invisible: true
+    is_default:
+        label: 'kodzero.posmall::lang.tax.is_default'
+        type: switch
+        searchable: true
+    is_enabled:
+        label: 'kodzero.posmall::lang.tax.is_enabled'
+        type: switch
+        searchable: true

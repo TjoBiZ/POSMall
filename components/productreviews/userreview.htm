@@ -1,0 +1,12 @@
+<div class="mall-product-reviews__info-name fw-semibold mb-2">
+    {{ 'kodzero.posmall::frontend.reviews.your_rating'|trans }}
+</div>
+<div class="mall-product-reviews__info-content mb-3">
+    {% if __SELF__.canReview|default(false) %}
+        {% partial __SELF__ ~ '::form' review=__SELF__.customerReview %}
+    {% else %}
+        <a href="{{ __SELF__.accountPage|page }}" class="mall-product-reviews__login-required btn btn-outline-primary">
+            {{ 'kodzero.posmall::frontend.reviews.login'|trans }}
+        </a>
+    {% endif %}
+</div>

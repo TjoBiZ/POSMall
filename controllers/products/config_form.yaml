@@ -1,0 +1,15 @@
+name: 'kodzero.posmall::lang.common.product'
+modelClass: KodZero\POSMall\Models\Product
+form: $/kodzero/posmall/models/product/fields_edit.yaml
+defaultRedirect: kodzero/posmall/products
+create:
+    title: 'kodzero.posmall::lang.titles.products.create'
+    redirect: 'kodzero/posmall/products/update/:id'
+    redirectClose: kodzero/posmall/products
+    form: $/kodzero/posmall/models/product/fields_create.yaml
+update:
+    title: 'kodzero.posmall::lang.titles.products.update'
+    redirect: kodzero/posmall/products
+    redirectClose: kodzero/posmall/products
+preview:
+    title: 'kodzero.posmall::lang.titles.products.preview'

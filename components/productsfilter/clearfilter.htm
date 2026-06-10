@@ -1,0 +1,8 @@
+<div class="mall-property__clear-filter">
+    <a class="js-mall-clear-filter"
+       href="javascript:;"
+       data-filter="{{ id }}"
+       style="{% if not filter[id]|default(false) %}display: none{% endif %}">
+        {{ 'kodzero.posmall::frontend.reset.filter'|trans }}
+    </a>
+</div>

@@ -1,0 +1,49 @@
+<div class="row g-4">
+    {% set missingPayment = cart.payment_method_id|default(null) is empty %}
+    {% set missingShipping = not cart.is_virtual and cart.shipping_method_id|default(null) is empty %}
+    {% set checkoutBlocked = missingPayment or missingShipping %}
+
+    <div class="col-12 col-lg-4">
+        {% partial __SELF__ ~ '::summary' %}
+    </div>
+
+    <div class="col-12 col-lg-8">
+        {% component 'cart' %}
+
+        {% partial __SELF__ ~ '::confirminfo' %}
+
+        {% if cart.products.count|default(0) > 0 %}
+            <form class="mall-cart-form card shadow-sm border-0 mt-3">
+                {{ form_token() }}
+                <div class="card-body">
+                    <div class="alert alert-danger d-none mb-3" data-checkout-error role="alert"></div>
+
+                    {% if checkoutBlocked %}
+                        <div class="mall-checkout-blocker alert alert-warning mb-3">
+                            {% if missingShipping %}
+                                <div>
+                                    No shipping method is selected for this order. Return to shipping and choose an available method before placing the order.
+                                </div>
+                            {% endif %}
+                            {% if missingPayment %}
+                                <div>
+                                    No payment method is selected for this order. Return to payment and choose a method before placing the order.
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    {% if __SELF__.showNotesField %}
+                        {% partial __SELF__ ~ '::notes' %}
+                    {% endif %}
+
+                    {% partial __SELF__ ~ '::actions' %}
+                </div>
+            </form>
+        {% endif %}
+    </div>
+</div>
+
+{% if __SELF__.dataLayer %}
+    {% partial __SELF__ ~ '::datalayer' %}
+{% endif %}

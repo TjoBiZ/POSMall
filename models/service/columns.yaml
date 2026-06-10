@@ -1,0 +1,37 @@
+columns:
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        type: text
+        searchable: true
+        sortable: true
+    code:
+        label: 'kodzero.posmall::lang.common.code'
+        type: text
+        searchable: true
+        sortable: true
+    vendor:
+        label: 'kodzero.posmall::lang.order.vendor'
+        relation: vendor
+        select: name
+        type: text
+        sortable: false
+    channel:
+        label: 'kodzero.posmall::lang.order.channel'
+        relation: channel
+        select: name
+        type: text
+        sortable: false
+    description:
+        label: 'kodzero.posmall::lang.product.description'
+        type: text
+        searchable: true
+        sortable: true
+        invisible: true
+    created_at:
+        label: 'kodzero.posmall::lang.common.created_at'
+        type: datetime
+        sortable: true
+    updated_at:
+        label: 'kodzero.posmall::lang.common.updated_at'
+        type: datetime
+        sortable: true

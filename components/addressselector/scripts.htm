@@ -1,0 +1,49 @@
+{% put scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    /**
+     * Change the selected address using vanilla JavaScript.
+     *
+     * Preserves:
+     * - handler: addressselector::onChangeAddress
+     * - partial update: addressselector::changeAddress
+     * - dynamic target based on the closest .mall-address id
+     * - October loading indicator
+     */
+    document.body.addEventListener('click', function (event) {
+        const input = event.target.closest('.js-change-address');
+
+        if (!input) {
+            return;
+        }
+
+        const selector = input.closest('.mall-address-selector--{{ __SELF__.type }}');
+
+        if (!selector) {
+            return;
+        }
+
+        event.preventDefault();
+
+        if (!window.oc || typeof window.oc.request !== 'function') {
+            console.error('October AJAX function oc.request is not available.');
+            return;
+        }
+
+        const address = input.closest('.mall-address');
+
+        if (!address || !address.id) {
+            console.error('Address wrapper .mall-address with id was not found.');
+            return;
+        }
+
+        window.oc.request(input, '{{ __SELF__ }}::onChangeAddress', {
+            update: {
+                '{{ __SELF__ }}::changeAddress': '#' + address.id
+            },
+            loading: window.oc.stripeLoadIndicator || null
+        });
+    });
+});
+</script>
+{% endput %}

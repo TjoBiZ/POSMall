@@ -1,0 +1,57 @@
+fields:
+    pivot[use_for_variants]@update:
+        label: 'kodzero.posmall::lang.properties.use_for_variants'
+        comment: 'kodzero.posmall::lang.properties.use_for_variants_comment'
+        type: switch
+        span: auto
+    slug:
+        label: 'kodzero.posmall::lang.common.slug'
+        span: auto
+        type: text
+        readOnly: true
+        context: update
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        oc.commentPosition: ''
+        span: auto
+        type: text
+    pivot[filter_type]@update:
+        label: 'kodzero.posmall::lang.properties.filter_type'
+        oc.commentPosition: ''
+        span: auto
+        type: dropdown
+        trigger:
+            action: hide
+            field: type
+            condition: 'value[date] or value[datetime]' # frontend filters for these types are not yet implemented.
+        options:
+            '': 'kodzero.posmall::lang.properties.filter_types.none'
+            set: 'kodzero.posmall::lang.properties.filter_types.set'
+            range: 'kodzero.posmall::lang.properties.filter_types.range'
+    type:
+        label: 'kodzero.posmall::lang.custom_fields.type'
+        oc.commentPosition: ''
+        span: auto
+        type: dropdown
+    unit:
+        label: 'kodzero.posmall::lang.common.unit'
+        oc.commentPosition: ''
+        span: auto
+        type: text
+    options:
+        label: 'kodzero.posmall::lang.common.options'
+        oc.commentPosition: ''
+        prompt: 'Add new item'
+        span: full
+        trigger:
+            action: show
+            field: type
+            condition: 'value[dropdown]'
+        type: repeater
+        form:
+            fields:
+                value:
+                    label: 'kodzero.posmall::lang.common.option'
+                    oc.commentPosition: ''
+                    span: full
+                    type: text

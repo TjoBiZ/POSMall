@@ -1,0 +1,35 @@
+columns:
+    name:
+        label: 'kodzero.posmall::lang.discounts.name'
+        type: text
+        searchable: true
+        sortable: true
+    valid_from:
+        label: 'kodzero.posmall::lang.discounts.valid_from'
+        type: date
+        sortable: true
+    expires:
+        label: 'kodzero.posmall::lang.discounts.expires'
+        type: date
+        sortable: true
+    number_of_usages:
+        label: 'kodzero.posmall::lang.discounts.number_of_usages'
+        type: number
+        searchable: true
+        sortable: true
+    type:
+        label: 'kodzero.posmall::lang.discounts.type'
+        type: text
+        searchable: true
+        sortable: true
+    trigger:
+        label: 'kodzero.posmall::lang.discounts.trigger'
+        type: text
+        searchable: true
+        sortable: true
+    code:
+        label: 'kodzero.posmall::lang.discounts.code'
+        type: text
+        searchable: true
+        sortable: true
+        clickable: false

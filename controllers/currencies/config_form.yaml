@@ -1,0 +1,13 @@
+name: kodzero.posmall::lang.currency_settings.label
+modelClass: KodZero\POSMall\Models\Currency
+form: $/kodzero/posmall/models/currency/fields.yaml
+defaultRedirect: kodzero/posmall/currencies
+create:
+    title: kodzero.posmall::lang.titles.currencies.create
+    redirect: 'kodzero/posmall/currencies/update/:id'
+    redirectClose: kodzero/posmall/currencies
+update:
+    title: kodzero.posmall::lang.titles.currencies.update
+    redirect: kodzero/posmall/currencies
+    redirectClose: kodzero/posmall/currencies
+preview: {  }

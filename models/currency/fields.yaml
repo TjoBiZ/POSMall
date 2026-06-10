@@ -1,0 +1,38 @@
+fields:
+    is_enabled:
+        type: switch
+        label: kodzero.posmall::lang.currency_settings.is_enabled
+        span: left
+        default: true
+    is_default:
+        type: switch
+        label: kodzero.posmall::lang.currency_settings.set_as_default
+        span: right
+    code:
+        type: text
+        label: kodzero.posmall::lang.currency_settings.currency_code
+        span: auto
+    symbol:
+        type: text
+        label: kodzero.posmall::lang.currency_settings.currency_symbol
+        span: auto
+    rate:
+        type: text
+        label: kodzero.posmall::lang.currency_settings.currency_rate
+        span: auto
+    decimals:
+        type: text
+        label: kodzero.posmall::lang.currency_settings.currency_decimals
+        span: auto
+    format:
+        type: codeeditor
+        label: kodzero.posmall::lang.currency_settings.currency_format
+        span: left
+        size: small
+        language: twig
+        default: |
+            {{ price|number_format(currency.decimals, " ", ",") }} ({{ currency.symbol }})
+    help:
+        type: partial
+        span: left
+        path: $/kodzero/posmall/models/currency/_help.htm

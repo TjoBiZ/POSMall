@@ -1,0 +1,19 @@
+<div class="card-body">
+<h2 class="h4 mb-3">{{ 'kodzero.posmall::frontend.shipping_method'|trans }}</h2>
+
+{% if cart.is_virtual %}
+    <div class="alert alert-info mb-3">
+        No shipping method is required for this order.
+    </div>
+    <form data-request-validate data-request="{{ __SELF__ }}::onSubmit">
+        {{ form_token() }}
+        <button class="mall-btn mall-btn--primary btn btn-primary" type="submit" data-attach-loading>
+            Proceed to Confirm Order
+        </button>
+    </form>
+{% elseif __SELF__.methods.count|default(0) > 0 %}
+    {% partial __SELF__ ~ '::methods' %}
+{% else %}
+    {% partial __SELF__ ~ '::empty' %}
+{% endif %}
+</div>

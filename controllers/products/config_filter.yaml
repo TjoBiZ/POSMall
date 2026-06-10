@@ -1,0 +1,39 @@
+# ===================================
+# Filter Scope Definitions
+# ===================================
+
+scopes:
+    category:
+        label: kodzero.posmall::lang.common.category
+        modelClass: KodZero\POSMall\Models\Category
+        scope: inCategories
+
+    created_at:
+        label: kodzero.posmall::lang.common.created_at
+        type: daterange
+        conditions: created_at >= ':after' AND created_at <= ':before'
+
+    published:
+        label: kodzero.posmall::lang.common.hide_published
+        type: checkbox
+        conditions: published <> true
+
+    is_virtual:
+        label: kodzero.posmall::lang.product.filter_virtual
+        type: checkbox
+        conditions: is_virtual = true
+
+    has_variants:
+        label: Has variants
+        type: checkbox
+        conditions: inventory_management_method = 'variant'
+
+    in_stock:
+        label: In stock
+        type: checkbox
+        conditions: stock > 0
+
+    out_of_stock:
+        label: Out of stock
+        type: checkbox
+        conditions: stock <= 0

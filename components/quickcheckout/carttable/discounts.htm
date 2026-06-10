@@ -1,0 +1,13 @@
+{% for entry in discounts|default([]) %}
+    <tr class="mall-cart__discount">
+        <td>
+            {{ entry.discount.name }}
+            {% if entry.discount.code|default(null) %}
+                ({{ entry.discount.code }})
+            {% endif %}
+        </td>
+        <td class="text-end text-success posmall-money-nowrap">
+            {{ entry.savings|money }}
+        </td>
+    </tr>
+{% endfor %}

@@ -1,0 +1,53 @@
+# ===================================
+# Filter Scope Definitions
+# ===================================
+
+scopes:
+    status:
+        label: kodzero.posmall::lang.order.status
+        type: group
+        modelClass: KodZero\POSMall\Models\OrderState
+        conditions: order_state_id in (:filtered)
+        nameFrom: name
+    payment_state:
+        label: kodzero.posmall::lang.order.payment_status
+        type: group
+        conditions: payment_state in (:filtered)
+        options:
+            KodZero\POSMall\Classes\PaymentState\PaidState: kodzero.posmall::lang.payment_status.paid
+            KodZero\POSMall\Classes\PaymentState\RefundedState: kodzero.posmall::lang.payment_status.refunded
+            KodZero\POSMall\Classes\PaymentState\FailedState: kodzero.posmall::lang.payment_status.failed
+            KodZero\POSMall\Classes\PaymentState\PendingState: kodzero.posmall::lang.payment_status.pending
+    api_source:
+        label: kodzero.posmall::lang.order.api_source
+        type: group
+        conditions: api_source in (:filtered)
+        options:
+            web: kodzero.posmall::lang.order.api_source_web
+            api: kodzero.posmall::lang.order.api_source_api
+    vendor:
+        label: kodzero.posmall::lang.order.vendor
+        type: group
+        modelClass: KodZero\POSMall\Models\Vendor
+        conditions: vendor_id in (:filtered)
+        nameFrom: name
+    channel:
+        label: kodzero.posmall::lang.order.channel
+        type: group
+        modelClass: KodZero\POSMall\Models\Channel
+        conditions: channel_id in (:filtered)
+        nameFrom: name
+    warehouse:
+        label: kodzero.posmall::lang.order.warehouse
+        type: group
+        modelClass: KodZero\POSMall\Models\Warehouse
+        conditions: warehouse_id in (:filtered)
+        nameFrom: name
+    shipping_pending:
+        label: kodzero.posmall::lang.order.shipping_pending
+        type: checkbox
+        conditions: shipped_at is null
+    created_at:
+        label: kodzero.posmall::lang.order.creation_date
+        type: daterange
+        conditions: created_at >= ':after' AND created_at <= ':before'

@@ -1,0 +1,88 @@
+tabs:
+    fields:
+        api_enabled:
+            tab: API
+            label: Enable POSMall API
+            span: left
+            type: switch
+            default: 0
+            comment: Enables controlled external/client API routes. API tokens are still required.
+
+        default_rate_limit_per_minute:
+            tab: API
+            label: Default requests per minute
+            span: right
+            type: number
+            default: 60
+            comment: Used when an API token does not define a stricter per-token limit.
+
+        payment_link_expiry_minutes:
+            tab: API
+            label: Payment link expiry minutes
+            span: left
+            type: number
+            default: 1440
+            comment: Default lifetime for API-generated website payment links.
+
+        allowed_origins:
+            tab: API
+            label: Global allowed origins
+            span: right
+            type: textarea
+            size: small
+            comment: Optional newline-separated browser origins. Token-level origins can narrow this further.
+
+        api_catalog_cache_seconds:
+            tab: API
+            label: Catalog API cache seconds
+            span: left
+            type: number
+            default: 30
+            comment: Short read-cache for catalog JSON. Product/index observers bump the cache version after catalog changes.
+
+        route_access_rules:
+            tab: API Access
+            label: Route access rules
+            span: full
+            type: textarea
+            size: large
+            comment: "Optional line format: METHOD path mode token_id. Modes: public or password. Default behavior without a matching rule is normal API key access. Examples: GET /posmall/api/v1/status public 12; POST /posmall/api/graphql password 13."
+
+        route_access_password:
+            tab: API Access
+            label: Route access password
+            span: left
+            type: password
+            comment: Optional shared password for password-mode API/GraphQL route rules. Stored as a hash and never shown again. Clients send it as X-POSMall-Access-Password or access_password.
+
+        graphql_enabled:
+            tab: GraphQL
+            label: Enable POSMall GraphQL
+            span: left
+            type: switch
+            default: 0
+            comment: Reserved for the reviewed GraphQL engine implementation. REST API remains the active public API.
+
+        graphql_introspection_enabled:
+            tab: GraphQL
+            label: Enable GraphQL introspection
+            span: right
+            type: switch
+            default: 0
+            comment: Keep disabled in production unless a trusted integration needs schema introspection.
+
+        graphql_max_depth:
+            tab: GraphQL
+            label: Max GraphQL depth
+            span: left
+            type: number
+            default: 8
+            comment: Query depth limit for the future GraphQL endpoint.
+
+        graphql_max_complexity:
+            tab: GraphQL
+            label: Max GraphQL complexity
+            span: right
+            type: number
+            default: 120
+            comment: Query complexity limit for the future GraphQL endpoint.

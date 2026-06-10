@@ -1,0 +1,9 @@
+# ===================================
+# Filter Scope Definitions
+# ===================================
+
+scopes:
+    status:
+        label: kodzero.posmall::lang.reviews.only_unapproved
+        type: checkbox
+        conditions: approved_at is null

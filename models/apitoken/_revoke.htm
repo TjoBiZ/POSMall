@@ -1,0 +1,13 @@
+<?php if ($record->revoked_at): ?>
+    <span class="text-muted">Revoked</span>
+<?php else: ?>
+    <button
+        type="button"
+        class="btn btn-xs btn-danger"
+        data-request="onRevoke"
+        data-request-data="id: <?= (int)$record->id ?>"
+        data-request-confirm="Revoke this POSMall API token?"
+    >
+        Revoke
+    </button>
+<?php endif ?>

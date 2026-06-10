@@ -1,0 +1,253 @@
+<?php
+
+declare(strict_types=1);
+
+namespace KodZero\POSMall\Components;
+
+use Auth;
+use Illuminate\Support\Collection;
+use October\Rain\Exception\ValidationException;
+use KodZero\POSMall\Models\Cart;
+use KodZero\POSMall\Models\GeneralSettings;
+use KodZero\POSMall\Models\ShippingMethod;
+use Validator;
+
+/**
+ * The ShippingMethodSelector component displays available shipping
+ * methods to the user.
+ */
+class ShippingMethodSelector extends POSMallComponent
+{
+    /**
+     * The user's cart.
+     *
+     * @var Cart
+     */
+    public $cart;
+
+    /**
+     * All available shipping methods.
+     *
+     * @var Collection
+     */
+    public $methods;
+
+    /**
+     * Redirect further in the checkout process if
+     * only one shipping is available to choose from.
+     *
+     * @var bool
+     */
+    public $skipIfOnlyOneAvailable = true;
+
+    /**
+     * Backend setting whether shipping should be before payment.
+     *
+     * @var bool
+     */
+    public $shippingSelectionBeforePayment = false;
+
+    /**
+     * Component details.
+     *
+     * @return array
+     */
+    public function componentDetails()
+    {
+        return [
+            'name'        => 'kodzero.posmall::lang.components.shippingMethodSelector.details.name',
+            'description' => 'kodzero.posmall::lang.components.shippingMethodSelector.details.description',
+        ];
+    }
+
+    /**
+     * Properties of this component.
+     *
+     * @return array
+     */
+    public function defineProperties()
+    {
+        return [
+            'skipIfOnlyOneAvailable' => [
+                'type'    => 'checkbox',
+                'label'   => 'Skip if only one method is available',
+                'default' => true,
+            ],
+        ];
+    }
+
+    /**
+     * The component is initialized.
+     *
+     * @return string
+     */
+    public function init()
+    {
+        $this->setData();
+    }
+
+    /**
+     * The component is executed.
+     *
+     * @return string
+     */
+    public function onRun()
+    {
+        if (! $this->cart) {
+            return;
+        }
+
+        if ($this->shouldSkipStep()) {
+            return $this->redirect();
+        }
+    }
+
+    /**
+     * A shipping method has been selected.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function onSubmit()
+    {
+        $this->setData();
+
+        if (! $this->cart) {
+            throw new ValidationException([
+                'shipping_method' => 'Sign in before selecting a shipping method.',
+            ]);
+        }
+
+        if (! $this->cart->is_virtual && ! $this->cart->shipping_method_id) {
+            throw new ValidationException([
+                'shipping_method' => 'Select an available shipping method before continuing.',
+            ]);
+        }
+
+        return $this->redirect();
+    }
+
+    /**
+     * The shipping method has been changed.
+     *
+     * @return array
+     */
+    public function onChangeMethod()
+    {
+        $v = Validator::make(post() ?: [], [
+            'id' => 'bail|required|integer|exists:kodzero_posmall_shipping_methods,id',
+        ]);
+
+        if ($v->fails()) {
+            throw new ValidationException($v);
+        }
+
+        $id = post('id');
+
+        if (! $this->methods || ! $this->methods->contains('id', (int)$id)) {
+            throw new ValidationException([
+                'id' => trans('kodzero.posmall::lang.components.shippingMethodSelector.errors.unavailable'),
+            ]);
+        }
+
+        $this->cart->shipping_method_id = $id;
+        $this->cart->save();
+
+        $this->setData();
+
+        return [
+            '.mall-shipping-selector' => $this->renderPartial($this->alias . '::selector'),
+            'method'                  => ShippingMethod::where('id', $id)->first(),
+        ];
+    }
+
+    /**
+     * This method sets all variables needed for this component to work.
+     *
+     * @return void
+     */
+    protected function setData()
+    {
+        $this->skipIfOnlyOneAvailable = (bool)$this->property('skipIfOnlyOneAvailable');
+        $user = Auth::user();
+
+        if (! $user) {
+            $this->setVar('cart', null);
+            $this->setVar('methods', collect([]));
+            $this->setVar('shippingSelectionBeforePayment', GeneralSettings::get('shipping_selection_before_payment', false));
+
+            return;
+        }
+
+        $cart = Cart::byUser($user);
+        $methods = ShippingMethod::getAvailableByCart($cart);
+
+        if (! $cart->is_virtual && ! $cart->shipping_method_id && $methods->count() > 0) {
+            $cart->setShippingMethod($methods->first());
+            $cart = $cart->fresh();
+            $methods = ShippingMethod::getAvailableByCart($cart);
+        }
+
+        $cart->validateShippingMethod();
+
+        $this->setVar('cart', $cart);
+        $this->setVar('methods', $methods);
+        $this->setVar('shippingSelectionBeforePayment', GeneralSettings::get('shipping_selection_before_payment', false));	// Needed by themes
+    }
+
+    /**
+     * Get the URL to a specific checkout step.
+     *
+     * @param $step
+     * @param null $via
+     *
+     * @return string
+     */
+    protected function getStepUrl($step, $via = null): string
+    {
+        $url = $this->controller->pageUrl($this->page->page->fileName, ['step' => $step]);
+
+        if (! $via) {
+            return $url;
+        }
+
+        return $url . '?' . http_build_query(['via' => $via]);
+    }
+
+    /**
+     * Redirect to the next checkout step.
+     *
+     * @return \Illuminate\Http\RedirectResponse|array
+     */
+    protected function redirect()
+    {
+        $nextStep = 'confirm';
+
+        if ($this->shippingSelectionBeforePayment) {
+            $nextStep = request()->get('via') === 'confirm' ? 'confirm' : 'payment';
+        }
+
+        $url = $this->getStepUrl($nextStep);
+
+        // If the analytics component is present return the datalayer partial that handles the redirect.
+        if (! $this->shouldSkipStep() && $this->page->layout->hasComponent('enhancedEcommerceAnalytics')) {
+            return [
+                '#mall-datalayer' => $this->renderPartial($this->alias . '::datalayer', ['url' => $url]),
+            ];
+        }
+
+        return redirect()->to($url);
+    }
+
+    /**
+     * Whether or not to skip this checkout step.
+     *
+     * @return bool
+     */
+    protected function shouldSkipStep()
+    {
+        // Skip if only one method is available.
+        return $this->skipIfOnlyOneAvailable
+            && $this->methods->count() === 1
+            && (request()->get('via') === 'payment' || $this->shippingSelectionBeforePayment);
+    }
+}

@@ -1,0 +1,362 @@
+<div class="layout">
+    <div class="layout-row">
+        <div class="padded-container">
+            <div class="control-tabs primary-tabs" data-control="tab">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tests">Tests</a></li>
+                    <li><a href="#schedule">Schedule</a></li>
+                    <li><a href="#load">Catalog load</a></li>
+                    <li><a href="#logs">Logs</a></li>
+                    <li><a href="#test-users">Test users</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <?php if ($schemaMissing): ?>
+                            <div class="callout callout-warning">
+                                <div class="header">
+                                    <i class="icon-warning"></i>
+                                    <h3>Database update required</h3>
+                                </div>
+                                <div class="content">
+                                    <p>The <code>kodzero_posmall_test_runs</code> table is not available yet. Run October plugin updates before starting tests.</p>
+                                </div>
+                            </div>
+                        <?php endif ?>
+
+                        <form data-request="onSaveSelection">
+                            <h4>Backend tests</h4>
+                            <p class="help-block">Backend tests check PHP models, database logic, validation, and service code.</p>
+
+                            <?php if (count($backendTests) < 1): ?>
+                                <p>No backend tests found.</p>
+                            <?php else: ?>
+                                <div class="control-list">
+                                    <table class="table data">
+                                        <tbody>
+                                            <?php foreach ($backendTests as $test): ?>
+                                                <tr>
+                                                    <td class="list-checkbox nolink">
+                                                        <input
+                                                            type="checkbox"
+                                                            name="backend_tests[]"
+                                                            value="<?= e($test['path']) ?>"
+                                                            <?= in_array($test['path'], $selectedBackendTests, true) ? 'checked' : '' ?>
+                                                        >
+                                                    </td>
+                                                    <td>
+                                                        <strong><?= e($test['display']) ?></strong><br>
+                                                        <span class="text-muted"><?= e($test['path']) ?></span>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php endif ?>
+
+                            <h4>Frontend / Dusk tests</h4>
+                            <p class="help-block">Dusk tests open the storefront in a browser and verify links, forms, cart, checkout, and visible errors.</p>
+
+                            <?php if (count($duskTests) < 1): ?>
+                                <p>No Dusk tests found.</p>
+                            <?php else: ?>
+                                <div class="control-list">
+                                    <table class="table data">
+                                        <tbody>
+                                            <?php foreach ($duskTests as $test): ?>
+                                                <tr>
+                                                    <td class="list-checkbox nolink">
+                                                        <input
+                                                            type="checkbox"
+                                                            name="dusk_tests[]"
+                                                            value="<?= e($test['path']) ?>"
+                                                            <?= in_array($test['path'], $selectedDuskTests, true) ? 'checked' : '' ?>
+                                                        >
+                                                    </td>
+                                                    <td>
+                                                        <strong><?= e($test['display']) ?></strong><br>
+                                                        <span class="text-muted"><?= e($test['path']) ?></span>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php endif ?>
+
+                            <div class="form-buttons">
+                                <button type="submit" class="btn btn-primary" data-request="onSaveSelection">Save selection</button>
+                                <button type="button" class="btn btn-success" data-request="onRunSelected" data-request-confirm="Run selected tests now?">Run selected tests now</button>
+                                <button type="button" class="btn btn-default" data-request="onRunAll" data-request-confirm="Run all discovered tests now?">Run all tests now</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane">
+                        <form data-request="onSaveSchedule">
+                            <div class="form-group checkbox-field">
+                                <div class="checkbox custom-checkbox">
+                                    <input type="checkbox" id="schedule-enabled" name="schedule[schedule_enabled]" value="1" <?= $settings['schedule_enabled'] ? 'checked' : '' ?>>
+                                    <label for="schedule-enabled">Enable scheduled tests</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Frequency</label>
+                                <select class="form-control custom-select" name="schedule[frequency]">
+                                    <?php foreach (['daily' => 'daily', 'weekly' => 'weekly', 'monthly' => 'monthly', 'disabled' => 'disabled'] as $value => $label): ?>
+                                        <option value="<?= e($value) ?>" <?= $settings['frequency'] === $value ? 'selected' : '' ?>><?= e($label) ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Time of day</label>
+                                <input class="form-control" type="time" name="schedule[time_of_day]" value="<?= e($settings['time_of_day']) ?>">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Email failures to</label>
+                                <input class="form-control" type="email" name="schedule[failure_email]" value="<?= e($settings['failure_email']) ?>" placeholder="admin@example.com">
+                            </div>
+
+                            <div class="form-group checkbox-field">
+                                <div class="checkbox custom-checkbox">
+                                    <input type="checkbox" id="notify-only-on-failure" name="schedule[notify_only_on_failure]" value="1" <?= $settings['notify_only_on_failure'] ? 'checked' : '' ?>>
+                                    <label for="notify-only-on-failure">Notify only on failure</label>
+                                </div>
+                            </div>
+
+                            <div class="callout callout-info">
+                                <div class="header">
+                                    <i class="icon-check-square-o"></i>
+                                    <h3>Test groups to run</h3>
+                                </div>
+                                <div class="content">
+                                    <p>Scheduled runs use the selected backend and Dusk tests from the Tests section.</p>
+                                    <p>Selected backend tests: <?= e(count($selectedBackendTests)) ?>. Selected Dusk tests: <?= e(count($selectedDuskTests)) ?>.</p>
+                                </div>
+                            </div>
+
+                            <div class="callout callout-info">
+                                <div class="header">
+                                    <i class="icon-info"></i>
+                                    <h3>Laravel scheduler</h3>
+                                </div>
+                                <div class="content">
+                                    <p>To enable scheduled runs, configure the Laravel scheduler on your server:</p>
+                                    <pre>* * * * * cd /path/to/project &amp;&amp; php artisan schedule:run &gt;&gt; /dev/null 2&gt;&amp;1</pre>
+                                    <p>This backend page stores which tests should run and when. The scheduler executes the saved plan.</p>
+                                </div>
+                            </div>
+
+                            <div class="form-buttons">
+                                <button type="submit" class="btn btn-primary">Save schedule</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane">
+                        <div class="callout callout-info">
+                            <div class="header">
+                                <i class="icon-dashboard"></i>
+                                <h3>PostgreSQL catalog load benchmark</h3>
+                            </div>
+                            <div class="content">
+                                <p>This local tool creates synthetic POSMall-owned catalog rows, rebuilds the PostgreSQL index, runs category/filter/search benchmarks, and stores the result below. It does not run during normal installation or normal seeding.</p>
+                                <p>Before visual or image-enabled benchmark runs, rebuild the optimized image cache. Original photos stay untouched; generated WebP/JPEG derivatives are stored under the POSMall cache tree.</p>
+                                <p>Image-enabled benchmark seeding creates product image-set records in the database and reuses optimized image derivatives instead of copying one binary photo per product.</p>
+                            </div>
+                        </div>
+
+                        <?php if (!$loadBenchmarkEnabled): ?>
+                            <div class="callout callout-warning">
+                                <div class="header">
+                                    <i class="icon-lock"></i>
+                                    <h3>Disabled outside local development</h3>
+                                </div>
+                                <div class="content">
+                                    <p>Catalog load benchmarks are available only in local/dev/testing environments.</p>
+                                </div>
+                            </div>
+                        <?php elseif ($loadBenchmarkSchemaMissing): ?>
+                            <div class="callout callout-warning">
+                                <div class="header">
+                                    <i class="icon-warning"></i>
+                                    <h3>Database update required</h3>
+                                </div>
+                                <div class="content">
+                                    <p>The <code>kodzero_posmall_load_benchmark_runs</code> table is not available yet. Run October plugin updates before starting load benchmarks.</p>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <div class="form-buttons">
+                                <button
+                                    type="button"
+                                    class="btn btn-info"
+                                    data-request="onOptimizeImageCache"
+                                    data-request-confirm="Rebuild optimized POSMall image cache for catalog, product and service photos?"
+                                >Rebuild optimized image cache</button>
+                                <button
+                                    type="button"
+                                    class="btn btn-info"
+                                    data-request="onOptimizeStorefrontAssets"
+                                    data-request-confirm="Rebuild minified POSMall storefront CSS/JS and PageSpeed manifest?"
+                                >Rebuild PageSpeed assets</button>
+                                <p class="help-block">
+                                    Optimized mode is controlled in POSMall general settings. The rebuild button prefers Laravel Mix in <code>themes/kodzero-posmalltheme/assets</code>; if dependencies are missing it uses the conservative PHP fallback and records that in the manifest.
+                                </p>
+                                <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    data-request="onRunLoadBenchmark10000"
+                                    data-request-confirm="Replace existing POSMall load benchmark data and run a 10,000 product benchmark?"
+                                >Generate 10,000 and benchmark</button>
+                                <button
+                                    type="button"
+                                    class="btn btn-warning"
+                                    data-request="onRunLoadBenchmark100000"
+                                    data-request-confirm="Replace existing POSMall load benchmark data and run a 100,000 product benchmark? This can take several minutes."
+                                >Generate 100,000 and benchmark</button>
+                                <button
+                                    type="button"
+                                    class="btn btn-default"
+                                    data-request="onPurgeLoadBenchmark"
+                                    data-request-confirm="Remove only POSMall synthetic load benchmark data?"
+                                >Purge load data</button>
+                            </div>
+
+                            <div class="callout callout-info">
+                                <div class="header">
+                                    <i class="icon-terminal"></i>
+                                    <h3>Large runs use the console</h3>
+                                </div>
+                                <div class="content">
+                                    <p>Use the buttons for normal local checks. For 200,000 and 300,000 products, run the benchmark from the console so the backend page does not wait on a long web request.</p>
+                                    <pre>php artisan posmall:images:optimize-catalog --profile=all
+php artisan posmall:pagespeed:optimize-assets
+php artisan posmall:load-benchmark 200000 --iterations=10 --force --with-images
+php artisan posmall:load-benchmark 300000 --iterations=10 --force --with-images</pre>
+                                </div>
+                            </div>
+
+                            <div class="control-list">
+                                <table class="table data">
+                                    <thead>
+                                        <tr>
+                                            <th>Started</th>
+                                            <th>Status</th>
+                                            <th>Target</th>
+                                            <th>Products</th>
+                                            <th>Services</th>
+                                            <th>Index rows</th>
+                                            <th>Seed</th>
+                                            <th>Category avg</th>
+                                            <th>Filtered avg</th>
+                                            <th>Search avg</th>
+                                            <th>Peak memory</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (count($loadBenchmarkRuns) < 1): ?>
+                                            <tr><td colspan="11">No load benchmark runs logged yet.</td></tr>
+                                        <?php endif ?>
+                                        <?php foreach ($loadBenchmarkRuns as $run): ?>
+                                            <tr class="<?= $run->status === 'error' ? 'negative' : '' ?>">
+                                                <td><?= e(optional($run->started_at)->toDateTimeString()) ?></td>
+                                                <td><?= e($run->status) ?></td>
+                                                <td><?= e(number_format($run->target_records)) ?></td>
+                                                <td><?= e(number_format($run->actual_products)) ?></td>
+                                                <td><?= e(number_format($run->actual_services)) ?></td>
+                                                <td><?= e(number_format($run->actual_index_rows)) ?></td>
+                                                <td><?= e($run->seed_seconds !== null ? $run->seed_seconds . 's' : '-') ?></td>
+                                                <td><?= e($run->category_avg_ms !== null ? $run->category_avg_ms . ' ms' : '-') ?></td>
+                                                <td><?= e($run->filtered_avg_ms !== null ? $run->filtered_avg_ms . ' ms' : '-') ?></td>
+                                                <td><?= e($run->search_avg_ms !== null ? $run->search_avg_ms . ' ms' : '-') ?></td>
+                                                <td><?= e($run->memory_peak_mb !== null ? $run->memory_peak_mb . ' MB' : '-') ?></td>
+                                            </tr>
+                                        <?php endforeach ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php endif ?>
+                    </div>
+
+                    <div class="tab-pane">
+                        <?php if ($schemaMissing): ?>
+                            <div class="callout callout-warning">
+                                <div class="header">
+                                    <i class="icon-warning"></i>
+                                    <h3>Database update required</h3>
+                                </div>
+                                <div class="content">
+                                    <p>Logs will appear after the <code>kodzero_posmall_test_runs</code> migration has been applied.</p>
+                                </div>
+                            </div>
+                        <?php endif ?>
+
+                        <div class="control-list">
+                            <table class="table data">
+                                <thead>
+                                    <tr>
+                                        <th>Started at</th>
+                                        <th>Finished at</th>
+                                        <th>Duration</th>
+                                        <th>Trigger</th>
+                                        <th>Initiated by</th>
+                                        <th>Status</th>
+                                        <th>Selected</th>
+                                        <th>Backend</th>
+                                        <th>Dusk</th>
+                                        <th>Log file</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (count($runs) < 1): ?>
+                                        <tr><td colspan="11">No test runs logged yet.</td></tr>
+                                    <?php endif ?>
+                                    <?php foreach ($runs as $run): ?>
+                                        <tr class="<?= in_array($run->status, ['failed', 'error'], true) ? 'negative' : '' ?>">
+                                            <td><?= e(optional($run->started_at)->toDateTimeString()) ?></td>
+                                            <td><?= e(optional($run->finished_at)->toDateTimeString()) ?></td>
+                                            <td><?= e($run->duration_seconds !== null ? $run->duration_seconds . 's' : '') ?></td>
+                                            <td><?= e($run->trigger) ?></td>
+                                            <td><?= e($run->backend_user_name ?: '-') ?></td>
+                                            <td><?= e($run->status) ?></td>
+                                            <td><?= e($run->selected_tests_count) ?></td>
+                                            <td><?= e($run->backend_tests_count) ?></td>
+                                            <td><?= e($run->dusk_tests_count) ?></td>
+                                            <td><?= e($run->storage_log_path) ?></td>
+                                            <td><a class="btn btn-xs btn-default" href="<?= Backend::url('kodzero/posmall/tests/log/' . $run->id) ?>">View log</a></td>
+                                        </tr>
+                                    <?php endforeach ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane">
+                        <p>Dusk may create temporary frontend users during browser tests. These users use deterministic test email addresses and must be deleted by the tests after completion.</p>
+
+                        <h4>Known deterministic Dusk users</h4>
+                        <ul>
+                            <li><code>dusk.posmall.flow@posmall.test</code> - reset and reused by <code>POSMallStorefrontFlowTest</code>.</li>
+                            <li><code>dusk.posmall.payment@posmall.test</code> - reset and reused by <code>POSMallPaymentCheckoutTest</code>.</li>
+                            <li><code>dusk.posmall.forms.customer@posmall.test</code> - reset and reused by <code>KodZeroPOSMallFormFuzzTest</code>.</li>
+                            <li><code>dusk.posmall.forms.admin@posmall.test</code> - reset and reused by <code>KodZeroPOSMallFormFuzzTest</code>.</li>
+                        </ul>
+
+                        <h4>Recent test-user log events</h4>
+                        <?php if (count($testUserEvents) < 1): ?>
+                            <p>No test-user events were found in the local Dusk log.</p>
+                        <?php else: ?>
+                            <pre><?= e(implode("\n", $testUserEvents)) ?></pre>
+                        <?php endif ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

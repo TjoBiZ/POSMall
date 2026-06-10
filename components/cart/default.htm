@@ -1,0 +1,7 @@
+<div class="mall-cart"
+     data-posmall-cart
+     data-component-alias="{{ __SELF__ }}"
+     data-confirm-message="{{ 'kodzero.posmall::frontend.confirm'|trans|e('html_attr') }}">
+    {% partial __SELF__ ~ '::cart' %}
+</div>
+{% partial __SELF__ ~ '::scripts' %}

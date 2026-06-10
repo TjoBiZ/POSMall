@@ -1,0 +1,11 @@
+name: 'kodzero.posmall::lang.common.payment'
+modelClass: KodZero\POSMall\Models\PaymentLog
+form: $/kodzero/posmall/models/paymentlog/fields.yaml
+defaultRedirect: kodzero/posmall/paymentlogs
+create:
+    redirect: 'kodzero/posmall/paymentlogs/update/:id'
+    redirectClose: kodzero/posmall/paymentlogs
+update:
+    redirect: kodzero/posmall/paymentlogs
+    redirectClose: kodzero/posmall/paymentlogs
+preview: {  }

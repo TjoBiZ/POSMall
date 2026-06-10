@@ -1,0 +1,25 @@
+# ===================================
+#  Relation Behavior Config
+# ===================================
+
+properties:
+    label: 'kodzero.posmall::lang.common.property'
+    deferredBinding: false
+    view:
+        list: $/kodzero/posmall/models/property/columns_pivot_legacy.yaml
+        toolbarButtons: add|create|remove
+        defaultSort:
+            column: pivot[sort_order]
+            direction: asc
+    manage:
+        form: $/kodzero/posmall/models/property/fields_pivot.yaml
+        list: $/kodzero/posmall/models/property/columns.yaml
+        showSearch: true
+        recordsPerPage: 50
+    pivot:
+        form: $/kodzero/posmall/models/property/fields_pivot.yaml
+    structure:
+        showTree: false
+        showReorder: true
+        showSorting: false
+        dragRow: true

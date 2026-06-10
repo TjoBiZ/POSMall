@@ -1,0 +1,17 @@
+<div class="mall-product__properties mb-4">
+    {% for entry in item.grouped_properties|default([]) %}
+        <h2 class="mall-product__properties-heading h5 mb-3">{{ entry.group.name }}</h2>
+        <div class="mall-three-columns row g-3">
+            {% for value in entry.values|default([]) %}
+                <div class="mall-column col-12 col-md-6">
+                    <div class="border rounded p-3 h-100 bg-body">
+                        <div class="fw-semibold">{{ value.property.name }}</div>
+                        <div class="text-muted">
+                            {{ value.display_value|raw }} {{ value.property.unit }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,28 @@
+<div class="layout">
+    <div class="layout-row">
+        <div class="padded-container">
+            <p>
+                <a href="<?= Backend::url('kodzero/posmall/tests') ?>" class="btn btn-default">Back to Tests</a>
+            </p>
+
+            <h4>Run #<?= e($run->id) ?>: <?= e($run->status) ?></h4>
+            <p><strong>Log file:</strong> <?= e($run->storage_log_path) ?></p>
+            <p>Showing at most the last <?= e($limitKb) ?> KB.</p>
+
+            <?php if ($run->error_output): ?>
+                <div class="callout callout-danger">
+                    <div class="header">
+                        <i class="icon-warning"></i>
+                        <h3>Failed/error output</h3>
+                    </div>
+                    <div class="content">
+                        <pre><?= e($run->error_output) ?></pre>
+                    </div>
+                </div>
+            <?php endif ?>
+
+            <pre style="white-space: pre-wrap; max-height: 70vh; overflow: auto;"><?= e($logText) ?></pre>
+        </div>
+    </div>
+</div>
+

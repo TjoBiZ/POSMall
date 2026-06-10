@@ -1,0 +1,41 @@
+columns:
+    sort_order:
+        label: 'kodzero.posmall::lang.common.sort_order'
+        type: number
+        invisible: true
+    enabled:
+        label:  'kodzero.posmall::lang.notifications.enabled'
+        type: partial
+        path: enabled
+        sortable: false
+        clickable: false
+    name:
+        label: 'kodzero.posmall::lang.common.name'
+        type: text
+        searchable: true
+        sortable: true
+    description:
+        label: 'kodzero.posmall::lang.product.description'
+        type: text
+        searchable: true
+        sortable: true
+    code:
+        label: 'kodzero.posmall::lang.common.code'
+        type: text
+        searchable: true
+        sortable: true
+    template:
+        label: 'kodzero.posmall::lang.notifications.template'
+        type: text
+        searchable: true
+        sortable: true
+    created_at:
+        label: 'kodzero.posmall::lang.common.created_at'
+        type: datetime
+        invisible: true
+        sortable: true
+    updated_at:
+        label: 'kodzero.posmall::lang.common.updated_at'
+        type: datetime
+        invisible: true
+        sortable: true

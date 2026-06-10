@@ -1,0 +1,19 @@
+<input name="props[{{ item.property.hashId }}]"
+       id="{{ item.property.hashId }}"
+       data-id="{{ item.property.hashId }}"
+       class="js-mall-property-selector"
+       type="hidden"
+       value="{{ propertyValue.hashId }}"
+       data-mall-property>
+
+<div class="mall-color-swatches d-flex flex-wrap gap-2 mb-3">
+    {% for value in item.values %}
+        <a class="mall-option-selector mall-color-swatches__swatch
+                border rounded-circle {{ propertyValue.value == value.getValueAttribute() ? 'is-active border-primary border-2' : '' }}"
+           data-target="#{{ item.property.hashId }}"
+           data-value="{{ value.hashId }}"
+           style="background-color: {{ value.safe_color_hex }}; width: 32px; height: 32px;"
+           title="{{ value.getValueAttribute().name }}">
+        </a>
+    {% endfor %}
+</div>

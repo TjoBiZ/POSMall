@@ -1,0 +1,21 @@
+fields:
+    enabled:
+        label: kodzero.posmall::lang.review_settings.enabled
+        comment: kodzero.posmall::lang.review_settings.enabled_comment
+        type: switch
+    moderated:
+        label: kodzero.posmall::lang.review_settings.moderated
+        comment: kodzero.posmall::lang.review_settings.moderated_comment
+        type: switch
+        trigger:
+            action: enable
+            field: enabled
+            condition: checked
+    allow_anonymous:
+        label: kodzero.posmall::lang.review_settings.allow_anonymous
+        comment: kodzero.posmall::lang.review_settings.allow_anonymous_comment
+        type: switch
+        trigger:
+            action: enable
+            field: enabled
+            condition: checked

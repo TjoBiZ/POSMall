@@ -1,0 +1,19 @@
+<div class="mall-cart-summary__method-logo">
+    {% if not __SELF__.cart.is_virtual %}
+        {% if __SELF__.cart.shipping_method.logo|default(null) %}
+            <img src="{{ __SELF__.cart.shipping_method.logo.thumb(150, null) }}" alt=""/>
+        {% else %}
+            {{ __SELF__.cart.shipping_method.name }}
+        {% endif %}
+    {% else %}
+        <p>{{ 'kodzero.posmall::lang.shipping_method.not_required_name'|trans }}</p>
+    {% endif %}
+</div>
+
+{% if not __SELF__.cart.is_virtual %}
+    <p class="mall-cart-summary__action">
+        <a class="btn btn-outline-secondary btn-sm" href="{{ __SELF__.stepUrl('shipping') }}">
+            Change shipping
+        </a>
+    </p>
+{% endif %}

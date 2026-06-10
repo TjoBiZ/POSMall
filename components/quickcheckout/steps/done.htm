@@ -1,0 +1,21 @@
+{% set isPaid = __SELF__.order and __SELF__.order.is_paid %}
+<div class="mall-checkout-result {{ isPaid ? 'mall-checkout-result--successful alert alert-success' : 'mall-checkout-result--pending alert alert-warning' }}">
+    {% if isPaid %}
+        <h3 class="mall-checkout-result__heading h4">{{ 'kodzero.posmall::frontend.checkout.payment.successful.heading'|trans }}</h3>
+        <p>{{ 'kodzero.posmall::frontend.checkout.payment.successful.line_1'|trans }}</p>
+    {% elseif __SELF__.order %}
+        <h3 class="mall-checkout-result__heading h4">{{ 'kodzero.posmall::frontend.checkout.payment.pending.heading'|trans }}</h3>
+        <p>{{ 'kodzero.posmall::frontend.checkout.payment.pending.line_1'|trans }}</p>
+        <p>{{ 'kodzero.posmall::frontend.checkout.payment.pending.line_2'|trans }}</p>
+        {% if __SELF__.order.payment_state_label|default(null) %}
+            <div class="mall-checkout-result__state small">
+                <span class="text-muted">{{ 'kodzero.posmall::frontend.order.payment_state'|trans }}:</span>
+                <span class="badge bg-warning text-dark">{{ __SELF__.order.payment_state_label }}</span>
+            </div>
+        {% endif %}
+    {% else %}
+        <h3 class="mall-checkout-result__heading h4">{{ 'kodzero.posmall::frontend.checkout.order.successful.heading'|trans }}</h3>
+        <p>{{ 'kodzero.posmall::frontend.checkout.order.successful.line_1'|trans }}</p>
+    {% endif %}
+    {% partial __SELF__ ~ '::resultactions' %}
+</div>

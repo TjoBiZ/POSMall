@@ -1,0 +1,11 @@
+name: 'kodzero.posmall::lang.common.address'
+modelClass: KodZero\POSMall\Models\Address
+form: $/kodzero/posmall/models/address/fields.yaml
+defaultRedirect: kodzero/posmall/addresses
+create:
+    redirect: 'kodzero/posmall/addresses/update/:id'
+    redirectClose: kodzero/posmall/addresses
+update:
+    redirect: kodzero/posmall/addresses
+    redirectClose: kodzero/posmall/addresses
+preview: {  }

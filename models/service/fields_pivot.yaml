@@ -1,0 +1,6 @@
+fields:
+    pivot[required]:
+        label: 'kodzero.posmall::lang.services.required'
+        span: full
+        type: switch
+        comment: 'kodzero.posmall::lang.services.required_comment'

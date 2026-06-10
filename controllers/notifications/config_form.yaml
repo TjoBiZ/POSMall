@@ -1,0 +1,12 @@
+name: 'kodzero.posmall::lang.common.notifications'
+modelClass: KodZero\POSMall\Models\Notification
+form: $/kodzero/posmall/models/notification/fields.yaml
+defaultRedirect: kodzero/posmall/notifications
+create:
+    title: 'kodzero.posmall::lang.titles.notifications.create'
+    redirect: 'kodzero/posmall/notifications/update/:id'
+    redirectClose: kodzero/posmall/notifications
+update:
+    title: 'kodzero.posmall::lang.titles.notifications.update'
+    redirect: kodzero/posmall/notifications
+    redirectClose: kodzero/posmall/notifications

@@ -1,0 +1,688 @@
+<div class="scoreboard">
+    <div data-control="toolbar">
+        <h4>USA Taxes helper</h4>
+        <p class="help-block">The upper table is the main Taxes table. This USA helper is the second table area for parsed tax types and rates by state.</p>
+
+        <label style="display:inline-flex; gap:8px; align-items:center; margin: 0 0 12px;">
+            <input
+                type="checkbox"
+                data-testid="usa-tax-helper-toggle"
+                <?= $usaTaxHelperEnabled ? 'checked' : '' ?>
+                onclick="$(this).request('onToggleUsaTaxHelper', {data: {enabled: this.checked ? 1 : 0}})">
+            <strong>Enable USA tax setup helper</strong>
+        </label>
+    </div>
+</div>
+
+<?php if (!$usaTaxHelperEnabled): ?>
+    <div class="callout fade in callout-info">
+        <div class="header">
+            <i class="icon-info"></i>
+            <h3>USA staging table is hidden</h3>
+            <p>Turn on the toggle above to show state sources and the parsed USA tax staging table.</p>
+        </div>
+    </div>
+<?php else: ?>
+	    <?= Form::open() ?>
+	        <input type="hidden" name="sourcePage" value="<?= e($usaTaxSourcePage) ?>">
+	        <input type="hidden" name="stagingPage" value="<?= e($usaTaxStagingPage) ?>">
+	        <input type="hidden" name="stagingSort" value="<?= e($usaTaxStagingSort) ?>">
+	        <input type="hidden" name="stagingDirection" value="<?= e($usaTaxStagingDirection) ?>">
+
+        <div style="box-sizing: border-box; width: 100%; max-width: 100%; margin: 0 0 18px; padding: 14px 16px; border: 1px solid #c7e0c7; border-radius: 4px; background: #f5fbf5; color: #2b3e50;">
+            <h4 style="margin: 0 0 8px; font-size: 16px; line-height: 1.3;">
+                <span class="oc-icon-shopping-cart"></span>
+                Address lookup and USA tax matching
+            </h4>
+            <p style="margin: 0 0 8px; max-width: 1100px;">
+                Google Places and USPS help identify the customer's address, ZIP, ZIP+4, city and state.
+                The local ZIP/tax coverage database is a separate required layer for matching that ZIP/state
+                to imported USA tax rate records used during checkout.
+            </p>
+            <p style="margin: 0; max-width: 1100px;">
+                Address autocomplete alone does not load tax rates and does not enable tax calculation by itself.
+                Tax calculation needs imported tax data connected to the product, service, category, subcategory or tax group.
+                If Google, USPS or local coverage is unavailable, address forms keep working normally without suggestions.
+            </p>
+        </div>
+
+        <div class="form-group" style="width: 100%; max-width: 100%;">
+            <div style="box-sizing: border-box; width: 100%; max-width: 100%; margin: 0 0 16px; padding: 14px 16px; border: 1px solid #c9def0; border-radius: 4px; background: #f4f9fd; color: #2b3e50;">
+                <h4 style="margin: 0 0 8px; font-size: 16px; line-height: 1.3;">
+                    <span class="oc-icon-map-marker"></span>
+                    Google Places address autocomplete
+                </h4>
+                <p style="margin: 0 0 10px; max-width: 1100px;">
+                    Google Places shows the fast dropdown under Street address after the customer starts typing.
+                    It fills address fields when the customer selects a suggested address.
+                </p>
+                <p style="margin: 0 0 12px; max-width: 1100px;">
+                    Google setup links:
+                    <a href="https://console.cloud.google.com/apis/library/maps-backend.googleapis.com" target="_blank" rel="noopener noreferrer">Enable Maps JavaScript API</a>
+                    &nbsp;|&nbsp;
+                    <a href="https://console.cloud.google.com/apis/library/places.googleapis.com" target="_blank" rel="noopener noreferrer">Enable Places API</a>
+                    &nbsp;|&nbsp;
+                    <a href="https://developers.google.com/maps/documentation/javascript/place-autocomplete" target="_blank" rel="noopener noreferrer">Setup instructions</a>
+                </p>
+                <p style="margin: 0 0 12px; max-width: 1100px;">
+                    Add authorized HTTP referrers with protocol, for example:
+                    <strong>https://example.com/*</strong>,
+                    <strong>https://*.example.com/*</strong>,
+                    <strong>https://yourstore.test/*</strong>,
+                    <strong>https://*.yourstore.test/*</strong>.
+                </p>
+                <div style="display: flex; flex-wrap: wrap; gap: 16px; width: 100%; align-items: flex-start;">
+                    <div style="box-sizing: border-box; min-width: 260px; flex: 0 0 260px;">
+                        <label style="display: inline-flex; gap: 8px; align-items: center; margin: 0;">
+                            <input type="checkbox" name="google_places_address_autocomplete_enabled" value="1" <?= $googlePlacesAddressAutocompleteEnabled ? 'checked' : '' ?>>
+                            <strong>Enable Google Places autocomplete</strong>
+                        </label>
+                    </div>
+                    <div style="box-sizing: border-box; min-width: 320px; flex: 1 1 420px;">
+                        <label style="display: block; margin-bottom: 4px;">Google browser API key</label>
+                        <input
+                            type="text"
+                            name="google_places_browser_api_key"
+                            class="form-control"
+                            style="width: 100%;"
+                            value="<?= e($googlePlacesBrowserApiKey) ?>"
+                            autocomplete="off">
+                        <p class="help-block" style="margin: 6px 0 0;">This key is visible in the browser. Restrict it by HTTP referrer/domain in Google Cloud.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="box-sizing: border-box; width: 100%; max-width: 100%; margin: 0 0 16px; padding: 14px 16px; border: 1px solid #d6d8db; border-radius: 4px; background: #f8f9fa; color: #2b3e50;">
+                <h4 style="margin: 0 0 8px; font-size: 16px; line-height: 1.3;">
+                    <span class="oc-icon-envelope"></span>
+                    USPS address and ZIP verification
+                </h4>
+                <p style="margin: 0 0 10px; max-width: 1100px;">
+                    USPS verifies the selected or typed address and improves ZIP, ZIP+4, city and state matching.
+                    ZIP-only city/state updates use USPS when this service is enabled and configured.
+                </p>
+                <p style="margin: 0 0 12px; max-width: 1100px;">
+                    USPS setup links:
+                    <a href="https://developers.usps.com/" target="_blank" rel="noopener noreferrer">USPS Developer Portal</a>
+                    &nbsp;|&nbsp;
+                    <a href="https://developers.usps.com/getting-started" target="_blank" rel="noopener noreferrer">USPS setup guide</a>
+                    &nbsp;|&nbsp;
+                    <a href="https://developers.usps.com/addressesv3" target="_blank" rel="noopener noreferrer">Addresses API 3.0 docs</a>
+                </p>
+                <div style="display: flex; flex-wrap: wrap; gap: 16px; width: 100%; align-items: flex-start;">
+                    <div style="box-sizing: border-box; min-width: 230px; flex: 0 0 230px;">
+                        <label style="display: inline-flex; gap: 8px; align-items: center; margin: 0;">
+                            <input type="checkbox" name="usps_addresses_enabled" value="1" <?= $uspsAddressesEnabled ? 'checked' : '' ?>>
+                            <strong>Enable USPS lookup</strong>
+                        </label>
+                    </div>
+                    <div style="box-sizing: border-box; min-width: 220px; flex: 1 1 220px;">
+                        <label style="display: block; margin-bottom: 4px;">USPS environment</label>
+                        <select name="usps_addresses_environment" class="form-control custom-select" style="width: 100%;">
+                            <?php foreach ($uspsAddressEnvironmentOptions as $value => $label): ?>
+                                <option value="<?= e($value) ?>" <?= $value === $uspsAddressesEnvironment ? 'selected' : '' ?>><?= e($label) ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div style="box-sizing: border-box; min-width: 280px; flex: 1 1 320px;">
+                        <label style="display: block; margin-bottom: 4px;">Consumer Key</label>
+                        <input
+                            type="text"
+                            name="usps_addresses_client_id"
+                            class="form-control"
+                            style="width: 100%;"
+                            value="<?= e($uspsAddressesClientId) ?>"
+                            autocomplete="off">
+                    </div>
+                    <div style="box-sizing: border-box; min-width: 280px; flex: 1 1 320px;">
+                        <label style="display: block; margin-bottom: 4px;">Consumer Secret</label>
+                        <input
+                            type="password"
+                            name="usps_addresses_client_secret"
+                            class="form-control"
+                            style="width: 100%;"
+                            value=""
+                            placeholder="<?= $uspsAddressesHasClientSecret ? 'Saved - leave blank to keep' : 'Not saved yet' ?>"
+                            autocomplete="new-password">
+                    </div>
+                </div>
+            </div>
+
+            <button
+                type="button"
+                class="btn btn-primary oc-icon-save"
+                data-testid="usps-address-lookup-save"
+                data-request="onSaveUspsAddressLookupSettings"
+                data-load-indicator="Saving address lookup settings...">
+                Save address lookup settings
+            </button>
+            <p class="help-block" style="margin-top: 8px;">
+                Google Places sends typed address text to Google before form submission. Use it only if your privacy
+                policy allows this. USPS lookup is for checkout/address ZIP help tied to mailing or shipping workflows.
+                Do not use either provider as a tax-rate source or as legal tax advice.
+            </p>
+        </div>
+
+        <hr>
+
+        <h4>USA tax source states</h4>
+        <p class="help-block">Select states and load official-source parser output into the lower staging table. The source list contains 50 states plus DC; territories are not included until explicitly supported. Use the starter button to quickly stage all supported normalized examples.</p>
+
+        <div class="callout fade in callout-info">
+            <div class="header">
+                <i class="icon-info"></i>
+                <h3>Daily source updates</h3>
+                <p>
+                    The global setting <strong>Auto-update USA taxes daily</strong> only enables the scheduler hook.
+                    Each live tax row in the main Taxes table must also have <strong>Auto-update this tax from source</strong>
+                    enabled. POSMall then refreshes that row from its official source when the source changes.
+                </p>
+                <p>
+                    <?php $cronStatus = $usaTaxCronStatus ?? app(\KodZero\POSMall\Classes\System\SchedulerCronStatus::class)->check(); ?>
+                    <?= e($cronStatus['label']) ?>. <?= e($cronStatus['message']) ?>
+	                </p>
+	                <p>
+	                    <?= e(app(\KodZero\POSMall\Classes\System\SchedulerCronStatus::class)->expectedScheduleDescription()) ?>
+	                    Server cron example: <code><?= e($cronStatus['expected_command']) ?></code>.
+	                    Automatic updates skip suspicious positive-to-zero rate changes; review and import those manually if the
+	                    zero rate is correct.
+	                </p>
+            </div>
+        </div>
+
+        <div class="control-list">
+            <table class="table data" style="width: 100%; table-layout: fixed;">
+                <thead>
+                    <tr>
+                        <th style="width: 32px">
+                            <input type="checkbox" data-usa-tax-select-all-states data-testid="usa-tax-select-all-states" aria-label="Select all source states">
+                        </th>
+                        <th style="width: 15%">State</th>
+                        <th style="width: 35%; max-width: 50%">Description</th>
+                        <th>Official sources</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($usaTaxStates as $state): ?>
+                        <tr>
+                            <td><input type="checkbox" name="states[]" value="<?= e($state['code']) ?>" data-testid="usa-tax-state-<?= e($state['code']) ?>"></td>
+                            <td><strong><?= e($state['name']) ?></strong><br><small><?= e($state['code']) ?></small></td>
+                            <td style="max-width: 50%; white-space: normal; word-break: normal; overflow-wrap: anywhere;"><?= e($state['description']) ?></td>
+                            <td>
+                                <?php foreach ($state['sources'] as $source): ?>
+                                    <div>
+                                        <span class="oc-icon-link"><?= e($source['name']) ?></span>
+                                        <small><?= e($source['type']) ?></small>
+                                        <?php if (!empty($source['url'])): ?>
+                                            <br><a href="<?= e($source['url']) ?>" target="_blank" rel="noopener noreferrer"><?= e($source['url']) ?></a>
+                                        <?php endif ?>
+                                        <?php foreach ([
+                                            'zip4_url' => 'ZIP+4 file',
+                                            'rate_url' => 'Rate file',
+                                            'boundary_url' => 'Boundary file',
+                                            'file_url' => 'Machine file',
+                                            'address_file_url' => 'Address file',
+                                            'api_url' => 'API',
+                                        ] as $urlKey => $label): ?>
+                                            <?php if (!empty($source[$urlKey])): ?>
+                                                <br><small><?= e($label) ?>:</small> <a href="<?= e($source[$urlKey]) ?>" target="_blank" rel="noopener noreferrer"><?= e($source[$urlKey]) ?></a>
+                                            <?php endif ?>
+                                        <?php endforeach ?>
+                                    </div>
+                                <?php endforeach ?>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+        </div>
+
+        <?php if ($usaTaxSourcePages > 1): ?>
+            <?php
+                $sourceStart = (($usaTaxSourcePage - 1) * $usaTaxSourcePageSize) + 1;
+                $sourceEnd = min($sourceStart + $usaTaxSourcePageSize - 1, $usaTaxSourceTotal);
+            ?>
+            <div data-testid="usa-tax-source-pagination" style="margin: 8px 0 14px;">
+                <span class="help-block" style="display:inline-block; margin: 0 10px 0 0;">
+                    Showing <?= e($sourceStart) ?>-<?= e($sourceEnd) ?> of <?= e($usaTaxSourceTotal) ?> source states
+                </span>
+                <?php for ($page = 1; $page <= $usaTaxSourcePages; $page++): ?>
+                    <button
+                        type="button"
+                        class="btn btn-sm <?= $page === $usaTaxSourcePage ? 'btn-primary' : 'btn-default' ?>"
+                        data-testid="usa-tax-source-page-<?= e($page) ?>"
+                        data-request="onChangeUsaTaxHelperPage"
+                        data-request-data="sourcePage: <?= e($page) ?>, stagingPage: <?= e($usaTaxStagingPage) ?>">
+                        <?= e($page) ?>
+                    </button>
+                <?php endfor ?>
+            </div>
+        <?php endif ?>
+
+        <button
+            type="button"
+            class="btn btn-primary oc-icon-download"
+            data-testid="usa-tax-load-selected"
+            data-request="onLoadSelectedUsaTaxes"
+            data-load-indicator="Loading selected USA taxes...">
+            Load Selected USA Taxes
+        </button>
+        <button
+            type="button"
+            class="btn btn-default oc-icon-database"
+            data-testid="usa-tax-load-starter"
+            data-request="onLoadStarterUsaTaxes"
+            data-load-indicator="Loading supported starter USA tax records...">
+            Load supported starter USA tax records
+        </button>
+        <button
+            type="button"
+            class="btn btn-default oc-icon-refresh"
+            data-testid="usa-tax-run-update"
+            data-request="onRunUsaTaxUpdateNow"
+            data-load-indicator="Running USA tax update...">
+            Run USA tax update now
+        </button>
+        <button
+            type="button"
+            class="btn btn-default oc-icon-shopping-cart"
+            data-testid="usa-tax-build-zip-coverage"
+            data-request="onBuildUsaZipCoverage"
+            data-load-indicator="Loading checkout ZIP tax lookup...">
+            Load checkout ZIP tax lookup
+        </button>
+        <p class="help-block" style="margin-top: 8px;">
+            Loads a USA ZIP lookup into POSMall so checkout can match the customer's address ZIP to the right tax state
+            and apply the correct tax rules in the cart.
+        </p>
+    <?= Form::close() ?>
+
+    <hr>
+
+    <div class="callout fade in callout-warning">
+        <div class="header">
+            <i class="icon-warning"></i>
+            <h3>Tax data responsibility</h3>
+            <p>
+                This USA tax helper is only a quick setup aid. POSMall does not guarantee that these rates, tax groups,
+                source links or parser results are complete, current, legally correct or available at all times. Tax
+                compliance responsibility remains with the store owner. Review official sources and get qualified tax or
+                legal advice before collecting or filing taxes.
+            </p>
+            <p>
+                Some Washington 5-digit ZIP codes contain multiple ZIP+4 rate candidates. POSMall stores a dominant
+                5-digit ZIP fallback for checkout convenience, but exact Washington local tax can require a full address
+                or ZIP+4 lookup against the official DOR address, ZIP+4 and rate files.
+            </p>
+            <p>
+                For USA checkout, delivery/shipping address is the primary tax location for shipped goods. Billing address
+                should only be used as a fallback when no delivery address or place-of-use address is available.
+            </p>
+        </div>
+    </div>
+
+    <?= Form::open() ?>
+        <input type="hidden" name="sourcePage" value="<?= e($usaTaxSourcePage) ?>">
+        <input type="hidden" name="stagingPage" value="<?= e($usaTaxStagingPage) ?>">
+
+        <h4>Parsed USA tax staging</h4>
+        <p class="help-block">This lower table is a staging area only. Its state filter shows only states already loaded into staging. Checked rows will be added to the main Taxes table above.</p>
+
+        <div class="control-list" data-testid="usa-tax-staging-table">
+            <table class="table data">
+                <thead>
+                    <tr>
+                        <th style="width: 32px">
+                            <?php if (!$usaTaxStagingRows->isEmpty()): ?>
+                                <input type="checkbox" data-usa-tax-select-all-records data-testid="usa-tax-staging-select-all" aria-label="Select all visible staged tax records">
+                            <?php endif ?>
+                        </th>
+	                        <th style="width: 70px">Status</th>
+	                        <th style="width: 78px">Imported</th>
+	                        <th style="min-width: 220px">Name</th>
+	                        <th style="width: 90px">
+	                            <button
+	                                type="button"
+	                                class="btn btn-link btn-xs"
+	                                style="padding: 0;"
+	                                data-request="onChangeUsaTaxHelperPage"
+	                                data-request-data="sourcePage: <?= e($usaTaxSourcePage) ?>, stagingPage: 1, stagingSort: 'state', stagingDirection: '<?= $usaTaxStagingSort === 'state' && $usaTaxStagingDirection === 'asc' ? 'desc' : 'asc' ?>'">
+	                                State<?= $usaTaxStagingSort === 'state' ? ' ' . e(strtoupper($usaTaxStagingDirection)) : '' ?>
+	                            </button>
+	                            <?php if (!$usaTaxStagingStates->isEmpty()): ?>
+	                                <details>
+	                                    <summary><small>Filter staged rows</small></summary>
+	                                    <label style="display:block; white-space:nowrap">
+	                                        <input type="checkbox" data-usa-tax-state-filter="all" <?= empty($usaTaxStagingStateFilters) ? 'checked' : '' ?> onchange="window.posmallUsaTaxRequestStagingFilters && window.posmallUsaTaxRequestStagingFilters(this)">
+	                                        <small>All</small>
+	                                    </label>
+	                                    <?php foreach ($usaTaxStagingStates as $stateCode): ?>
+	                                        <label style="display:block; white-space:nowrap">
+	                                            <input
+	                                                type="checkbox"
+	                                                name="stagingStateFilters[]"
+	                                                value="<?= e($stateCode) ?>"
+	                                                data-usa-tax-state-filter="<?= e($stateCode) ?>"
+	                                                onchange="window.posmallUsaTaxRequestStagingFilters && window.posmallUsaTaxRequestStagingFilters(this)"
+	                                                <?= in_array($stateCode, $usaTaxStagingStateFilters, true) ? 'checked' : '' ?>>
+	                                            <small><?= e($stateCode) ?></small>
+	                                        </label>
+	                                    <?php endforeach ?>
+	                                </details>
+	                            <?php endif ?>
+	                        </th>
+	                        <th style="width: 130px">
+	                            <button
+	                                type="button"
+	                                class="btn btn-link btn-xs"
+	                                style="padding: 0;"
+	                                data-request="onChangeUsaTaxHelperPage"
+	                                data-request-data="sourcePage: <?= e($usaTaxSourcePage) ?>, stagingPage: 1, stagingSort: 'main_group', stagingDirection: '<?= $usaTaxStagingSort === 'main_group' && $usaTaxStagingDirection === 'asc' ? 'desc' : 'asc' ?>'">
+	                                Main group<?= $usaTaxStagingSort === 'main_group' ? ' ' . e(strtoupper($usaTaxStagingDirection)) : '' ?>
+	                            </button>
+	                            <?php if (!$usaTaxStagingMainGroups->isEmpty()): ?>
+	                                <details>
+	                                    <summary><small>Filter groups</small></summary>
+	                                    <label style="display:block; white-space:nowrap">
+	                                        <input type="checkbox" data-usa-tax-main-group-filter="all" <?= empty($usaTaxStagingMainGroupFilters) ? 'checked' : '' ?> onchange="window.posmallUsaTaxRequestStagingFilters && window.posmallUsaTaxRequestStagingFilters(this)">
+                                        <small>All</small>
+                                    </label>
+	                                    <?php foreach ($usaTaxStagingMainGroups as $mainGroup): ?>
+	                                        <label style="display:block; white-space:nowrap">
+	                                            <input
+	                                                type="checkbox"
+	                                                name="stagingMainGroupFilters[]"
+	                                                value="<?= e($mainGroup) ?>"
+	                                                data-usa-tax-main-group-filter="<?= e($mainGroup) ?>"
+	                                                onchange="window.posmallUsaTaxRequestStagingFilters && window.posmallUsaTaxRequestStagingFilters(this)"
+	                                                <?= in_array($mainGroup, $usaTaxStagingMainGroupFilters, true) ? 'checked' : '' ?>>
+	                                            <small><?= e($usaTaxMainGroupOptions[$mainGroup] ?? $mainGroup) ?></small>
+	                                        </label>
+	                                    <?php endforeach ?>
+	                                </details>
+	                            <?php endif ?>
+                        </th>
+                        <th style="min-width: 170px">Jurisdiction</th>
+                        <th style="min-width: 180px">Group</th>
+	                        <th style="width: 130px">
+	                            <button
+	                                type="button"
+	                                class="btn btn-link btn-xs"
+	                                style="padding: 0;"
+	                                data-request="onChangeUsaTaxHelperPage"
+	                                data-request-data="sourcePage: <?= e($usaTaxSourcePage) ?>, stagingPage: 1, stagingSort: 'rate', stagingDirection: '<?= $usaTaxStagingSort === 'rate' && $usaTaxStagingDirection === 'asc' ? 'desc' : 'asc' ?>'">
+	                                Rate<?= $usaTaxStagingSort === 'rate' ? ' ' . e(strtoupper($usaTaxStagingDirection)) : '' ?>
+	                            </button>
+	                        </th>
+                        <th style="min-width: 30%; width: 30%">Description</th>
+                        <th>Source</th>
+                        <th style="min-width: 260px">Info</th>
+                        <th style="width: 110px">Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if ($usaTaxStagingRows->isEmpty()): ?>
+                        <tr>
+	                            <td colspan="13" class="nolink">No parsed USA tax records match the current staging filters.</td>
+                        </tr>
+                    <?php endif ?>
+
+                    <?php foreach ($usaTaxStagingRows as $row): ?>
+                        <tr data-usa-tax-staging-state="<?= e($row->state_code) ?>" data-usa-tax-staging-main-group="<?= e($row->tax_main_group) ?>">
+                            <td>
+	                                <?php if ($row->record_ids_csv): ?>
+	                                    <input type="checkbox" name="records[]" value="<?= e($row->record_ids_csv) ?>" data-testid="usa-tax-staging-record" data-usa-tax-staging-record>
+	                                <?php endif ?>
+	                            </td>
+	                            <td><?= e($row->status) ?></td>
+	                            <td>
+	                                <input
+	                                    type="checkbox"
+	                                    disabled
+	                                    <?= $row->is_imported ? 'checked' : '' ?>
+	                                    data-testid="usa-tax-staging-imported">
+	                            </td>
+	                            <td><?= e($row->parsed_name ?: $row->raw_name) ?></td>
+                            <td><?= e($row->state_code) ?></td>
+                            <td><?= e($row->tax_main_group_display) ?></td>
+                            <td>
+                                <?= e($row->jurisdiction_name ?: 'Statewide/base') ?><br>
+                                <small><?= e($row->jurisdiction_code ?: $row->jurisdiction_type) ?></small>
+                            </td>
+                            <td>
+                                <?php if ($row->record_count > 1): ?>
+                                    <details>
+                                        <summary><?= e($row->record_count) ?> <?= e(strtolower($row->tax_main_group_display)) ?> tax groups</summary>
+                                        <?php foreach ($row->children as $child): ?>
+                                            <div style="margin-top: 4px">
+                                                <strong><?= e($child->tax_group_code) ?></strong><br>
+                                                <small><?= e($child->tax_group_name) ?></small><br>
+                                                <small>Source: <?= e($child->source_name ?: 'Manual official source') ?></small>
+                                            </div>
+                                        <?php endforeach ?>
+                                    </details>
+                                <?php else: ?>
+                                    <?= e($row->tax_group_code) ?><br>
+                                    <small><?= e($row->tax_group_name) ?></small>
+                                <?php endif ?>
+                            </td>
+                            <td>
+                                <?= e($row->rate_percent) ?>%
+                                <?php if ($row->state_rate_percent !== null || $row->local_rate_percent !== null): ?>
+                                    <br><small>State <?= e($row->state_rate_percent) ?>% + Local <?= e($row->local_rate_percent) ?>%</small>
+                                <?php endif ?>
+                            </td>
+                            <td><?= e($row->description ?: $row->tax_group_description) ?></td>
+                            <td>
+                                <small><?= e($row->source_type) ?></small>
+                                <?php if ($row->source_url): ?>
+                                    <br><a href="<?= e($row->source_url) ?>" target="_blank" rel="noopener noreferrer">Open source</a>
+                                <?php endif ?>
+                                <?php if ($row->error_message): ?>
+                                    <br><span class="text-danger"><?= e($row->error_message) ?></span>
+                                <?php endif ?>
+                            </td>
+                            <td>
+                                <details>
+                                    <summary>Info</summary>
+                                    <small>
+                                        Source: <?= e($row->source_name ?: 'Manual official source') ?><br>
+                                        Type: <?= e($row->source_type ?: 'MANUAL') ?><br>
+                                        Parser: <?= e($row->parser_name ?: 'ManualTaxSourceParser') ?><br>
+                                        Jurisdiction: <?= e($row->jurisdiction_name ?: 'Statewide/base') ?> <?= $row->jurisdiction_code ? '(' . e($row->jurisdiction_code) . ')' : '' ?><br>
+                                        Grouped counties/areas: <?= e($row->description ?: 'Not available for this row.') ?><br>
+                                        ZIP hints: <?= e($row->zip_code_hints ?: 'Not available. Use exact address or ZIP+4 boundary lookup.') ?><br>
+                                        ZIP ranges: <?= e($row->zip_code_ranges ?: 'Not available. A single ZIP is treated as a one-ZIP range.') ?><br>
+                                        Boundary source: <?= e($row->boundary_source_url ?: 'Not available') ?><br>
+                                        Coverage info: <?= e($row->info ?: 'Not available. Statewide/base rows are matched by state code; local rows need ZIP ranges or official address lookup for exact matching.') ?><br>
+                                        Tax groups:<br>
+                                        <?php foreach ($row->children as $child): ?>
+                                            - <?= e($child->tax_group_code) ?> / <?= e($child->tax_group_name ?: 'Unnamed tax group') ?><br>
+                                        <?php endforeach ?>
+                                        Applies to: <?= e($row->tax_group_description ?: 'Review the official source for this product or service type.') ?><br>
+                                        Notes: <?= e($row->description ?: 'No normalized item-type notes are available for this row yet.') ?><br>
+                                        URL: <?= e($row->source_url ?: 'Not available') ?><br>
+                                        Hash: <?= e($row->source_hash ?: 'Not available') ?>
+                                    </small>
+                                </details>
+                            </td>
+                            <td><?= e(optional($row->created_at)->format('Y-m-d H:i')) ?></td>
+                        </tr>
+                    <?php endforeach ?>
+                </tbody>
+            </table>
+        </div>
+
+        <?php if ($usaTaxStagingPages > 1): ?>
+            <?php
+                $stagingStart = (($usaTaxStagingPage - 1) * $usaTaxStagingPageSize) + 1;
+                $stagingEnd = min($stagingStart + $usaTaxStagingPageSize - 1, $usaTaxStagingTotal);
+            ?>
+            <div data-testid="usa-tax-staging-pagination" style="margin: 8px 0 14px;">
+                <span class="help-block" style="display:inline-block; margin: 0 10px 0 0;">
+                    Showing <?= e($stagingStart) ?>-<?= e($stagingEnd) ?> of <?= e($usaTaxStagingTotal) ?> staged tax records
+                </span>
+                <?php for ($page = 1; $page <= $usaTaxStagingPages; $page++): ?>
+                    <button
+                        type="button"
+                        class="btn btn-sm <?= $page === $usaTaxStagingPage ? 'btn-primary' : 'btn-default' ?>"
+                        data-testid="usa-tax-staging-page-<?= e($page) ?>"
+                        data-request="onChangeUsaTaxHelperPage"
+                        data-request-data="sourcePage: <?= e($usaTaxSourcePage) ?>, stagingPage: <?= e($page) ?>">
+                        <?= e($page) ?>
+                    </button>
+                <?php endfor ?>
+            </div>
+        <?php endif ?>
+
+        <button
+            type="button"
+            class="btn btn-success oc-icon-check"
+            data-testid="usa-tax-import-selected"
+            data-request="onImportSelectedUsaTaxRecords"
+            data-load-indicator="Importing selected USA tax records...">
+            Import Selected Records
+        </button>
+        <button
+            type="button"
+            class="btn btn-default oc-icon-trash-o"
+            data-testid="usa-tax-delete-selected"
+            data-request="onDeleteSelectedUsaTaxRecords"
+            data-request-confirm="Remove selected staged USA tax records?"
+            data-load-indicator="Removing selected USA tax records...">
+            Delete Selected
+        </button>
+    <?= Form::close() ?>
+
+    <script>
+        (function () {
+            var root = document.getElementById('usa-tax-helper');
+            if (!root) {
+                return;
+            }
+
+	            var stateFilters = root.querySelectorAll('[data-usa-tax-state-filter]');
+            var allStateFilter = root.querySelector('[data-usa-tax-state-filter="all"]');
+            var mainGroupFilters = root.querySelectorAll('[data-usa-tax-main-group-filter]');
+            var allMainGroupFilter = root.querySelector('[data-usa-tax-main-group-filter="all"]');
+            var selectAllStates = root.querySelector('[data-usa-tax-select-all-states]');
+            var stateInputs = root.querySelectorAll('input[name="states[]"]');
+            var selectAllRecords = root.querySelector('[data-usa-tax-select-all-records]');
+
+	            function visibleRecordInputs() {
+	                return Array.prototype.slice.call(root.querySelectorAll('[data-usa-tax-staging-record]'));
+	            }
+
+            function checkedValues(inputs, allInput) {
+                return Array.prototype.slice.call(inputs).filter(function (input) {
+                    return input !== allInput && input.checked;
+                }).map(function (input) {
+                    return input.value;
+                });
+            }
+
+            window.posmallUsaTaxRequestStagingFilters = function (trigger) {
+                var currentRoot = document.getElementById('usa-tax-helper');
+                if (!currentRoot || !trigger) {
+                    return;
+                }
+
+                var currentStateFilters = currentRoot.querySelectorAll('[data-usa-tax-state-filter]');
+                var currentAllStateFilter = currentRoot.querySelector('[data-usa-tax-state-filter="all"]');
+                var currentMainGroupFilters = currentRoot.querySelectorAll('[data-usa-tax-main-group-filter]');
+                var currentAllMainGroupFilter = currentRoot.querySelector('[data-usa-tax-main-group-filter="all"]');
+                var sourcePageInput = currentRoot.querySelector('input[name="sourcePage"]');
+                var stagingSortInput = currentRoot.querySelector('input[name="stagingSort"]');
+                var stagingDirectionInput = currentRoot.querySelector('input[name="stagingDirection"]');
+
+                if (trigger.hasAttribute('data-usa-tax-state-filter')) {
+                    if (trigger === currentAllStateFilter && trigger.checked) {
+                        currentStateFilters.forEach(function (other) {
+                            if (other !== currentAllStateFilter) {
+                                other.checked = false;
+                            }
+                        });
+                    } else if (currentAllStateFilter) {
+                        currentAllStateFilter.checked = false;
+                    }
+                }
+
+                if (trigger.hasAttribute('data-usa-tax-main-group-filter')) {
+                    if (trigger === currentAllMainGroupFilter && trigger.checked) {
+                        currentMainGroupFilters.forEach(function (other) {
+                            if (other !== currentAllMainGroupFilter) {
+                                other.checked = false;
+                            }
+                        });
+                    } else if (currentAllMainGroupFilter) {
+                        currentAllMainGroupFilter.checked = false;
+                    }
+                }
+
+                $(trigger).request('onChangeUsaTaxHelperPage', {
+                    data: {
+                        sourcePage: sourcePageInput ? sourcePageInput.value : <?= e($usaTaxSourcePage) ?>,
+                        stagingPage: 1,
+                        stagingSort: stagingSortInput ? stagingSortInput.value : '<?= e($usaTaxStagingSort) ?>',
+                        stagingDirection: stagingDirectionInput ? stagingDirectionInput.value : '<?= e($usaTaxStagingDirection) ?>',
+                        stagingStateFilters: checkedValues(currentStateFilters, currentAllStateFilter),
+                        stagingMainGroupFilters: checkedValues(currentMainGroupFilters, currentAllMainGroupFilter)
+                    }
+                });
+            };
+
+            function updateSelectAllRecords() {
+                if (!selectAllRecords) {
+                    return;
+                }
+
+                var inputs = visibleRecordInputs();
+                var checked = inputs.filter(function (input) {
+                    return input.checked;
+                }).length;
+
+                selectAllRecords.checked = inputs.length > 0 && checked === inputs.length;
+                selectAllRecords.indeterminate = checked > 0 && checked < inputs.length;
+            }
+
+            if (selectAllStates) {
+                selectAllStates.addEventListener('change', function () {
+                    stateInputs.forEach(function (input) {
+                        input.checked = selectAllStates.checked;
+                    });
+                });
+            }
+
+            stateInputs.forEach(function (input) {
+                input.addEventListener('change', function () {
+                    if (!selectAllStates) {
+                        return;
+                    }
+
+                    var checked = Array.prototype.slice.call(stateInputs).filter(function (stateInput) {
+                        return stateInput.checked;
+                    }).length;
+
+                    selectAllStates.checked = checked === stateInputs.length;
+                    selectAllStates.indeterminate = checked > 0 && checked < stateInputs.length;
+                });
+            });
+
+            if (selectAllRecords) {
+                selectAllRecords.addEventListener('change', function () {
+                    visibleRecordInputs().forEach(function (input) {
+                        input.checked = selectAllRecords.checked;
+                    });
+
+                    updateSelectAllRecords();
+                });
+            }
+
+            root.querySelectorAll('[data-usa-tax-staging-record]').forEach(function (input) {
+                input.addEventListener('change', updateSelectAllRecords);
+            });
+
+            updateSelectAllRecords();
+        })();
+    </script>
+<?php endif ?>

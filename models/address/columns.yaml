@@ -1,0 +1,76 @@
+columns:
+    id:
+        label: 'kodzero.posmall::lang.common.id'
+        type: number
+        invisible: true
+        sortable: true
+    company:
+        label: 'kodzero.posmall::frontend.form.company'
+        type: text
+        searchable: true
+        sortable: true
+    name:
+        label: 'kodzero.posmall::frontend.form.recipient'
+        type: text
+        searchable: true
+        sortable: true
+    lines:
+        label: 'kodzero.posmall::frontend.form.address_lines'
+        type: text
+        searchable: true
+        sortable: true
+    zip:
+        label: 'kodzero.posmall::frontend.form.zip'
+        type: text
+        searchable: true
+        sortable: true
+    city:
+        label: 'kodzero.posmall::frontend.form.city'
+        type: text
+        searchable: true
+        sortable: true
+    state_id:
+        label: 'kodzero.posmall::frontend.form.state'
+        type: number
+        sortable: true
+        select: name
+        relation: state
+    country_id:
+        label: 'kodzero.posmall::frontend.form.country'
+        type: number
+        sortable: true
+        select: name
+        relation: country
+    details:
+        label: 'kodzero.posmall::frontend.form.address_details'
+        type: text
+        searchable: true
+        invisible: true
+        sortable: true
+    delivery_notes:
+        label: 'kodzero.posmall::frontend.form.delivery_notes'
+        type: text
+        searchable: true
+        invisible: true
+        sortable: false
+    customer_name:
+        label: 'kodzero.posmall::lang.order.customer'
+        type: text
+        sortable: true
+        select: concat(firstname, ' ', lastname)
+        relation: customer
+    created_at:
+        label: 'kodzero.posmall::lang.common.created_at'
+        type: datetime
+        invisible: true
+        sortable: true
+    updated_at:
+        label: 'kodzero.posmall::lang.common.updated_at'
+        type: datetime
+        invisible: true
+        sortable: true
+    deleted_at:
+        label: 'kodzero.posmall::lang.common.deleted_at'
+        type: datetime
+        invisible: true
+        sortable: true

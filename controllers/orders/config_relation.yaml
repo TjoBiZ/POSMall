@@ -1,0 +1,12 @@
+# ===================================
+#  Relation Behavior Config
+# ===================================
+
+payment_logs:
+    label: 'kodzero.posmall::lang.common.payment'
+    view:
+        list: $/kodzero/posmall/models/paymentlog/columns.yaml
+        toolbarButtons: delete
+    manage:
+        form: $/kodzero/posmall/models/paymentlog/fields.yaml
+        recordsPerPage: 10

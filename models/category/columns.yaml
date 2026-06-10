@@ -1,0 +1,16 @@
+columns:
+    name:
+        label: 'kodzero.posmall::lang.category.name'
+        type: text
+        searchable: true
+        sortable: true
+    slug:
+        label: 'kodzero.posmall::lang.common.slug'
+        type: text
+        searchable: true
+        sortable: true
+    code:
+        label: 'kodzero.posmall::lang.category.code'
+        type: text
+        searchable: true
+        sortable: true

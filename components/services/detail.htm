@@ -1,0 +1,129 @@
+{% if service %}
+    <section class="posmall-service-detail">
+        <h1 class="h3 mb-3">{{ service.name }}</h1>
+        <div class="row g-4">
+            <div class="col-12 col-lg-6">
+                {% if service.images|default([])|length > 0 %}
+                    {% set galleryAutoplaySeconds = service.gallery_autoplay_seconds|default(5) %}
+                    {% set galleryAutoplaySeconds = galleryAutoplaySeconds < 2 ? 2 : galleryAutoplaySeconds %}
+                    <div class="posmall-service-gallery"
+                         data-posmall-service-gallery
+                         data-current-index="0"
+                         data-autoplay-ms="{{ (galleryAutoplaySeconds * 1000)|round }}"
+                         aria-roledescription="carousel">
+                        <div class="posmall-service-gallery__viewport">
+                            <div class="posmall-service-gallery__track" data-posmall-service-gallery-track>
+                                {% for image in service.images %}
+                                    {% set directImage = image.extension|default('')|lower == 'svg' %}
+                                    {% set serviceImage = directImage ? null : posmall_image_sources(image, image.title|default(service.name), 'service') %}
+                                    {% set imageSrc = serviceImage ? serviceImage.jpeg : image.path %}
+                                    <figure class="posmall-service-gallery__slide {{ loop.first ? 'is-active' : '' }}"
+                                            data-posmall-service-gallery-slide
+                                            aria-hidden="{{ loop.first ? 'false' : 'true' }}">
+                                        {% if serviceImage and serviceImage.webp %}
+                                            <picture>
+                                                <source srcset="{{ serviceImage.webp }}" type="image/webp">
+                                                <img src="{{ imageSrc }}"
+                                                     alt="{{ serviceImage.alt|e('html_attr') }}"
+                                                     loading="{{ loop.first ? 'eager' : 'lazy' }}">
+                                            </picture>
+                                        {% else %}
+                                            <img src="{{ imageSrc }}"
+                                                 alt="{{ image.title|default(service.name)|e('html_attr') }}"
+                                                 loading="{{ loop.first ? 'eager' : 'lazy' }}">
+                                        {% endif %}
+                                        {% if image.description %}
+                                            <figcaption>{{ image.description }}</figcaption>
+                                        {% endif %}
+                                    </figure>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% if service.images|length > 1 %}
+                            <button type="button"
+                                    class="posmall-service-gallery__control posmall-service-gallery__control--prev"
+                                    data-posmall-service-gallery-prev
+                                    aria-label="Previous image">
+                                &lsaquo;
+                            </button>
+                            <button type="button"
+                                    class="posmall-service-gallery__control posmall-service-gallery__control--next"
+                                    data-posmall-service-gallery-next
+                                    aria-label="Next image">
+                                &rsaquo;
+                            </button>
+                            <div class="posmall-service-gallery__dots" aria-hidden="true">
+                                {% for image in service.images %}
+                                    <button type="button"
+                                            class="{{ loop.first ? 'is-active' : '' }}"
+                                            data-posmall-service-gallery-dot
+                                            data-index="{{ loop.index0 }}"></button>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                {% if service.description %}
+                    <div class="text-muted mt-3 mb-4">{{ service.description|content }}</div>
+                {% endif %}
+            </div>
+            <div class="col-12 col-lg-6">
+                <form class="posmall-service-detail__form card"
+                      data-request="{{ __SELF__ }}::onAddServiceToCart"
+                      data-request-success="window.POSMallProductAdded && window.POSMallProductAdded(data)"
+                      data-request-validate
+                      data-request-flash
+                      data-posmall-service-options
+                      data-currency-symbol="{{ currency.symbol|default('$')|e('html_attr') }}"
+                      data-currency-decimals="{{ currency.decimals|default(2) }}">
+                    {{ form_token() }}
+                    <input type="hidden" name="service_id" value="{{ service.id }}">
+
+                    <div class="card-body">
+                        <h2 class="h5 mb-3">{{ 'kodzero.posmall::frontend.services.choose_options'|trans }}</h2>
+                        <div class="posmall-service-options__error invalid-feedback d-block mb-3"
+                             data-validate-for="service_options"></div>
+
+                        <div class="list-group posmall-service-options">
+                            {% for option in service.options %}
+                                <label class="list-group-item posmall-service-option" for="standalone-service-option-{{ option.id }}">
+                                    <span class="d-flex align-items-start gap-3">
+                                        <input class="form-check-input mt-1"
+                                               type="checkbox"
+                                               name="service_options[]"
+                                               value="{{ option.id }}"
+                                               id="standalone-service-option-{{ option.id }}"
+                                               data-posmall-service-option
+                                               data-price="{{ option.price().integer|default(0) }}">
+                                        <span class="flex-grow-1">
+                                            <span class="d-flex justify-content-between gap-3">
+                                                <span class="fw-semibold">{{ option.name }}</span>
+                                                <span class="text-nowrap">{{ option.price().string|content }}</span>
+                                            </span>
+                                            {% if option.description %}
+                                                <span class="d-block small text-muted mt-1">{{ option.description|content }}</span>
+                                            {% endif %}
+                                        </span>
+                                    </span>
+                                </label>
+                            {% endfor %}
+                        </div>
+
+                        <div class="posmall-service-subtotal d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                            <span>{{ 'kodzero.posmall::frontend.services.subtotal'|trans }}</span>
+                            <strong data-posmall-service-subtotal>{{ currency.symbol|default('$') }} 0.00</strong>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent d-flex justify-content-between gap-2">
+                        <a href="{{ 'posmall-services'|page }}" class="btn btn-outline-secondary">
+                            {{ 'kodzero.posmall::frontend.services.all'|trans }}
+                        </a>
+                        <button type="submit" class="btn btn-primary" data-attach-loading>
+                            {{ 'kodzero.posmall::frontend.cart.add'|trans }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endif %}

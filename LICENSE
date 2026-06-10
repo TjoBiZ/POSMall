@@ -1,0 +1,45 @@
+# POSMall Repository License
+
+This repository is publicly visible, but it is not a public-domain package and
+it is not released for standalone resale or redistribution.
+
+## License Map
+
+- Original POSMall additions created by KodZero / POSMall contributors are
+  governed by the POSMall Personal-Use Non-Resale License in
+  `LICENSE-POSMALL.md`.
+- WingsOfWin demo catalog and demo business assets are governed by
+  `LICENSE-WINGSOFWIN-DEMO-CONTENT.md`.
+- Fork-origin portions from OFFLINE.Mall by OFFLINE GmbH and third-party
+  packages keep their own upstream notices and licenses. The fork-origin notice is preserved in
+  `THIRD-PARTY-NOTICES/OFFLINE-MALL-LICENSE.md`.
+
+Read `LICENSING.md` for the full license map.
+
+## POSMall Additions
+
+Original POSMall additions include PostgreSQL-first architecture additions,
+API/GraphQL additions, documentation, benchmark materials, seed examples, demo
+business content, UI/business-flow additions, theme integration materials and
+other original POSMall work.
+
+These additions may be used for personal projects, internal projects, client
+implementation/support work and operating a real website or application.
+
+They may not be resold, sublicensed, redistributed, published, extracted or
+packaged as a standalone product, marketplace item, plugin, theme, starter kit,
+source package, architecture pack, API example pack, benchmark package or
+competing package.
+
+## Fork-Origin Notice
+
+The fork-origin notice for OFFLINE.Mall by OFFLINE GmbH is preserved in
+`THIRD-PARTY-NOTICES/OFFLINE-MALL-LICENSE.md` for attribution and license
+continuity of fork-origin portions only.
+
+That upstream notice does not license original POSMall additions for standalone
+resale, redistribution or repackaging.
+
+POSMall does not claim ownership of fork-origin code. POSMall claims ownership
+and applies this repository's non-resale terms only to original POSMall
+additions and POSMall-owned materials.

@@ -1,0 +1,217 @@
+{% set services = services|default([]) %}
+{% set customFields = customFields|default([]) %}
+
+{% if services|length > 0 or customFields|length > 0 %}
+    <div class="mall-product-services mall-product-options mb-3"
+         data-posmall-service-options
+         data-currency-symbol="{{ currency.symbol|default('$')|e('html_attr') }}"
+         data-currency-decimals="{{ currency.decimals|default(2) }}"
+         data-product-base-price="{{ item.price().integer|default(0) }}">
+        <h2 class="h6 mb-2">{{ 'kodzero.posmall::frontend.product_options.choose_options'|trans }}</h2>
+        <div class="invalid-feedback d-block mb-2" data-validate-for="service"></div>
+
+        {% if services|length > 0 %}
+            <div class="mall-product-service-mode form-check form-switch mb-3">
+                <input type="hidden" name="service_options_per_quantity" value="0">
+                <input class="form-check-input"
+                       type="checkbox"
+                       role="switch"
+                       name="service_options_per_quantity"
+                       value="1"
+                       id="product-service-options-per-quantity"
+                       data-posmall-service-per-quantity-toggle
+                       checked>
+                <label class="form-check-label fw-semibold" for="product-service-options-per-quantity">
+                    {{ 'kodzero.posmall::frontend.product_options.services_per_item'|trans }}
+                </label>
+                <div class="small text-muted">
+                    {{ 'kodzero.posmall::frontend.product_options.services_per_item_hint'|trans }}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="table-responsive">
+            <table class="mall-product-options-table table table-sm align-middle mb-0">
+                <tbody>
+                    {% for service in services %}
+                        <tr class="mall-product-service">
+                            <th colspan="3" class="border-bottom-0 pb-1">
+                                <div class="d-flex justify-content-between gap-2">
+                                    <span class="mall-product-service__name">{{ service.name }}</span>
+                                    {% if service.pivot.required %}
+                                        <span class="badge text-bg-warning">{{ 'kodzero.posmall::frontend.services.required'|trans }}</span>
+                                    {% endif %}
+                                </div>
+                                {% if service.description %}
+                                    <div class="mall-product-service__description small text-muted fw-normal mt-1">
+                                        {{ service.description|content }}
+                                    </div>
+                                {% endif %}
+                                <div class="invalid-feedback d-block mt-1" data-validate-for="service.{{ service.id }}"></div>
+                            </th>
+                        </tr>
+
+                        {% for option in service.options %}
+                            <tr class="mall-product-service-options">
+                                <td class="w-auto">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           name="service[{{ service.id }}][]"
+                                           value="{{ option.id }}"
+                                           id="product-service-option-{{ option.id }}"
+                                           data-posmall-service-option
+                                           data-price="{{ option.price().integer|default(0) }}">
+                                </td>
+                                <td>
+                                    <label class="mall-product-service-option mb-0" for="product-service-option-{{ option.id }}">
+                                        <span class="mall-product-service-option__name fw-semibold">{{ option.name }}</span>
+                                        {% if option.description %}
+                                            <span class="mall-product-service-option__description d-block small text-muted">
+                                                {{ option.description|content }}
+                                            </span>
+                                        {% endif %}
+                                    </label>
+                                </td>
+                                <td class="mall-product-service-option__price text-end text-nowrap fw-semibold"
+                                    data-posmall-option-price-cell>
+                                    <span class="small text-muted d-block" data-posmall-option-calculation></span>
+                                    <span data-posmall-option-line-total>{{ option.price().string|content }}</span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% if customFields|length > 0 %}
+                        <tr class="mall-product-custom-fields">
+                            <th colspan="3" class="border-bottom-0 {{ services|length > 0 ? 'pt-3' : '' }}">
+                                {{ 'kodzero.posmall::lang.common.custom_fields'|trans }}
+                            </th>
+                        </tr>
+                    {% endif %}
+
+                    {% for field in customFields %}
+                        {% set fieldId = 'field-' ~ field.hashId %}
+                        {% set fieldPrice = field.price() %}
+                        {% set hasPricedOptions = field.type in ['dropdown', 'color', 'image'] and field.custom_field_options.count|default(0) > 0 %}
+                        <tr class="mall-product-custom-field {{ field.required|default(false) ? 'is-required' : '' }}">
+                            <td class="w-auto">
+                                {% if field.type == 'checkbox' %}
+                                    <input type="hidden" name="fields[{{ field.hashId }}]" value="">
+                                    <input type="checkbox"
+                                           class="mall-input-checkbox form-check-input"
+                                           id="{{ fieldId }}"
+                                           name="fields[{{ field.hashId }}]"
+                                           data-mall-custom-field
+                                           data-posmall-priced-custom-field
+                                           data-id="{{ field.hashId }}"
+                                           data-price="{{ fieldPrice.integer|default(0) }}">
+                                {% else %}
+                                    <span class="text-muted small">{{ loop.index }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <label for="{{ fieldId }}" class="mall-label mb-1 fw-semibold">{{ field.name }}</label>
+
+                                {% if field.type == 'text' %}
+                                    <input type="text" class="mall-input form-control form-control-sm" id="{{ fieldId }}"
+                                           name="fields[{{ field.hashId }}]"
+                                           data-id="{{ field.hashId }}"
+                                           data-mall-custom-field
+                                           data-posmall-priced-custom-field
+                                           data-price="{{ fieldPrice.integer|default(0) }}">
+                                {% elseif field.type == 'textarea' %}
+                                    <textarea rows="3" class="mall-input form-control form-control-sm" id="{{ fieldId }}"
+                                              name="fields[{{ field.hashId }}]"
+                                              data-id="{{ field.hashId }}"
+                                              data-mall-custom-field
+                                              data-posmall-priced-custom-field
+                                              data-price="{{ fieldPrice.integer|default(0) }}"></textarea>
+                                {% elseif field.type == 'dropdown' %}
+                                    <select class="mall-input form-select form-select-sm" id="{{ fieldId }}"
+                                            name="fields[{{ field.hashId }}]"
+                                            data-id="{{ field.hashId }}"
+                                            data-mall-custom-field
+                                            data-posmall-priced-custom-field>
+                                        <option value="">{{ 'kodzero.posmall::frontend.select'|trans }}</option>
+                                        {% for option in field.custom_field_options|default([]) %}
+                                            <option value="{{ option.hashId }}" data-price="{{ option.price().integer|default(0) }}">
+                                                {{ option.name }}{% if option.price().integer|default(0) > 0 %} - {{ option.price().string|striptags }}{% endif %}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                {% elseif field.type == 'color' %}
+                                    {% if field.custom_field_options.count|default(0) > 0 %}
+                                        <input type="hidden" id="{{ fieldId }}" name="fields[{{ field.hashId }}]"
+                                               data-id="{{ field.hashId }}"
+                                               data-mall-custom-field
+                                               data-posmall-priced-custom-field>
+                                        <div class="mall-field-color-selector d-flex flex-wrap gap-2">
+                                            {% for option in field.custom_field_options|default([]) %}
+                                                <a class="mall-option-selector border rounded p-1" data-target="#{{ fieldId }}" data-value="{{ option.hashId }}" data-price="{{ option.price().integer|default(0) }}">
+                                                    <span class="rounded d-inline-block" style="background: {{ option.safe_color_value }}; width: 24px; height: 24px;"></span>
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <input type="color" class="form-control form-control-color" id="{{ fieldId }}" name="fields[{{ field.hashId }}]"
+                                               data-id="{{ field.hashId }}"
+                                               data-mall-custom-field
+                                               data-posmall-priced-custom-field
+                                               data-price="{{ fieldPrice.integer|default(0) }}">
+                                    {% endif %}
+                                {% elseif field.type == 'image' %}
+                                    <input type="hidden" id="{{ fieldId }}" name="fields[{{ field.hashId }}]"
+                                           data-id="{{ field.hashId }}"
+                                           data-mall-custom-field
+                                           data-posmall-priced-custom-field>
+                                    <div class="mall-field-image-selector d-flex flex-wrap gap-2">
+                                        {% for option in field.custom_field_options|default([]) %}
+                                            <a class="mall-option-selector d-block border rounded p-1" data-target="#{{ fieldId }}" data-value="{{ option.hashId }}" data-price="{{ option.price().integer|default(0) }}">
+                                                {% set optimizedImage = posmall_image_sources(option.image, option.value|default(field.name), 'catalog') %}
+                                                {% set imageSrc = optimizedImage ? optimizedImage.jpeg : option.image.thumb(90, 90, null) %}
+                                                {% if optimizedImage and optimizedImage.webp %}
+                                                    <picture>
+                                                        <source srcset="{{ optimizedImage.webp }}" type="image/webp">
+                                                        <img src="{{ imageSrc }}" class="rounded" alt="{{ optimizedImage.alt }}">
+                                                    </picture>
+                                                {% else %}
+                                                    <img src="{{ imageSrc }}" class="rounded" alt="">
+                                                {% endif %}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                <div data-validate-for="{{ field.hashId }}" class="invalid-feedback d-block"></div>
+                            </td>
+                            <td class="text-end text-nowrap fw-semibold"
+                                data-posmall-option-price-cell>
+                                <span class="small text-muted d-block" data-posmall-option-calculation></span>
+                                <span data-posmall-option-line-total>
+                                {% if hasPricedOptions %}
+                                    {% for option in field.custom_field_options %}
+                                        {% if option.price().integer|default(0) > 0 %}
+                                            <div class="small">{{ option.price().string|content }}</div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    {{ fieldPrice.string|content }}
+                                {% endif %}
+                                </span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mall-product-options-subtotal d-flex justify-content-between align-items-center pt-3 border-top">
+            <span>{{ 'kodzero.posmall::frontend.product_options.subtotal'|trans }}</span>
+            <strong data-posmall-service-subtotal>{{ currency.symbol|default('$') }} 0.00</strong>
+        </div>
+        <div class="mall-product-services-total d-flex justify-content-between align-items-center mt-2 text-primary">
+            <span class="fw-bold fs-5">Total</span>
+            <strong class="fs-2 fw-bold mb-0" data-posmall-product-services-total>{{ item.price().string|content }}</strong>
+        </div>
+    </div>
+{% endif %}

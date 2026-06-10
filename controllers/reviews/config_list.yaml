@@ -1,0 +1,16 @@
+title: 'kodzero.posmall::lang.common.reviews'
+modelClass: KodZero\POSMall\Models\Review
+list: $/kodzero/posmall/models/review/columns.yaml
+recordUrl: 'kodzero/posmall/reviews/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: 20
+showSetup: true
+showCheckboxes: true
+defaultSort:
+    column: approved_at
+    direction: desc
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+filter: config_filter.yaml

@@ -1,0 +1,40 @@
+<div data-posmall-checkout
+     data-component-alias="{{ __SELF__ }}"
+     data-account-url="{{ __SELF__.accountPage|page }}">
+{% if __SELF__.step not in ['done', 'failed', 'cancelled'] %}
+    {% set checkoutSteps = shippingSelectionBeforePayment
+        ? [
+            {code: 'shipping', label: 'kodzero.posmall::frontend.shipping'|trans},
+            {code: 'payment', label: 'kodzero.posmall::frontend.payment'|trans},
+            {code: 'confirm', label: 'kodzero.posmall::frontend.checkout.confirm'|trans}
+        ]
+        : [
+            {code: 'payment', label: 'kodzero.posmall::frontend.payment'|trans},
+            {code: 'shipping', label: 'kodzero.posmall::frontend.shipping'|trans},
+            {code: 'confirm', label: 'kodzero.posmall::frontend.checkout.confirm'|trans}
+        ]
+    %}
+    <nav class="mall-checkout-steps mb-4" aria-label="{{ 'kodzero.posmall::frontend.checkout'|trans }}">
+        <ol class="list-unstyled d-flex flex-column flex-md-row gap-2 mb-0">
+            {% for checkoutStep in checkoutSteps %}
+                {% set isActive = __SELF__.step == checkoutStep.code %}
+                <li class="flex-fill">
+                    <a href="{{ __SELF__.stepUrl(checkoutStep.code) }}"
+                       class="d-flex align-items-center gap-2 text-decoration-none border rounded px-3 py-2 {{ isActive ? 'bg-primary text-white border-primary' : 'bg-white text-body' }}"
+                       aria-current="{{ isActive ? 'step' : 'false' }}">
+                        <span class="badge {{ isActive ? 'bg-white text-primary' : 'bg-secondary' }}">{{ loop.index }}</span>
+                        <span class="fw-semibold">{{ checkoutStep.label }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ol>
+    </nav>
+{% endif %}
+
+{% if __SELF__.step %}
+    {% partial __SELF__ ~ ('::steps/' ~ __SELF__.step) %}
+{% endif %}
+
+{% partial __SELF__ ~ '::overlay' %}
+{% partial __SELF__ ~ '::scripts' %}
+</div>

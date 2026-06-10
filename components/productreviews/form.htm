@@ -1,0 +1,83 @@
+<form data-request="{{ __SELF__ }}::{{ review ? 'onUpdate' : 'onCreate' }}"
+      data-request-validate
+      data-request-flash
+      class="mall-review-form">
+    <div class="mall-product-reviews__overall-ratings mb-3">
+        <div class="js-mall-rating">
+            <input id="rating" name="rating" type="hidden" value="{{ review.rating|default() }}">
+            {% partial __SELF__ ~ '::stars' rating=review.rating|default() variant="big" clickable=true %}
+            <div class="mall-product-reviews__summary">
+                {{ 'kodzero.posmall::frontend.reviews.overall_rating'|trans }}
+                <div data-validate-for="rating" class="invalid-feedback d-block"></div>
+            </div>
+        </div>
+        <div class="js-mall-rating">
+            {% for category in __SELF__.reviewCategories %}
+                {% set rating = review.category_reviews.where('review_category_id', category.id).first().rating|default() %}
+                <input id="category_rating_{{ category.id }}"
+                       name="category_rating[{{ category.id }}]"
+                       value="{{ rating|default() }}"
+                       type="hidden">
+                {% partial __SELF__ ~ '::stars' rating=rating label=category.name variant="big" clickable=true %}
+            {% endfor %}
+        </div>
+    </div>
+    {% if review %}
+        <div class="mall-product-reviews__user-review">
+            <div class="mall-review">
+                {% if review.title|default(null) %}
+                    <h4 class="mall-review__title h5">
+                        {{ review.title }}
+                    </h4>
+                {% endif %}
+                {% if review.description|default(null) %}
+                    <div class="mall-review__content">
+                        {{ review.description|nl2br }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mall-product-reviews__user-review-actions">
+                <button class="mall-btn mall-btn--text js-mall-edit-review btn btn-link" type="button">
+                    {{ 'kodzero.posmall::frontend.reviews.edit'|trans }}
+                </button>
+            </div>
+        </div>
+    {% endif %}
+    <div class="mall-product-reviews__form-details">
+        <div class="mall-form-control mb-3">
+            <label for="title" class="form-label">{{ 'kodzero.posmall::lang.reviews.title'|trans }}</label>
+            <div class="mall-form-comment form-text">
+                {{ 'kodzero.posmall::frontend.reviews.optional'|trans }}
+            </div>
+            <input id="title" class="form-control" name="title" type="text" value="{{ review.title|default() }}">
+            <div data-validate-for="title" class="invalid-feedback d-block"></div>
+        </div>
+        <div class="mall-form-control mb-3">
+            <label for="description" class="form-label">{{ 'kodzero.posmall::lang.reviews.review'|trans }}</label>
+            <div class="mall-form-comment form-text">
+                {{ 'kodzero.posmall::frontend.reviews.optional'|trans }}
+            </div>
+            <textarea id="description" class="form-control" name="description">{{ review.description|default() }}</textarea>
+            <div data-validate-for="description" class="invalid-feedback d-block"></div>
+        </div>
+        <div class="mall-form-control mb-3">
+            <label for="pros" class="form-label">{{ 'kodzero.posmall::lang.reviews.pros'|trans }}</label>
+            <div class="mall-form-comment form-text">
+                {{ 'kodzero.posmall::frontend.reviews.one_per_line'|trans }}
+            </div>
+            <textarea id="pros" class="form-control" name="pros">{{ review.pros_string|default() }}</textarea>
+            <div data-validate-for="pros" class="invalid-feedback d-block"></div>
+        </div>
+        <div class="mall-form-control mb-3">
+            <label for="cons" class="form-label">{{ 'kodzero.posmall::lang.reviews.cons'|trans }}</label>
+            <div class="mall-form-comment form-text">
+                {{ 'kodzero.posmall::frontend.reviews.one_per_line'|trans }}
+            </div>
+            <textarea id="cons" class="form-control" name="cons">{{ review.cons_string|default() }}</textarea>
+            <div data-validate-for="cons" class="invalid-feedback d-block"></div>
+        </div>
+        <button class="mall-btn mall-btn--primary btn btn-primary" type="submit" data-attach-loading>
+            {{ ('kodzero.posmall::frontend.reviews.' ~ (review|default(false) ? 'update' : 'create'))|trans }}
+        </button>
+    </div>
+</form>

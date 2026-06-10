@@ -1,0 +1,187 @@
+plugin:
+    name: 'POSMall - PostgreSQL eCommerce, POS, Services and Virtual Products'
+    description: 'PostgreSQL-first eCommerce plugin for October CMS and Laravel with catalog, POS, services, virtual products, checkout, orders, taxes, shipping, payments, REST API and private GraphQL-ready commerce automation.'
+    author: 'KodZero'
+    icon: oc-icon-shopping-cart
+    homepage: 'https://github.com/TjoBiZ/POSMall'
+navigation:
+    posmall-orders:
+        label: 'kodzero.posmall::lang.common.orders'
+        url: kodzero/posmall/orders
+        iconSvg: plugins/kodzero/posmall/assets/images/orders-icon.svg
+        order: 801
+        permissions:
+            - 'kodzero.posmall.*'
+        sideMenu:
+            posmall-orders:
+                label: 'kodzero.posmall::lang.common.orders'
+                url: kodzero/posmall/orders
+                icon: icon-check-circle
+                permissions:
+                    - kodzero.posmall.manage_orders
+            posmall-discounts:
+                label: 'kodzero.posmall::lang.common.discounts'
+                url: kodzero/posmall/discounts
+                icon: icon-gift
+                permissions:
+                    - kodzero.posmall.manage_discounts
+            posmall-payment-log:
+                label: 'kodzero.posmall::lang.common.payments'
+                url: kodzero/posmall/paymentlogs
+                icon: icon-money
+                permissions:
+                    - kodzero.posmall.manage_payment_log
+            posmall-api-tokens:
+                label: POSMall API Tokens
+                url: kodzero/posmall/apitokens
+                icon: icon-key
+                permissions:
+                    - kodzero.posmall.manage_api
+            posmall-api-docs:
+                label: POSMall API Docs
+                url: kodzero/posmall/apidocs
+                icon: icon-book
+                permissions:
+                    - kodzero.posmall.manage_api
+    posmall-catalogue:
+        label: 'kodzero.posmall::lang.common.catalogue'
+        url: kodzero/posmall/products
+        iconSvg: plugins/kodzero/posmall/assets/images/catalogue-icon.svg
+        order: 800
+        permissions:
+            - kodzero.posmall.manage_products
+            - kodzero.posmall.manage_tests
+        sideMenu:
+            posmall-products:
+                label: 'kodzero.posmall::lang.common.products'
+                url: kodzero/posmall/products
+                icon: icon-cart-plus
+                permissions:
+                    - kodzero.posmall.manage_products
+            posmall-reviews:
+                label: 'kodzero.posmall::lang.common.reviews'
+                url: kodzero/posmall/reviews
+                icon: icon-star-half-full
+                permissions:
+                    - kodzero.posmall.manage_reviews
+            posmall-services:
+                label: 'kodzero.posmall::lang.common.services'
+                url: kodzero/posmall/services
+                icon: icon-plus-circle
+                permissions:
+                    - kodzero.posmall.manage_services
+            posmall-vendors:
+                label: POSMall Vendors
+                url: kodzero/posmall/vendors
+                icon: icon-users
+                permissions:
+                    - kodzero.posmall.manage_api
+            posmall-channels:
+                label: POSMall Channels
+                url: kodzero/posmall/channels
+                icon: icon-random
+                permissions:
+                    - kodzero.posmall.manage_api
+            posmall-warehouses:
+                label: POSMall Warehouses
+                url: kodzero/posmall/warehouses
+                icon: icon-building
+                permissions:
+                    - kodzero.posmall.manage_api
+            posmall-categories:
+                label: 'kodzero.posmall::lang.common.categories'
+                url: kodzero/posmall/categories
+                icon: icon-sitemap
+                permissions:
+                    - kodzero.posmall.manage_categories
+            posmall-brands:
+                label: 'kodzero.posmall::lang.common.brands'
+                url: kodzero/posmall/brands
+                icon: icon-cube
+                permissions:
+                    - kodzero.posmall.manage_brands
+            posmall-properties:
+                label: 'kodzero.posmall::lang.common.properties'
+                url: kodzero/posmall/propertygroups
+                icon: icon-tags
+                permissions:
+                    - kodzero.posmall.manage_properties
+            posmall-tests:
+                label: Tests
+                url: kodzero/posmall/tests
+                icon: icon-check-square-o
+                permissions:
+                    - kodzero.posmall.manage_tests
+permissions:
+    kodzero.posmall.manage_products:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_products'
+    kodzero.posmall.manage_categories:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_categories'
+    kodzero.posmall.manage_orders:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_orders'
+    kodzero.posmall.manage_discounts:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_discounts'
+    kodzero.posmall.settings.manage_general:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.settings.manage_general'
+    kodzero.posmall.settings.manage_payment_gateways:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.settings.manage_payment_gateways'
+    kodzero.posmall.settings.manage_currency:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.settings.manage_currency'
+    kodzero.posmall.settings.manage_payment_methods:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.settings.manage_payment_methods'
+    kodzero.posmall.manage_properties:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_properties'
+    kodzero.posmall.manage_customer_groups:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_customer_groups'
+    kodzero.posmall.manage_notifications:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_notifications'
+    kodzero.posmall.manage_price_categories:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_price_categories'
+    kodzero.posmall.manage_order_states:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_order_states'
+    kodzero.posmall.manage_shipping_methods:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_shipping_methods'
+    kodzero.posmall.manage_customer_addresses:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_customer_addresses'
+    kodzero.posmall.manage_payment_log:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_payment_log'
+    kodzero.posmall.manage_feeds:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_feeds'
+    kodzero.posmall.manage_wishlists:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_wishlists'
+    kodzero.posmall.manage_services:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_services'
+    kodzero.posmall.manage_reviews:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_reviews'
+    kodzero.posmall.manage_brands:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_brands'
+    kodzero.posmall.manage_taxes:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: 'kodzero.posmall::lang.permissions.manage_taxes'
+    kodzero.posmall.manage_tests:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: Manage POSMall tests
+    kodzero.posmall.manage_api:
+        tab: 'kodzero.posmall::lang.plugin.name'
+        label: Manage POSMall API

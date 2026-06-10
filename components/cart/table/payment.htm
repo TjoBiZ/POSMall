@@ -1,0 +1,10 @@
+{% if cart.payment_method_id|default(null) != null and payment.totalPostTaxes|default(0) > 0 %}
+    <tr class="mall-cart__payment">
+        <td colspan="4" class="text-end">
+            {{ cart.payment_method.fee_label|default(cart.payment_method.name) }}
+        </td>
+        <td class="text-end posmall-money-nowrap">
+            {{ payment.totalPostTaxes|money }}
+        </td>
+    </tr>
+{% endif %}

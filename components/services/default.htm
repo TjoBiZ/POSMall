@@ -1,0 +1,61 @@
+{% if service|default(null) %}
+    {% partial __SELF__ ~ '::detail' service=service currency=currency %}
+{% else %}
+<section class="posmall-services">
+    {% if services|default([])|length %}
+        <div class="posmall-services__grid">
+            {% for service in services %}
+                {% set firstOption = service.options.first %}
+                <article class="posmall-service-card card h-100">
+                    <a href="{{ servicePage|page({ slug: service.code }) }}"
+                       class="text-decoration-none text-reset d-flex flex-column h-100"
+                       aria-label="{{ service.name|e('html_attr') }}">
+                        {% if service.images|default([])|length > 0 %}
+                            {% set image = service.images|first %}
+                            {% set serviceImage = posmall_image_sources(image, image.title|default(service.name), 'service') %}
+                            {% if serviceImage %}
+                                <div class="posmall-service-card__image ratio ratio-4x3 bg-body-tertiary rounded-top overflow-hidden">
+                                    <picture>
+                                        {% if serviceImage.webp %}
+                                            <source srcset="{{ serviceImage.webp }}" type="image/webp">
+                                        {% endif %}
+                                        <img src="{{ serviceImage.jpeg }}"
+                                             class="w-100 h-100 object-fit-contain"
+                                             loading="lazy"
+                                             decoding="async"
+                                             alt="{{ serviceImage.alt|e('html_attr') }}">
+                                    </picture>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <h2 class="h5 mb-2">{{ service.name }}</h2>
+                            {% if service.description %}
+                                <div class="text-muted small mb-3">
+                                    {{ service.description|content }}
+                                </div>
+                            {% endif %}
+                            {% if firstOption %}
+                                <div class="posmall-service-card__price mb-3">
+                                    {{ 'kodzero.posmall::frontend.services.from'|trans }}
+                                    <strong>{{ firstOption.price().string|content }}</strong>
+                                </div>
+                            {% endif %}
+                            <span class="btn btn-primary mt-auto">
+                                {{ 'kodzero.posmall::frontend.services.view'|trans }}
+                            </span>
+                        </div>
+                    </a>
+                </article>
+            {% endfor %}
+        </div>
+        {% if services.hasPages|default(false) %}
+            <nav class="mall-pagination mall-pagination--services d-flex justify-content-center mt-4" aria-label="{{ 'kodzero.posmall::frontend.services.pagination'|trans }}">
+                {{ services|raw }}
+            </nav>
+        {% endif %}
+    {% else %}
+        <p class="text-muted">{{ 'kodzero.posmall::frontend.services.empty'|trans }}</p>
+    {% endif %}
+</section>
+{% endif %}

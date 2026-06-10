@@ -1,0 +1,12 @@
+title: POSMall API Tokens
+modelClass: KodZero\POSMall\Models\ApiToken
+list: $/kodzero/posmall/models/apitoken/columns.yaml
+recordUrl: 'kodzero/posmall/apitokens/update/:id'
+noRecordsMessage: backend::lang.list.no_records
+recordsPerPage: 20
+showSetup: true
+showCheckboxes: false
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: backend::lang.list.search_prompt

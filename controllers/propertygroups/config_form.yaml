@@ -1,0 +1,13 @@
+name: 'kodzero.posmall::lang.common.property_groups'
+modelClass: KodZero\POSMall\Models\PropertyGroup
+form: $/kodzero/posmall/models/propertygroup/fields.yaml
+defaultRedirect: kodzero/posmall/propertygroups
+create:
+    title: 'kodzero.posmall::lang.titles.property_groups.create'
+    redirect: 'kodzero/posmall/propertygroups/update/:id'
+    redirectClose: kodzero/posmall/propertygroups
+update:
+    title: 'kodzero.posmall::lang.titles.property_groups.edit'
+    redirect: kodzero/posmall/propertygroups
+    redirectClose: kodzero/posmall/propertygroups
+preview: {  }

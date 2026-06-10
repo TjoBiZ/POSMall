@@ -1,0 +1,36 @@
+subject = "POSMall tests failed"
+description = "Sent when a POSMall backend or Dusk test run fails"
+==
+
+## POSMall tests failed
+
+Status: {{ run.status }}
+
+Trigger: {{ run.trigger }}
+
+Started: {{ run.started_at }}
+
+Finished: {{ run.finished_at }}
+
+Selected tests:
+{% for test in selectedTests %}
+- {{ test }}
+{% else %}
+- No tests were selected.
+{% endfor %}
+
+Failing commands/tests:
+{% for test in failingTests %}
+- {{ test }}
+{% else %}
+- Failure details were not detected.
+{% endfor %}
+
+Log file:
+storage/app/{{ run.log_path }}
+
+{% if errorExcerpt %}
+Error output excerpt:
+
+{{ errorExcerpt }}
+{% endif %}

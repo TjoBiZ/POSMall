@@ -1,0 +1,48 @@
+{% put scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    /**
+     * Toggle an element list by changing display style.
+     */
+    function toggleElements(selector, shouldShow) {
+        document.querySelectorAll(selector).forEach(function (element) {
+            element.style.display = shouldShow ? '' : 'none';
+        });
+    }
+
+    /**
+     * Show or hide the separate shipping address block.
+     *
+     * Preserves the original behavior:
+     * - when the checkbox is checked, the shipping address block becomes visible;
+     * - when unchecked, the block is hidden.
+     */
+    document.body.addEventListener('click', function (event) {
+        const checkbox = event.target.closest('.js-mall-toggle-shipping-address');
+
+        if (!checkbox) {
+            return;
+        }
+
+        toggleElements('.mall-shipping-address', checkbox.checked);
+    });
+
+    /**
+     * Show or hide password fields for guest checkout.
+     *
+     * Preserves the original behavior:
+     * - guest signup checked: hide password inputs;
+     * - guest signup unchecked: show password inputs.
+     */
+    document.body.addEventListener('click', function (event) {
+        const checkbox = event.target.closest('.js-mall-toggle-guest-signup');
+
+        if (!checkbox) {
+            return;
+        }
+
+        toggleElements('.mall-signup__password-inputs', !checkbox.checked);
+    });
+});
+</script>
+{% endput %}

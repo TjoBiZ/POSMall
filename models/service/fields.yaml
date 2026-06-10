@@ -1,0 +1,99 @@
+fields:
+    name:
+        label: 'kodzero.posmall::lang.custom_field_options.name'
+        span: auto
+        type: text
+    code:
+        label: 'kodzero.posmall::lang.common.code'
+        span: auto
+        preset:
+            field: name
+            type: slug
+        type: text
+        comment: 'kodzero.posmall::lang.common.code_comment'
+    description:
+        label: 'kodzero.posmall::lang.product.description'
+        size: large
+        span: auto
+        type: richeditor
+tabs:
+    fields:
+        options:
+            span: full
+            path: options
+            type: partial
+            context: update
+            tab: 'kodzero.posmall::lang.common.options'
+        products:
+            span: full
+            path: products
+            type: partial
+            context: update
+            tab: 'kodzero.posmall::lang.common.products'
+        vendor:
+            label: 'kodzero.posmall::lang.order.vendor'
+            type: relation
+            nameFrom: name
+            emptyOption: 'kodzero.posmall::lang.common.none'
+            span: auto
+            tab: 'kodzero.posmall::lang.common.products'
+        channel:
+            label: 'kodzero.posmall::lang.order.channel'
+            type: relation
+            nameFrom: name
+            emptyOption: 'kodzero.posmall::lang.common.none'
+            span: auto
+            tab: 'kodzero.posmall::lang.common.products'
+        sell_only_to_tax_states:
+            label: Sell only to states selected in taxes
+            comment: When enabled, checkout can allow this service only in states listed by the selected tax records.
+            span: auto
+            type: switch
+            tab: 'kodzero.posmall::lang.common.taxes'
+        taxes:
+            label: 'kodzero.posmall::lang.common.taxes'
+            size: large
+            span: full
+            type: partial
+            path: taxes
+            tab: 'kodzero.posmall::lang.common.taxes'
+        images:
+            label: 'kodzero.posmall::lang.common.images'
+            span: full
+            type: fileupload
+            mode: image
+            fileTypes: jpg,jpeg,png,webp
+            imageWidth: 260
+            imageHeight: 160
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            tab: 'kodzero.posmall::lang.common.images'
+        gallery_autoplay_seconds:
+            label: 'kodzero.posmall::lang.services.gallery_autoplay_seconds'
+            comment: 'kodzero.posmall::lang.services.gallery_autoplay_seconds_comment'
+            span: auto
+            type: number
+            default: 5.0
+            attributes:
+                min: 0.5
+                max: 30
+                step: 0.1
+            tab: 'kodzero.posmall::lang.common.images'
+        meta_title:
+            label: 'kodzero.posmall::lang.common.meta_title'
+            span: auto
+            type: text
+            tab: 'kodzero.posmall::lang.common.seo'
+        meta_keywords:
+            label: 'kodzero.posmall::lang.common.meta_keywords'
+            span: auto
+            type: text
+            tab: 'kodzero.posmall::lang.common.seo'
+        meta_description:
+            label: 'kodzero.posmall::lang.common.meta_description'
+            size: large
+            span: left
+            type: textarea
+            tab: 'kodzero.posmall::lang.common.seo'

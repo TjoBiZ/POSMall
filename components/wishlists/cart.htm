@@ -1,0 +1,166 @@
+{% set displayItems = allItems is defined ? allItems : __SELF__.currentItem.items %}
+{% set showTotals = allItems is not defined %}
+
+{% if displayItems.count|default(0) < 1 %}
+    {% partial __SELF__ ~ '::empty' %}
+{% else %}
+    {% if showTotals %}
+        {% set totals = __SELF__.currentItem.totals %}
+    {% endif %}
+
+    <div class="mall-cart__wrapper">
+        <div class="mall-table-overflow table-responsive">
+            <table class="mall-cart__table table table-hover align-middle mb-0">
+                <thead>
+                    <tr class="mall-cart__header">
+                        <th>&nbsp;</th>
+                        <th>{{ 'kodzero.posmall::frontend.product'|trans }}</th>
+                        <th class="text-end">{{ 'kodzero.posmall::frontend.quantity'|trans }}</th>
+                        <th class="text-end">{{ 'kodzero.posmall::frontend.price'|trans }}</th>
+                        <th class="text-end">{{ 'kodzero.posmall::frontend.total'|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in displayItems %}
+                    {% set image = item.variant|default(null) ? item.variant.image : item.data.image %}
+                    {% set url = productPage is defined and productPage ? (productPage|page({ slug: item.data.slug, variant: item.variant.hashId|default(null) })) : null %}
+                    {% set productName = item.data.name %}
+                    {% set variantName = item.variant ? item.variant.name : null %}
+                    <tr class="mall-cart__product">
+                        <td class="w-auto">
+                            {% if image|default(null) %}
+                                {% set optimizedImage = posmall_image_sources(image, productName, 'catalog') %}
+                                {% set imageSrc = optimizedImage ? optimizedImage.jpeg : (image.extension|default('') == 'svg' ? image.path : image.thumb(96, 96, null)) %}
+                                {% if url %}
+                                    <a href="{{ url }}">
+                                        {% if optimizedImage and optimizedImage.webp %}
+                                            <picture>
+                                                <source srcset="{{ optimizedImage.webp }}" type="image/webp">
+                                                <img src="{{ imageSrc }}" class="rounded border object-fit-contain bg-body-tertiary" width="72" height="72" alt="{{ productName }}"/>
+                                            </picture>
+                                        {% else %}
+                                            <img src="{{ imageSrc }}" class="rounded border object-fit-contain bg-body-tertiary" width="72" height="72" alt="{{ productName }}"/>
+                                        {% endif %}
+                                    </a>
+                                {% else %}
+                                    {% if optimizedImage and optimizedImage.webp %}
+                                        <picture>
+                                            <source srcset="{{ optimizedImage.webp }}" type="image/webp">
+                                            <img src="{{ imageSrc }}" class="rounded border object-fit-contain bg-body-tertiary" width="72" height="72" alt="{{ productName }}"/>
+                                        </picture>
+                                    {% else %}
+                                        <img src="{{ imageSrc }}" class="rounded border object-fit-contain bg-body-tertiary" width="72" height="72" alt="{{ productName }}"/>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if url %}
+                                <a href="{{ url }}" class="fw-semibold text-decoration-none">
+                                    {{ productName }}
+                                </a>
+                            {% else %}
+                                <span class="fw-semibold">{{ productName }}</span>
+                            {% endif %}
+                            {% if variantName %}
+                                <br>
+                                <span class="text-muted small">
+                                    {{ 'kodzero.posmall::lang.common.variant'|trans }}: {{ variantName }}
+                                </span>
+                            {% endif %}
+                            {% if item.variant and item.variant.properties_description %}
+                                <br>
+                                <span class="text-muted small">
+                                    {{ item.variant.properties_description|raw }}
+                                </span>
+                            {% endif %}
+                            <div>
+                                <a href="javascript:;"
+                                   class="js-mall-remove-product link-danger small"
+                                   data-posmall-favorites-remove
+                                   data-id="{{ item.hashId }}"
+                                   data-list-id="{{ item.source_wishlist_hash_id|default(__SELF__.currentItem.hashId)|e('html_attr') }}">
+                                    {{ 'kodzero.posmall::frontend.remove'|trans }}
+                                </a>
+                            </div>
+                        </td>
+                        <td class="text-end text-nowrap">
+                            {{ item.quantity }}
+                        </td>
+                        <td class="text-end text-nowrap">
+                            {{ item.price()|raw }}
+                        </td>
+                        <td class="text-end fw-semibold text-nowrap">
+                            {{ item.totalPostTaxes|money }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                {% if showTotals %}
+                <tfoot>
+                {% if __SELF__.showShipping %}
+                    <tr class="mall-cart__total">
+                        <td></td>
+                        <td colspan="3">
+                            {{ 'kodzero.posmall::frontend.total'|trans }}
+                        </td>
+                        <td class="text-end">
+                            {{ totals.productPostTaxes|money }}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if __SELF__.showShipping %}
+                    {% partial __SELF__ ~ '::shipping'  shipping=totals.shippingTotal %}
+                {% endif %}
+                {% if __SELF__.showTaxes %}
+                    {% for entry in totals.taxes|default([]) %}
+                        <tr class="mall-cart__taxes mall-cart__taxes--{{ loop.index }}">
+                            <td colspan="2"></td>
+                            <td class="text-end">
+                                {{ entry.tax.name }}
+                            </td>
+                            <td class="text-end">
+                                {{ entry.tax.percentage }} %
+                            </td>
+                            <td class="text-end">
+                                {{ entry.total|money }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    {% if totals.taxes.count|default(0) > 1 %}
+                        <tr class="mall-cart__taxes-total">
+                            <td colspan="2"></td>
+                            <td class="text-end">
+                                {{ 'kodzero.posmall::frontend.total.taxes'|trans }}
+                            </td>
+                            <td></td>
+                            <td class="text-end">
+                                {{ totals.totalTaxes|money }}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endif %}
+                <tr class="mall-cart__grand-total">
+                    <td></td>
+                    <td colspan="3">
+                        {% if __SELF__.showShipping %}
+                            {{ 'kodzero.posmall::frontend.grand_total'|trans }}
+                        {% else %}
+                            {{ 'kodzero.posmall::frontend.total'|trans }}
+                        {% endif %}
+                    </td>
+                    <td class="text-end fw-bold h5">
+                        {% if __SELF__.showShipping %}
+                            {{ totals.totalPostTaxes|money }}
+                        {% else %}
+                            {{ totals.productPostTaxes|money }}
+                        {% endif %}
+                    </td>
+                </tr>
+                </tfoot>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,76 @@
+<?php
+$cronStatus = app(\KodZero\POSMall\Classes\System\SchedulerCronStatus::class)->check();
+$calloutClass = $cronStatus['state'] === 'detected' ? 'callout-success' : ($cronStatus['state'] === 'missing' ? 'callout-warning' : 'callout-info');
+$hasTaxRows = \KodZero\POSMall\Models\Tax::withDisabled()->exists();
+$hasStateTaxRows = \KodZero\POSMall\Models\Tax::withDisabled()
+    ->where(function ($query) {
+        $query->where(function ($query) {
+            $query->whereNotNull('state_code')->where('state_code', '!=', '');
+        })->orWhere(function ($query) {
+            $query->whereNotNull('state_codes')->where('state_codes', '!=', '');
+        });
+    })
+    ->exists();
+$autoUpdateTitle = $hasStateTaxRows ? 'USA tax auto-update' : 'Tax auto-update';
+?>
+
+<div data-control="toolbar" class="posmall-tax-list">
+    <a href="<?= Backend::url('kodzero/posmall/taxes/create') ?>" class="btn btn-primary oc-icon-plus"><?= e(trans('backend::lang.form.create')) ?></a>
+    <button
+        class="btn btn-default oc-icon-trash-o"
+        disabled="disabled"
+        onclick="$(this).data('request-data', {
+            checked: $('.control-list').listWidget('getChecked')
+        })"
+        data-request="onDelete"
+        data-request-confirm="<?= e(trans('backend::lang.list.delete_selected_confirm')) ?>"
+        data-trigger-action="enable"
+        data-trigger=".control-list input[type=checkbox]"
+        data-trigger-condition="checked"
+        data-request-success="$(this).prop('disabled', true)"
+        data-stripe-load-indicator>
+        <?= e(trans('backend::lang.list.delete_selected')) ?>
+    </button>
+    <button
+        class="btn btn-default oc-icon-refresh"
+	        data-request="onEnableAllUsaTaxAutoUpdate"
+	        data-request-confirm="Enable daily source auto-update for all imported/source-backed USA tax rows? The daily POSMall tax update cron entry must also be configured."
+        data-load-indicator="Enabling source-backed tax auto-updates...">
+        Enable source auto-update
+    </button>
+    <button
+        class="btn btn-default oc-icon-ban"
+        data-request="onDisableAllUsaTaxAutoUpdate"
+        data-request-confirm="Disable daily source auto-update on all tax rows?"
+        data-load-indicator="Disabling tax auto-updates...">
+        Disable all auto-update
+    </button>
+</div>
+
+<?php if ($hasTaxRows): ?>
+    <div class="callout fade in <?= e($calloutClass) ?>" style="margin-top: 12px;">
+        <div class="header">
+            <i class="icon-info"></i>
+            <h3><?= e($autoUpdateTitle) ?></h3>
+            <p>
+                <?= e($cronStatus['label']) ?>. <?= e($cronStatus['message']) ?>
+            </p>
+	            <p>
+	                <?= e(app(\KodZero\POSMall\Classes\System\SchedulerCronStatus::class)->expectedScheduleDescription()) ?>
+	            </p>
+	            <p>
+	                Required cron entry:
+	                <code><?= e($cronStatus['expected_command']) ?></code>
+	            </p>
+        </div>
+    </div>
+<?php endif ?>
+
+<script>
+    (function () {
+        var root = document.querySelector('.control-list');
+        if (root) {
+            root.classList.add('posmall-tax-list');
+        }
+    })();
+</script>

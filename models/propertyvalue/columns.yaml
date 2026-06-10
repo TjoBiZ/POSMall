@@ -1,0 +1,9 @@
+columns:
+    property:
+        label: 'kodzero.posmall::lang.common.property'
+        type: text
+        searchable: true
+    value:
+        label: 'kodzero.posmall::lang.product.property_value'
+        type: text
+        searchable: true

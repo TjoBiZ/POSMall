@@ -1,0 +1,13 @@
+subject = "{{ 'kodzero.posmall::mail.payment.paid.subject' | trans() }}"
+description = "Sent when a payment for an order succeeded"
+==
+
+{{ 'kodzero.posmall::mail.common.hello' | trans({firstname: order.customer.firstname, lastname: order.customer.lastname}) }}
+
+{{ 'kodzero.posmall::mail.payment.paid.message' | trans({number: order.order_number}) }}
+
+{{ 'kodzero.posmall::mail.payment.paid.process_order' | trans() }}
+
+{% partial 'button' url=account_url type='primary' body %}
+    {{ 'kodzero.posmall::mail.common.view_order_status_online' | trans() }}
+{% endpartial %}
