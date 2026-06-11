@@ -33,6 +33,10 @@ Use `dev-main` and direct GitHub VCS repositories only for development or unrele
 
 The REST API documentation describes controlled external/client API support. It intentionally does not include private internal strategy, local AI-assistance notes, private GraphQL operating notes or secret credentials.
 
+## Extension Hooks
+
+- `pro-extension-hooks.md` - public-safe extension hook notes for companion plugins such as POSMall PRO.
+
 ## Taxes
 
 - `usa-tax-auto-update.md` - USA tax auto-update behavior, cron guidance and safety notes.

@@ -31,7 +31,10 @@ use KodZero\POSMall\Models\Order;
 use KodZero\POSMall\Models\PaymentGatewaySettings;
 use KodZero\POSMall\Models\Property;
 use KodZero\POSMall\Models\PropertyValue;
+use Event;
 use ReflectionClass;
+use RuntimeException;
+use October\Rain\Events\Dispatcher;
 use stdClass;
 use Session;
 
@@ -121,6 +124,92 @@ class SecurityHardeningTest extends \TestCase
             config(['cache.default' => $originalDefault]);
             $this->setStaticProtected(PublicStorefrontCache::class, 'storeName', null);
         }
+    }
+
+    public function test_public_storefront_cache_key_can_be_extended_by_listener(): void
+    {
+        $this->withIsolatedEvents(function (): void {
+            $cache = new PublicStorefrontCache();
+            $request = Request::create('https://example.test/posmall/catalog?sort=name', 'GET');
+
+            $baseKey = $this->callProtected($cache, 'cacheKey', [$request]);
+
+            Event::listen(PublicStorefrontCache::EVENT_EXTEND_KEY_PARTS, function (array &$parts, Request $request): void {
+                $parts[] = 'pro-test-price-list';
+            });
+
+            $extendedKey = $this->callProtected($cache, 'cacheKey', [$request]);
+
+            $this->assertIsString($baseKey);
+            $this->assertIsString($extendedKey);
+            $this->assertNotSame($baseKey, $extendedKey);
+        });
+    }
+
+    public function test_public_storefront_cache_key_extension_failure_bypasses_cache(): void
+    {
+        $this->withIsolatedEvents(function (): void {
+            Event::listen(PublicStorefrontCache::EVENT_EXTEND_KEY_PARTS, function (): void {
+                throw new RuntimeException('Broken PRO cache listener');
+            });
+
+            $key = $this->callProtected(
+                new PublicStorefrontCache(),
+                'cacheKey',
+                [Request::create('https://example.test/posmall/catalog', 'GET')]
+            );
+
+            $this->assertNull($key);
+        });
+    }
+
+    public function test_public_storefront_cache_eligibility_can_be_extended_by_listener(): void
+    {
+        $this->withIsolatedEvents(function (): void {
+            $cache = new PublicStorefrontCache();
+            $request = Request::create('https://example.test/posmall/catalog', 'GET');
+
+            $this->assertTrue($this->callProtected($cache, 'isEligibleRequest', [$request]));
+
+            Event::listen(PublicStorefrontCache::EVENT_EXTEND_ELIGIBILITY, function (bool &$eligible, Request $request): void {
+                $eligible = false;
+            });
+
+            $this->assertFalse($this->callProtected($cache, 'isEligibleRequest', [$request]));
+        });
+    }
+
+    public function test_public_storefront_cache_eligibility_listener_cannot_enable_personal_requests(): void
+    {
+        $this->withIsolatedEvents(function (): void {
+            Event::listen(PublicStorefrontCache::EVENT_EXTEND_ELIGIBILITY, function (bool &$eligible, Request $request): void {
+                $eligible = true;
+            });
+
+            $request = Request::create('https://example.test/posmall/catalog', 'GET');
+            $request->headers->set('cookie', config('session.cookie', 'october_session') . '=personal-session');
+
+            $eligible = $this->callProtected(new PublicStorefrontCache(), 'isEligibleRequest', [$request]);
+
+            $this->assertFalse($eligible);
+        });
+    }
+
+    public function test_public_storefront_cache_eligibility_extension_failure_bypasses_cache(): void
+    {
+        $this->withIsolatedEvents(function (): void {
+            Event::listen(PublicStorefrontCache::EVENT_EXTEND_ELIGIBILITY, function (): void {
+                throw new RuntimeException('Broken PRO eligibility listener');
+            });
+
+            $eligible = $this->callProtected(
+                new PublicStorefrontCache(),
+                'isEligibleRequest',
+                [Request::create('https://example.test/posmall/catalog', 'GET')]
+            );
+
+            $this->assertFalse($eligible);
+        });
     }
 
     public function test_virtual_download_filename_removes_path_characters(): void
@@ -365,6 +454,22 @@ class SecurityHardeningTest extends \TestCase
         $method->setAccessible(true);
 
         return $method->invokeArgs($object, $arguments);
+    }
+
+    private function withIsolatedEvents(callable $callback)
+    {
+        $original = Event::getFacadeRoot();
+        $dispatcher = new Dispatcher(app());
+
+        Event::swap($dispatcher);
+        app()->instance('events', $dispatcher);
+
+        try {
+            return $callback();
+        } finally {
+            Event::swap($original);
+            app()->instance('events', $original);
+        }
     }
 
     private function fakeOrder(int $amount): Order

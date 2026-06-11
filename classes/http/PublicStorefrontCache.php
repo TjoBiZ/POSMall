@@ -7,6 +7,7 @@ namespace KodZero\POSMall\Classes\Http;
 use App;
 use Cache;
 use Closure;
+use Event;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,9 @@ use Throwable;
 
 class PublicStorefrontCache
 {
+    public const EVENT_EXTEND_ELIGIBILITY = 'posmall.publicStorefrontCache.extendEligibility';
+    public const EVENT_EXTEND_KEY_PARTS = 'posmall.publicStorefrontCache.extendKeyParts';
+
     private const TTL_SECONDS = 60;
     private const VERSION_KEY = 'kodzero.posmall.public_storefront.version';
 
@@ -62,6 +66,10 @@ class PublicStorefrontCache
         }
 
         $key = $this->cacheKey($request);
+        if ($key === null) {
+            return $this->mark($next($request), 'bypass');
+        }
+
         if ($cached = $this->cacheGet($key)) {
             return response($cached, 200, $this->cacheHitHeaders($cached) + [
                 'Content-Type' => 'text/html; charset=UTF-8',
@@ -84,7 +92,12 @@ class PublicStorefrontCache
             return false;
         }
 
-        $cached = $this->cacheGet($this->cacheKey($request));
+        $key = $this->cacheKey($request);
+        if ($key === null) {
+            return false;
+        }
+
+        $cached = $this->cacheGet($key);
         if (!is_string($cached) || $cached === '') {
             return false;
         }
@@ -113,7 +126,21 @@ class PublicStorefrontCache
             return false;
         }
 
-        return !$this->hasPersonalCookie($request);
+        if ($this->hasPersonalCookie($request)) {
+            return false;
+        }
+
+        $eligible = true;
+
+        try {
+            Event::fire(self::EVENT_EXTEND_ELIGIBILITY, [&$eligible, $request]);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return false;
+        }
+
+        return (bool)$eligible;
     }
 
     private function isCacheablePath(Request $request): bool
@@ -171,16 +198,25 @@ class PublicStorefrontCache
             && !str_contains($content, "name='_session_key'");
     }
 
-    private function cacheKey(Request $request): string
+    private function cacheKey(Request $request): ?string
     {
-        return 'kodzero.posmall.public_storefront.'
-            . md5(
-                $request->getSchemeAndHttpHost()
-                . '|' . $request->fullUrl()
-                . '|' . App::getLocale()
-                . '|' . $this->assetVariant()
-                . '|' . $this->contentVersion()
-            );
+        $parts = [
+            $request->getSchemeAndHttpHost(),
+            $request->fullUrl(),
+            App::getLocale(),
+            $this->assetVariant(),
+            $this->contentVersion(),
+        ];
+
+        try {
+            Event::fire(self::EVENT_EXTEND_KEY_PARTS, [&$parts, $request]);
+
+            return 'kodzero.posmall.public_storefront.' . md5(serialize($parts));
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return null;
+        }
     }
 
     private function contentVersion(): string
