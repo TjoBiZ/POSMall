@@ -212,16 +212,29 @@ class CartApiService
         $this->assertCustomerAllowed((int)$input['customer_id'], $context);
         $customer = Customer::with('addresses')->findOrFail((int)$input['customer_id']);
         $cart = Cart::orderBy('created_at', 'DESC')->firstOrNew(['customer_id' => $customer->id]);
+        $customerAddressIds = $customer->addresses->pluck('id')->map(fn ($id) => (int)$id);
+        $defaultShippingAddressId = $customerAddressIds->contains((int)$customer->default_shipping_address_id)
+            ? (int)$customer->default_shipping_address_id
+            : null;
+        $defaultBillingAddressId = $customerAddressIds->contains((int)$customer->default_billing_address_id)
+            ? (int)$customer->default_billing_address_id
+            : null;
+        $firstAddressId = optional($customer->addresses->first())->id;
 
-        if (!$cart->shipping_address_id) {
-            $cart->shipping_address_id = $customer->default_shipping_address_id ?: $customer->default_billing_address_id;
+        if (!$cart->shipping_address_id || !$customerAddressIds->contains((int)$cart->shipping_address_id)) {
+            $cart->shipping_address_id = $defaultShippingAddressId
+                ?: $defaultBillingAddressId
+                ?: $firstAddressId;
         }
 
-        if (!$cart->billing_address_id) {
-            $cart->billing_address_id = $customer->default_billing_address_id;
+        if (!$cart->billing_address_id || !$customerAddressIds->contains((int)$cart->billing_address_id)) {
+            $cart->billing_address_id = $defaultBillingAddressId
+                ?: $defaultShippingAddressId
+                ?: $cart->shipping_address_id
+                ?: $firstAddressId;
         }
 
-        if (!$cart->exists) {
+        if (!$cart->exists || $cart->isDirty(['shipping_address_id', 'billing_address_id'])) {
             $cart->save();
         }
 

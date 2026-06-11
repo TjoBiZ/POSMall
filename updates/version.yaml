@@ -169,3 +169,8 @@ v1.0.19:
 v1.0.20:
     - 'Set USD as the default POSMall currency for clean installs and deployments.'
     - 038_76-set_usd_default_currency.php
+v1.0.21:
+    - 'Namespace PostgreSQL product index names for fork-safe deployments.'
+    - 038_77-namespace_postgresql_index_names.php
+v1.0.22:
+    - 'Fallback API cart billing addresses to available customer addresses.'

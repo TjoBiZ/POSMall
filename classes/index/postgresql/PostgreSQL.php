@@ -92,6 +92,9 @@ class PostgreSQL implements Index
 
         if (Cache::has(self::CACHE_KEY)) {
             if (Schema::hasTable($tableName)) {
+                $this->createBaseIndexes($tableName);
+                $this->createContainmentIndexes($tableName);
+                $this->createGeneralListingIndexes($tableName);
                 $this->ensureCategoryProjectionTables();
                 return;
             }
@@ -100,6 +103,9 @@ class PostgreSQL implements Index
         }
 
         if (Schema::hasTable($tableName)) {
+            $this->createBaseIndexes($tableName);
+            $this->createContainmentIndexes($tableName);
+            $this->createGeneralListingIndexes($tableName);
             $this->ensureCategoryProjectionTables();
             Cache::forever(self::CACHE_KEY, true);
             return;
@@ -128,10 +134,10 @@ class PostgreSQL implements Index
 
             $table->index(
                 ['product_id', 'variant_id', 'index', 'is_ghost'],
-                'idx_product_variant_index_is_ghost'
+                'idx_kodzero_posmall_product_variant_index_is_ghost'
             );
 
-            $table->index(['index', 'published'], 'idx_published_index');
+            $table->index(['index', 'published'], 'idx_kodzero_posmall_published_index');
         });
 
         Event::fire('posmall.index.postgresql.extendTable', [$tableName]);
@@ -186,6 +192,31 @@ class PostgreSQL implements Index
     protected function db()
     {
         return new IndexEntry();
+    }
+
+    protected function createBaseIndexes(string $tableName): void
+    {
+        if (DB::connection()->getDriverName() !== 'pgsql') {
+            return;
+        }
+
+        DB::statement(sprintf(
+            'CREATE INDEX IF NOT EXISTS %s ON %s (%s, %s, %s, %s)',
+            $this->quoteIdentifier('idx_kodzero_posmall_product_variant_index_is_ghost'),
+            $this->quoteIdentifier($tableName),
+            $this->quoteIdentifier('product_id'),
+            $this->quoteIdentifier('variant_id'),
+            $this->quoteIdentifier('index'),
+            $this->quoteIdentifier('is_ghost')
+        ));
+
+        DB::statement(sprintf(
+            'CREATE INDEX IF NOT EXISTS %s ON %s (%s, %s)',
+            $this->quoteIdentifier('idx_kodzero_posmall_published_index'),
+            $this->quoteIdentifier($tableName),
+            $this->quoteIdentifier('index'),
+            $this->quoteIdentifier('published')
+        ));
     }
 
     protected function createContainmentIndexes(string $tableName): void
