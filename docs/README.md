@@ -2,6 +2,29 @@
 
 This directory contains public-safe POSMall documentation that can be published with the plugin repository.
 
+## Public Package Links
+
+- October CMS Marketplace plugin page: <https://octobercms.com/plugin/kodzero-posmall>
+- October CMS Marketplace theme page: <https://octobercms.com/theme/kodzero-posmalltheme>
+- POSMall plugin source repository: <https://github.com/TjoBiZ/POSMall>
+- POSMall theme source repository: <https://github.com/TjoBiZ/POSMallTheme>
+
+## Marketplace Installation
+
+Install the public packages through Composer:
+
+```bash
+composer require kodzero/posmall-plugin kodzero/posmalltheme-theme -W
+php artisan october:migrate
+php artisan theme:use kodzero-posmalltheme --force
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+```
+
+Use `dev-main` and direct GitHub VCS repositories only for development or unreleased commit testing.
+
 ## REST API
 
 - `api-v1-rest.md` - human-readable REST API guide.
