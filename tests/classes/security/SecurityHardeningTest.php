@@ -150,7 +150,7 @@ class SecurityHardeningTest extends \TestCase
     {
         $this->withIsolatedEvents(function (): void {
             Event::listen(PublicStorefrontCache::EVENT_EXTEND_KEY_PARTS, function (): void {
-                throw new RuntimeException('Broken PRO cache listener');
+                throw new RuntimeException('Broken extension cache listener');
             });
 
             $key = $this->callProtected(
@@ -199,7 +199,7 @@ class SecurityHardeningTest extends \TestCase
     {
         $this->withIsolatedEvents(function (): void {
             Event::listen(PublicStorefrontCache::EVENT_EXTEND_ELIGIBILITY, function (): void {
-                throw new RuntimeException('Broken PRO eligibility listener');
+                throw new RuntimeException('Broken extension eligibility listener');
             });
 
             $eligible = $this->callProtected(

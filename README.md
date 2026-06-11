@@ -364,7 +364,8 @@ Included public docs:
 - `docs/api-v1-contract.md` - REST API contract table and route access model.
 - `docs/openapi-v1.yaml` - OpenAPI skeleton.
 - `docs/usa-tax-auto-update.md` - USA tax auto-update behavior and cron notes.
-- `docs/pro-extension-hooks.md` - public-safe extension hook notes for companion plugins.
+- `docs/extension-hooks.md` - public programming extension hooks for companion plugins, internal
+  modules and custom POSMall solutions.
 
 Private GraphQL operating notes, local AI-development reports, raw benchmark work files and
 internal architecture maps are intentionally not published in this repository.

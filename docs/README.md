@@ -35,7 +35,9 @@ The REST API documentation describes controlled external/client API support. It 
 
 ## Extension Hooks
 
-- `pro-extension-hooks.md` - public-safe extension hook notes for companion plugins such as POSMall PRO.
+- `extension-hooks.md` - public programming extension hooks for companion plugins, internal
+  modules and custom POSMall solutions. Use these hooks to connect project-specific functionality
+  to POSMall Core without adding a required dependency to the public Marketplace package.
 
 ## Taxes
 
