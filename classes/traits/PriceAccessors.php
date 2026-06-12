@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace KodZero\POSMall\Classes\Traits;
 
 use Closure;
+use Event;
 use October\Rain\Database\Collection;
 use KodZero\POSMall\Classes\Database\IsStatesScope;
+use KodZero\POSMall\Classes\Events\PriceEvents;
 use KodZero\POSMall\Classes\Utils\Money;
 use KodZero\POSMall\Models\Currency;
 use KodZero\POSMall\Models\Price;
 use KodZero\POSMall\Models\Product;
 use KodZero\POSMall\Models\Variant;
+use UnexpectedValueException;
 
 trait PriceAccessors
 {
@@ -130,9 +133,14 @@ trait PriceAccessors
                 $specific ??= $this->nullPrice($currency, $specificPrices, $relation, $filter);
 
                 $specific->official = $price;
-
-                return $specific;
+                $price = $specific;
             }
+        }
+
+        Event::fire(PriceEvents::EXTEND_PRICE, [&$price, $this, $currency, $relation, $filter]);
+
+        if (!$price instanceof Price) {
+            throw new UnexpectedValueException(PriceEvents::EXTEND_PRICE . ' listeners must keep $price as a Price instance.');
         }
 
         return $price;

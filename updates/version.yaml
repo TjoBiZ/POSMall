@@ -176,3 +176,5 @@ v1.0.22:
     - 'Fallback API cart billing addresses to available customer addresses.'
 v1.0.23:
     - 'Add public storefront cache extension hooks for companion plugins.'
+v1.0.24:
+    - 'Add public catalog visibility and priceable pricing extension hooks.'

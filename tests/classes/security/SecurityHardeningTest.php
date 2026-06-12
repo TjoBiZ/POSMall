@@ -19,6 +19,8 @@ use KodZero\POSMall\Classes\Payments\PaymentProvider;
 use KodZero\POSMall\Classes\Payments\PaymentResult;
 use KodZero\POSMall\Classes\Payments\Stripe;
 use KodZero\POSMall\Classes\Payments\StripeHostedCheckout;
+use KodZero\POSMall\Classes\Events\PriceEvents;
+use KodZero\POSMall\Classes\Traits\PriceAccessors;
 use KodZero\POSMall\Classes\Utils\DefaultMoney;
 use KodZero\POSMall\Classes\Utils\Money;
 use KodZero\POSMall\Models\Address;
@@ -29,14 +31,17 @@ use KodZero\POSMall\Models\CustomFieldValue;
 use KodZero\POSMall\Models\Customer;
 use KodZero\POSMall\Models\Order;
 use KodZero\POSMall\Models\PaymentGatewaySettings;
+use KodZero\POSMall\Models\Price;
 use KodZero\POSMall\Models\Property;
 use KodZero\POSMall\Models\PropertyValue;
+use October\Rain\Database\Collection;
 use Event;
 use ReflectionClass;
 use RuntimeException;
 use October\Rain\Events\Dispatcher;
 use stdClass;
 use Session;
+use UnexpectedValueException;
 
 class SecurityHardeningTest extends \TestCase
 {
@@ -209,6 +214,66 @@ class SecurityHardeningTest extends \TestCase
             );
 
             $this->assertFalse($eligible);
+        });
+    }
+
+    public function test_priceable_price_keeps_core_value_without_listener(): void
+    {
+        $this->withIsolatedEvents(function (): void {
+            $currency = $this->fakePricingCurrency();
+            $priceable = $this->fakePriceable($this->fakePrice(20.50, $currency));
+
+            $this->assertSame(2050, $priceable->price($currency)->integer);
+        });
+    }
+
+    public function test_priceable_price_can_be_extended_by_listener(): void
+    {
+        $this->withIsolatedEvents(function (): void {
+            $currency = $this->fakePricingCurrency();
+            $priceable = $this->fakePriceable($this->fakePrice(20.50, $currency));
+
+            Event::listen(
+                PriceEvents::EXTEND_PRICE,
+                function (Price &$price, $item, Currency $currency, string $relation, $filter): void {
+                    $this->assertSame('CHF', $currency->code);
+                    $this->assertSame('prices', $relation);
+                    $this->assertNull($filter);
+
+                    $price = $price->withPrice(12.34);
+                }
+            );
+
+            $this->assertSame(1234, $priceable->price($currency)->integer);
+        });
+    }
+
+    public function test_priceable_price_listener_exception_bubbles(): void
+    {
+        $this->withIsolatedEvents(function (): void {
+            Event::listen(PriceEvents::EXTEND_PRICE, function (): void {
+                throw new RuntimeException('Broken pricing extension');
+            });
+
+            $this->expectException(RuntimeException::class);
+            $this->expectExceptionMessage('Broken pricing extension');
+
+            $currency = $this->fakePricingCurrency();
+            $this->fakePriceable($this->fakePrice(20.50, $currency))->price($currency);
+        });
+    }
+
+    public function test_priceable_price_listener_must_keep_price_instance(): void
+    {
+        $this->withIsolatedEvents(function (): void {
+            Event::listen(PriceEvents::EXTEND_PRICE, function (&$price): void {
+                $price = 'invalid-price';
+            });
+
+            $this->expectException(UnexpectedValueException::class);
+
+            $currency = $this->fakePricingCurrency();
+            $this->fakePriceable($this->fakePrice(20.50, $currency))->price($currency);
         });
     }
 
@@ -470,6 +535,48 @@ class SecurityHardeningTest extends \TestCase
             Event::swap($original);
             app()->instance('events', $original);
         }
+    }
+
+    private function fakePricingCurrency(): Currency
+    {
+        $currency = new Currency();
+        $currency->setRawAttributes([
+            'id' => 1,
+            'code' => 'CHF',
+            'symbol' => 'CHF',
+            'rate' => 1,
+            'decimals' => 2,
+            'format' => '{{ currency.symbol }} {{ price|number_format(currency.decimals, ".", ",") }}',
+        ], true);
+
+        return $currency;
+    }
+
+    private function fakePrice(float $amount, Currency $currency): Price
+    {
+        app()->instance(Money::class, new DefaultMoney());
+
+        $price = new Price([
+            'currency_id' => $currency->id,
+            'price' => $amount,
+        ]);
+        $price->setRelation('currency', $currency);
+
+        return $price;
+    }
+
+    private function fakePriceable(Price $price): object
+    {
+        return new class($price) {
+            use PriceAccessors;
+
+            public Collection $prices;
+
+            public function __construct(Price $price)
+            {
+                $this->prices = new Collection([$price]);
+            }
+        };
     }
 
     private function fakeOrder(int $amount): Order

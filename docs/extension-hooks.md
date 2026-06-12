@@ -77,3 +77,99 @@ Rules for listener values:
   generic public key.
 - If a listener varies output by request header, configure the CDN or response layer with matching
   `Vary` behavior.
+
+## Storefront Catalog Visibility
+
+Catalog/category/search listings expose a filter extension hook before POSMall queries the product
+index:
+
+```text
+posmall.products.filter.extend
+```
+
+This hook receives:
+
+```text
+KodZero\POSMall\Components\Products $component
+Illuminate\Support\Collection $filters
+```
+
+Example: hide products that are not visible in the current channel:
+
+```php
+use Event;
+use KodZero\POSMall\Classes\CategoryFilter\SetFilter;
+
+Event::listen('posmall.products.filter.extend', function ($component, $filters): void {
+    $hiddenProductIds = [10, 25, 31];
+
+    if ($hiddenProductIds !== []) {
+        $filters->put('product_id', new SetFilter('product_id', $hiddenProductIds, true));
+    }
+});
+```
+
+Use this hook for storefront catalog visibility rules that can be expressed as POSMall index
+filters. For customer-specific, channel-specific or warehouse-specific visibility, the extension
+plugin must also vary or disable `PublicStorefrontCache` so anonymous HTML is not reused for the
+wrong context.
+
+This is a storefront listing hook. It does not automatically restrict unrelated direct Eloquent
+queries, backend screens or custom API endpoints.
+
+## Priceable Pricing
+
+Product, variant, service-option and other priceable models expose one neutral price extension
+hook:
+
+```php
+KodZero\POSMall\Classes\Events\PriceEvents::EXTEND_PRICE
+```
+
+Event name:
+
+```text
+posmall.priceable.extendPrice
+```
+
+This hook receives:
+
+```text
+KodZero\POSMall\Models\Price &$price
+mixed $item
+KodZero\POSMall\Models\Currency $currency
+string $relation
+?Closure $filter
+```
+
+The hook runs after POSMall has resolved the core price and existing customer-group price. A
+listener may replace `$price` with another `Price` instance:
+
+```php
+use Event;
+use KodZero\POSMall\Classes\Events\PriceEvents;
+use KodZero\POSMall\Models\Price;
+use KodZero\POSMall\Models\Product;
+
+Event::listen(PriceEvents::EXTEND_PRICE, function (Price &$price, $item): void {
+    if (!$item instanceof Product) {
+        return;
+    }
+
+    $price = $price->withPrice(49.99);
+});
+```
+
+Rules for pricing listeners:
+
+- Keep `$price` as a `Price` instance.
+- Check the `$item` type before applying product-only or variant-only logic.
+- Do not use this hook to hide products from listings; use `posmall.products.filter.extend` for
+  storefront catalog visibility.
+- Keep listener work lightweight; `price()` is called in catalog, product, cart and API hot paths.
+- Batch, preload or memoize private price-list rules instead of querying once per product card.
+- If a listener varies price by customer, session, header, segment, channel, warehouse or price
+  list, it must also extend or disable `PublicStorefrontCache`.
+- Listener exceptions are not swallowed by public core. A private extension should catch only
+  errors it can safely recover from; otherwise failing closed is safer than silently showing or
+  charging the wrong price.
